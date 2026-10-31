@@ -113,6 +113,10 @@ python3 tests/validate_skills.py
 
 Checks frontmatter, naming, required sections and order, evidence rules, boundary cross-references, and README coverage. Stdlib only, exits non-zero on failure. Run it after editing any skill.
 
+### Automated validation
+
+GitHub Actions runs the same validator on every push to `main` and every pull request targeting `main` ([workflow](.github/workflows/validate.yml)). It uses Python 3.12, installs no dependencies, and has read-only token permissions. The job runs `bash tests/run.sh`, so a failing check fails the build. Run that command locally for the same result.
+
 ## Writing or editing a skill
 
 Follow [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): format, section order, evidence tags, output paths, boundary table, global quality checks. Then run the validator.
