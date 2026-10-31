@@ -38,7 +38,7 @@ Templates:
 - Decision record: context, decision, alternatives, consequences, evidence.
 
 ## Outputs
-`design/docs/spec-<feature>-<date>.md` or `design/docs/component-<name>-<date>.md` or `design/docs/adr-<topic>-<date>.md`
+`design/docs/spec-<feature>-<date>.md`, `design/docs/component-<name>-<date>.md`, or `design/docs/adr-<topic>-<date>.md`. Each starts with the metadata block and ends with `## Open questions / to validate` and `## Next step`.
 
 ## Quality checks
 - [ ] Global checks in `docs/ARCHITECTURE.md` §7

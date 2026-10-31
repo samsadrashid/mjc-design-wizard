@@ -25,7 +25,7 @@ Body sections, in this order, each a `## ` heading:
 | Quality checks | Checklist the skill must pass before finishing. |
 | Boundaries | What it does not do, and which sibling skill owns that. |
 
-Target length: 60 to 130 lines. Prefer tables and checklists over prose.
+Target length: 50 to 130 lines. Prefer tables and checklists over prose.
 
 ## 2. Evidence-first rule
 

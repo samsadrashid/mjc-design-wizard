@@ -14,7 +14,7 @@
 
 ## Output shape (`design/journeys/user-flow-password-reset-2026-11-01.md`)
 
-```markdown
+````markdown
 > skill: user-flow-designer · date: 2026-11-01 · scope: password reset · sources: src/routes.tsx, src/pages/auth/*
 
 ## Flow diagram (Mermaid)
@@ -46,4 +46,4 @@ Happy path: 5 screens. Candidate: skip D by showing inline confirmation on B.
 
 ## Next step
 Run `design-documentation` once the flow is approved.
-```
+````

@@ -43,7 +43,7 @@ Responsibilities do not overlap. Each skill's `Boundaries` section names the sib
 1. **Evidence first.** Every claim is tagged `[observed]`, `[reported]`, `[inferred]`, or `[assumption]`. Skills never fabricate research, metrics, test results, quotes, or outcomes. Missing data is stated as missing.
 2. **Project aware.** Step 1 of every workflow reads the repo and prior `design/` outputs before writing.
 3. **Actionable.** Outputs are checklists, tables, and specs someone can act on, not essays.
-4. **Token efficient.** Skills are 60 to 130 lines. Clarifying questions are capped at three.
+4. **Token efficient.** Skills are 50 to 130 lines. Clarifying questions are capped at three.
 
 ## Installation
 
