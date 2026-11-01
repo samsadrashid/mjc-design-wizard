@@ -1,57 +1,64 @@
 ---
 name: product-discovery
-description: Frame a product opportunity from existing evidence. Produces an opportunity brief with hypotheses, riskiest assumptions, and a discovery plan. Use when the user says "discovery", "should we build", "explore this opportunity", "what do we know about", or starts a new product or feature area.
+description: Frame a product opportunity from existing material - what is known, what is assumed, and what must be learned - and plan how to close the gaps. Produces a discovery brief; it does not conduct research. Use when the user says "discovery", "should we build", "explore this opportunity", "what do we know about", or starts a new product or feature area. Not for writing the problem statement (use `problem-framing`), designing studies (use `ux-research-planner`), or comparing competitors in depth (use `competitive-analysis`).
 ---
 
 # Product Discovery
 
 ## Purpose
-Turn a vague opportunity into a brief that states what is known, what is assumed, and what must be learned before committing design or build effort. Evidence-first: the brief distinguishes facts from guesses.
+Map the context around an opportunity: users, desired outcomes, constraints, alternatives, and above all the knowledge gaps. The brief separates facts from assumptions and plans how to learn what is missing. This skill only reads existing material. It never reports research that has not happened.
 
 ## Triggers
 - "Run discovery on X", "is X worth building", "what do we know about X"
 - A new feature area with no prior research in the project
-- User shares a goal, request, or market signal and asks what to do next
+- A goal, request, or market signal arrives and the next move is unclear
 
 ## Inputs
-| Input | Required | Source |
+| Input | If missing | Source |
 |---|---|---|
-| Opportunity statement or request | yes | user |
-| Project context (README, docs, roadmap) | yes | repo inspection |
-| Existing research, support tickets, analytics exports | optional | `design/`, `research/`, user-provided files |
-| Business constraints (timeline, budget, platform) | optional | user |
+| Opportunity or request | Stop: nothing to frame | user |
+| Project context (README, docs, roadmap) | Assume: list what could not be found | repo |
+| Existing research, tickets, analytics | Assume none exists; record it as a gap | `design/`, `research/`, user files |
+| Constraints (time, budget, platform, regulation) | Ask one, only if it changes the plan's depth | user |
+
+If several inputs are missing, ask the single question whose answer most changes the plan. Handle everything else per `../_shared/standard.md` §8.
 
 ## Workflow
-1. **Inspect the project.** Read README, `docs/`, `design/`, `research/`. List found sources. If `design/discovery/` has prior briefs, extend them.
-2. **Restate the opportunity** in one sentence: who, what need, what signal prompted it. Tag the signal `[observed]` or `[reported]`.
-3. **Inventory evidence.** Table: claim, tag, source. Separate user need, business value, feasibility.
-4. **Write hypotheses** in the form `We believe [user] has [problem] because [evidence]. If true, [outcome].` Max five.
-5. **Rank risk.** For each hypothesis: impact if wrong (H/M/L), confidence (H/M/L), evidence strength. Flag the riskiest two.
-6. **Draft discovery plan.** For each risky hypothesis: cheapest method to test it, who to talk to, what would confirm or refute. Methods only; detailed research design belongs to `ux-research-planner`.
-7. **Write output** and present a five-line summary in chat.
+1. **Inspect the project.** Read the README, `docs/`, `design/`, `research/`, and any file the user names. List each source with its own date, or `date unknown`. Extend a prior brief in `design/discovery/` instead of restarting. Copy no personal identifiers from tickets or notes.
+2. **Restate the opportunity** in one sentence: who, what need, what signal prompted it, tagged `[observed]` or `[reported]`.
+3. **Map the context.** Users or segments named in the material, outcomes sought and by whom, constraints, and alternatives users have today. Keep only what a source supports.
+4. **Build the evidence inventory.** Claim, tag, source, confidence (High, Medium, Low per §8).
+5. **List knowledge gaps**, ordered by how much each would change the decision. Keep "unknown" separate from "assumed".
+6. **Write hypotheses** as `We believe [user] has [problem] because [evidence]. If true, [outcome].` Five is a default cap that keeps the plan testable. Rank by impact if wrong against confidence.
+7. **Draft the discovery plan** for the riskiest hypotheses: method type, who to learn from, and what would confirm or refute it. Method types only. Mark every item as planned, not done.
+8. **Write the output** per §8 (path, date, collisions, reruns) and give a five-line summary in chat.
 
 ## Outputs
+Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../_shared/standard.md`. File:
 `design/discovery/product-discovery-<topic>-<date>.md`:
 ```
-> metadata block
+> metadata block (sources with their dates)
 ## Opportunity statement
-## Evidence inventory (table with tags)
+## Context and constraints
+## Evidence inventory (claim, tag, source, confidence)
+## Knowledge gaps
 ## Hypotheses (ranked by risk)
-## Riskiest assumptions
 ## Discovery plan (hypothesis → method → signal)
 ## Open questions / to validate
 ## Next step
 ```
+`## Next step` names one handoff: `problem-framing` when evidence is enough to state the problem, `ux-research-planner` when gaps dominate, `competitive-analysis` when alternatives are poorly understood. If the user asked a direct question (for example whether to build), answer it under `## Opportunity statement`, as far as the evidence allows, or say it cannot be answered yet.
 
 ## Quality checks
-- [ ] Global checks in `docs/ARCHITECTURE.md` §7
-- [ ] Every hypothesis cites at least one evidence row or is marked `[assumption]`
-- [ ] No market sizes, user counts, or revenue figures unless sourced
-- [ ] Discovery plan tests the riskiest assumptions first, not the easiest
-- [ ] Brief fits on two screens
+- [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] The brief states that only existing material was read; no discovery activity is implied
+- [ ] Every hypothesis cites an evidence row or is tagged `[assumption]`
+- [ ] No market size, user count, or revenue figure unless sourced and dated
+- [ ] Gaps are listed as gaps and not filled with plausible detail
+- [ ] The plan tests the riskiest hypotheses first
 
 ## Boundaries
-- Does not write a problem statement or HMW → `problem-framing`
-- Does not design studies or guides → `ux-research-planner`
-- Does not compare competitors in depth → `competitive-analysis`
+- Does not write the problem statement → `problem-framing`
+- Does not design studies or choose recruiting → `ux-research-planner`
+- Does not compare competitors in depth; a short list of known alternatives is fine → `competitive-analysis`
 - Does not scope releases → `mvp-planner`

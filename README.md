@@ -2,7 +2,7 @@
 
 Nineteen reusable [Claude Code](https://claude.com/claude-code) skills for product designers. Each skill is a structured workflow that Claude follows inside your project: it inspects what already exists, works only from evidence, and writes a Markdown artifact under `design/`.
 
-No external AI APIs. No network calls. Plain Markdown skills plus a stdlib Python validator.
+No external AI API integrations: the toolkit never calls a model API itself, and the skills run inside your Claude Code session. Some skills can use tools that session already has, such as a browser to inspect a page you name or design-tool connectors. That use is optional and limited to targets you provide. Without those tools, supply screenshots or files instead. The repo is plain Markdown skills plus a standard-library Python validator.
 
 ## What is a skill
 
@@ -47,10 +47,18 @@ Responsibilities do not overlap. Each skill's `Boundaries` section names the sib
 
 ## Installation
 
+Copy the whole `.claude/skills` folder, including `_shared/`. Every skill cites `../_shared/standard.md`, which holds the evidence tags, output rules, and quality standard.
+
 ### Option A: copy into a project
+
+Run these from the folder that contains `your-project`. The clone lands next to it.
 
 ```bash
 git clone https://github.com/samsadrashid/mjc-design-wizard.git
+```
+
+```bash
+mkdir -p your-project/.claude/skills
 ```
 
 ```bash
@@ -61,9 +69,17 @@ Open Claude Code in `your-project`. Skills load automatically.
 
 ### Option B: install globally for all projects
 
+Run these from the folder that contains the clone.
+
+```bash
+mkdir -p ~/.claude/skills
+```
+
 ```bash
 cp -r mjc-design-wizard/.claude/skills/. ~/.claude/skills/
 ```
+
+A global install puts `_shared/` directly in `~/.claude/skills/`. If another skill pack also uses a `_shared/` folder there, one overwrites the other. In that case, use Option A so the skills and their `_shared/` folder stay inside the project.
 
 ### Option C: use this repo as the workspace
 
@@ -89,8 +105,8 @@ Typical chains:
 
 - New idea: `product-discovery` → `problem-framing` → `ux-research-planner` → `interview-guide-builder` → `persona-builder`
 - Define a feature: `journey-map-builder` → `user-flow-designer` → `information-architect` → `design-documentation`
-- Ship: `mvp-planner` → `feature-prioritization` → `product-metrics` → `design-qa`
-- Review: `ux-audit`, `design-critique`, `design-system-audit`
+- Ship: `feature-prioritization` → `mvp-planner` → `product-metrics`
+- Review: `ux-audit`, `design-critique`, `design-system-audit`, `design-qa`
 - Tell the story: `case-study-writer`
 
 Worked examples live in [examples/](examples/).
@@ -108,10 +124,12 @@ Filenames: `<skill>-<topic>-<YYYY-MM-DD>.md`. Each file opens with a metadata li
 ## Validation
 
 ```bash
-python3 tests/validate_skills.py
+bash tests/run.sh
 ```
 
-Checks frontmatter, naming, required sections and order, evidence rules, boundary cross-references, and README coverage. Stdlib only, exits non-zero on failure. Run it after editing any skill.
+Runs the structural validator and its unit tests. It checks frontmatter, naming, required sections and order, boundary cross-references, README coverage, example contracts, and relative links. Standard library only, exits non-zero on failure. Run it after editing any skill or example.
+
+These are structural checks. They do not measure output quality. Behavioral evaluation is manual and is described in [the shared standard](.claude/skills/_shared/standard.md) §8 and [tests/behavioral](tests/behavioral/README.md).
 
 ### Automated validation
 
@@ -119,13 +137,14 @@ GitHub Actions runs the same validator on every push to `main` and every pull re
 
 ## Writing or editing a skill
 
-Follow [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): format, section order, evidence tags, output paths, boundary table, global quality checks. Then run the validator.
+Follow [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (format, section order, boundary table) and [the shared standard](.claude/skills/_shared/standard.md) (evidence tags, output paths, quality standard). See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow, then run the validator.
 
 ## Limitations
 
 - Skills guide reasoning; they do not fetch analytics, open design tools, or run tests by themselves. They use whatever Claude Code can read in the repo or what you paste in.
 - Browser-based inspection (live audits, competitor pages) requires a Claude Code setup with browser access; otherwise provide screenshots.
-- Quality of output tracks quality of evidence in the project. With no research, skills produce proto-artifacts labeled `[assumption]` rather than refusing.
+- Quality of output tracks quality of evidence in the project. Each skill's Inputs table sets what happens when something is missing. In general, a skill stops and says what to supply when an essential input or evidence is missing, may ask one focused question when a less important input is missing, and otherwise proceeds with gaps labeled `[assumption]` instead of presenting them as fact. The exact rules differ by skill.
+- Behavioral evaluation is limited. In the current run, 3 of 76 scenarios fail: PF-N1, RP-M1, and CS-E1 (see [tests/behavioral/RESULTS.md](tests/behavioral/RESULTS.md)). These are single-sample scenario results on a synthetic project, not a statistical estimate of reliability.
 
 ## License
 

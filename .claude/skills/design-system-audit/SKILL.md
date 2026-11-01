@@ -1,57 +1,64 @@
 ---
 name: design-system-audit
-description: Audit design tokens, components, and patterns for consistency, duplication, and adoption across code and design files. Use when the user says "design system audit", "component inventory", "token drift", "how consistent is our UI", "which components are unused".
+description: Audit the design system as it exists in code and design sources - tokens, components, variants, typography, spacing, color, states, naming, accessibility, and documented usage - separating real inconsistencies from intentional variants, with coverage limits stated. Use when the user says "design system audit", "component inventory", "token drift", "how consistent is our UI", "which components are unused". Not for usability review (use `ux-audit`), checking one build against one spec (use `design-qa`), or writing component documentation (use `design-documentation`).
 ---
 
 # Design System Audit
 
 ## Purpose
-Produce an inventory of tokens, components, and patterns as they actually exist in the codebase and design sources, flag drift and duplication, and recommend consolidation. Observed from files, never from assumptions about intent.
+Inventory what the design system actually is, from files, and report where it is inconsistent, duplicated, undocumented, or unused. A difference counts as an inconsistency only if nothing shows it is intended. The audit does not assume a system exists, and it says exactly what it scanned.
 
 ## Triggers
 - "Audit the design system", "inventory components", "find hardcoded colors"
 - Before adopting or migrating a component library
-- Visual inconsistency reported without a known cause
+- Visual inconsistency is reported without a known cause
 
 ## Inputs
-| Input | Required | Source |
+| Input | If missing | Source |
 |---|---|---|
-| Codebase paths for UI (components, styles, tokens) | yes | repo inspection |
-| Design source (tokens export, Figma variables, style guide) | optional | user, `design/` |
-| Scope (tokens, components, patterns, or all) | yes | user (default all) |
+| UI code paths: components, styles, theme or token files | Stop: nothing to audit | repo |
+| Design source: token export, Figma variables, style guide | Assume none; skip design-to-code comparison and say so | user, `design/` |
+| Scope: tokens, components, patterns, or all | Assume all and list what was reachable | user |
+| Documented usage rules, if any | Assume none exist | repo docs, Storybook |
 
 ## Workflow
-1. **Inspect the project.** Locate token files, theme config, component directories, global styles. Record paths.
-2. **Token inventory.** Colors, type, spacing, radius, shadow, motion: defined tokens vs hardcoded values found by search. Count occurrences per hardcoded value.
-3. **Component inventory.** Table: component, path, variants, props, usage count, duplicates (same role, different name).
-4. **Pattern inventory.** Recurring compositions (forms, tables, dialogs, empty states): where implemented, consistent or divergent.
-5. **Compare to design source** if provided: tokens or components in design but not code, and vice versa.
-6. **Score**: adoption (tokenized vs hardcoded ratio), duplication count, coverage of common patterns. Only from counted data.
-7. **Recommend** consolidation steps ordered by impact and effort.
-8. **Write output**; show scores and top duplicates in chat.
+1. **Inspect the project.** Locate token and theme files, component directories, global styles, documentation, and Storybook. Record paths scanned and excluded, file types covered, and the commit audited or `version unknown`. If no tokens or shared components exist, say so. Then inventory repeated hardcoded values and near-duplicate components as candidates, not as a system.
+2. **Inventory tokens** (color, type, spacing, radius, shadow, motion): defined tokens, hardcoded values found by search, and each with its occurrence count and file references. Record the search used.
+3. **Inventory components:** name, path, variants, props, states handled, accessibility attributes, documented usage, usage count, and duplicates (same role, different name) with both paths.
+4. **Inventory recurring patterns** (forms, tables, dialogs, empty states) and whether each is implemented consistently.
+5. **Classify each difference:** *inconsistency* if no rationale appears in code, comments, docs, naming, or design source; *intentional variant* if a rationale does; *unclear* if neither. For unclear cases, record the question for the owner rather than deciding.
+6. **Compare with the design source** if provided: items in design but not in code, and the reverse.
+7. **Report measures as counts with the method** (for example tokenized versus hardcoded color values). Derive no score that cannot be recomputed from the doc.
+8. **Prioritize recommendations** by impact and effort, each with a severity from `../_shared/standard.md` §8 (Blocker, Major, Minor, Cosmetic) for its finding and a confidence (High, Medium, Low). Write the output per §8.
 
 ## Outputs
+Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../_shared/standard.md`. File:
 `design/audits/design-system-audit-<date>.md`:
 ```
-> metadata block (paths scanned)
+> metadata block (paths scanned, commit audited)
+## Scope and coverage
 ## Token inventory and drift
-## Component inventory and duplicates
+## Component inventory and variants
 ## Pattern inventory
 ## Design-to-code gaps
-## Scores (with counts)
-## Recommendations
+## Findings (classification, severity, confidence)
+## Measures (counts with method)
+## Recommendations (prioritized)
 ## Open questions / to validate
 ## Next step
 ```
+`## Next step` names one handoff: `design-qa` to verify fixes in a build, or `design-documentation` to document components and usage.
 
 ## Quality checks
-- [ ] Global checks in `docs/ARCHITECTURE.md` §7
-- [ ] All counts come from actual searches; commands or paths noted
-- [ ] Duplicates listed with both paths
-- [ ] Scores derived from inventory numbers shown in the doc
-- [ ] No recommendation to adopt a specific external library without user request
+- [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Coverage states paths scanned, paths excluded, and what could not be reached
+- [ ] All counts come from searches that are recorded or reproducible
+- [ ] Each finding is classified inconsistency, intentional variant, or unclear
+- [ ] Duplicates list both paths; findings cite the file or token
+- [ ] No design system is assumed; absence is reported as absence
+- [ ] No recommendation to adopt a specific external library unless the user asked
 
 ## Boundaries
 - Does not evaluate usability → `ux-audit`
-- Does not verify a build matches a design → `design-qa`
-- Does not write component docs → `design-documentation`
+- Does not check one build against one spec → `design-qa`
+- Does not write component documentation → `design-documentation`

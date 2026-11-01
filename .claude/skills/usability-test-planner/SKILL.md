@@ -1,60 +1,65 @@
 ---
 name: usability-test-planner
-description: Design a task-based usability test - scenarios, tasks, success criteria, metrics, script, and results template. Use when the user says "usability test", "test the prototype", "can users complete", "test plan", or has a prototype or build ready to evaluate with users.
+description: Plan a task-based usability study - participant criteria, realistic tasks with success criteria, observation points, consent and accessibility, a moderator script, and a capture and analysis plan. Plans only; it never presents hypothetical results. Use when the user says "usability test", "test the prototype", "can users complete", "test plan", or has a prototype or build to evaluate with people. Not for choosing among research methods (use `ux-research-planner`), logging build-versus-design defects (use `design-qa`), or heuristic review (use `ux-audit`).
 ---
 
 # Usability Test Planner
 
 ## Purpose
-Produce a complete test protocol for a prototype or live product: realistic tasks with measurable success criteria, moderator script, and a results sheet that records what happened, not what was hoped.
+Produce a protocol for evaluating a prototype or product with real participants: realistic tasks, measurable success criteria, what to observe, how to treat participants and accommodate access needs, and how results will be recorded and analyzed. The results template stays empty until real sessions happen.
 
 ## Triggers
 - "Plan a usability test for X", "test this flow with users"
-- Prototype, staging build, or user flow exists in the project
-- Research plan selects usability testing
+- A prototype, staging build, or user flow exists in the project
+- A research plan selects usability testing
 
 ## Inputs
-| Input | Required | Source |
+| Input | If missing | Source |
 |---|---|---|
-| Artifact under test (prototype link, build, flow doc) | yes | user, `design/journeys/` |
-| Goals or flows to evaluate | yes | user, research plan |
-| Participant criteria | yes | plan or user |
-| Moderated vs unmoderated | yes | user (default moderated) |
-| Known concerns from critique or audit | optional | `design/audits/` |
+| Artifact under test (prototype, build, flow doc) | Stop: tasks cannot be written against nothing | user, `design/journeys/` |
+| Goals or flows to evaluate | Ask one: tasks follow from them | user, research plan |
+| Participant criteria | Assume from the research plan or personas and tag it | plan, `design/research/` |
+| Moderated or unmoderated | Assume moderated; say it is a default | user |
+| Known concerns from audits or critique | Assume none | `design/audits/` |
 
 ## Workflow
-1. **Inspect the project.** Read the artifact and any user flows. Enumerate screens and states the test can reach. Note gaps in the prototype.
-2. **Define tasks.** 4 to 7 tasks, each from a realistic scenario, with a start state, a success condition, and an optional path. Order easy to hard.
-3. **Set measures.** Completion (yes/partial/no), time (if meaningful), errors, assists, post-task rating (SEQ). Define thresholds the team agreed to, or mark `[assumption]`.
-4. **Write the script.** Intro, think-aloud instruction, task prompts verbatim, neutral probes, wrap-up questions.
-5. **Pilot checklist.** Run one dry session; list what to fix.
-6. **Results template.** Per participant per task: measures, observations, quotes, severity of issues found.
-7. **Severity scale** for issues: blocker, major, minor, cosmetic, with definitions.
-8. **Write output**; show the task list in chat.
+1. **Inspect the project.** Read the artifact and flows. List the screens, states, and data the test can actually reach, and note prototype gaps that would block a task. Copy no participant identifiers from earlier material.
+2. **Define tasks.** Typically 4 to 7, a default that fits one session. Each has a realistic scenario, a start state, an observable success condition, and the expected path. Order easy to hard. Prompts must not use interface labels that reveal the route.
+3. **Choose measures** that the team can record: completion (yes, partial, no), errors, assists, time if meaningful, and a post-task rating. Agree success thresholds before testing and record who set them. Otherwise tag them `[assumption]`.
+4. **Define participants** and the sample, with the reason. Include people who use assistive technology when the product serves them, and prepare accessible materials and sessions. Ask about input method and assistive technology only, never reasons or conditions; say sharing is optional and cover it in the consent text.
+5. **Write consent and logistics:** purpose, recording, storage, anonymization (participant codes per §8), the right to stop, equipment, and compensation.
+6. **Write the moderator script:** intro, think-aloud instructions, task prompts verbatim, neutral probes, wrap-up questions.
+7. **Plan capture and analysis.** An empty results template per participant per task (measures, observations, minimal quotes, issues), the severity scale from `../_shared/standard.md` §8 (Blocker, Major, Minor, Cosmetic), and who synthesizes. Issues found feed `feature-prioritization`.
+8. **Add a pilot checklist.** Run one dry session and fix what it exposes. Write the output per §8.
 
 ## Outputs
+Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../_shared/standard.md`. File:
 `design/research/usability-test-plan-<topic>-<date>.md`:
 ```
 > metadata block
 ## Test goals and artifact
-## Participants and sessions
-## Tasks (scenario, prompt, success criteria, optimal path)
+## Participants and recruiting criteria
+## Consent, accessibility, and logistics
+## Tasks (scenario, prompt, success criteria, observation points)
 ## Measures and thresholds
 ## Moderator script
 ## Pilot checklist
-## Results template and severity scale
+## Capture and analysis plan (empty results template, severity scale)
 ## Open questions / to validate
 ## Next step
 ```
+`## Next step` names `ux-research-planner` if recruiting or method is unsettled, or `feature-prioritization` to rank fixes after real sessions.
 
 ## Quality checks
-- [ ] Global checks in `docs/ARCHITECTURE.md` §7
+- [ ] Global checks in `../_shared/standard.md` §7 and §8
 - [ ] Each task has an observable success condition
-- [ ] Task prompts do not contain UI labels that give away the path
-- [ ] Measures are recordable with the tools the team has
-- [ ] Results template is empty; no pre-filled outcomes
+- [ ] Task prompts do not leak interface labels
+- [ ] Thresholds are agreed before testing or marked `[assumption]`
+- [ ] Accessibility needs of participants are addressed
+- [ ] The results template is empty and no outcomes are pre-filled
 
 ## Boundaries
-- Does not pick method or recruit → `ux-research-planner`
-- Does not log build defects → `design-qa`
-- Does not run heuristic review → `ux-audit`
+- Does not choose methods or recruit → `ux-research-planner`
+- Does not log build-versus-design defects → `design-qa`
+- Does not run a heuristic review → `ux-audit`
+- Does not write open interviews → `interview-guide-builder`

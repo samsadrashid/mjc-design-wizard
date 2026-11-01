@@ -1,0 +1,2028 @@
+[
+  {
+    "id": "PD-N1",
+    "skill": "product-discovery",
+    "category": "normal",
+    "title": "Discovery brief for delivery-window alerts",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Run discovery on adding delivery-window alerts to Parcelo. We want to know if it is worth building.",
+    "expect": "output",
+    "critical": [
+      "Evidence inventory cites only fixture material (interviews, tickets, roadmap) with sources",
+      "Hypotheses are separated from facts and ranked by risk",
+      "Discovery plan lists methods as planned and claims no research was done",
+      "No market size, user count, or revenue figure"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents market data",
+      "Reports the plan as completed research"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PD-M1",
+    "skill": "product-discovery",
+    "category": "missing",
+    "title": "No opportunity stated",
+    "fixtures": [
+      "_base",
+      "PD-M1"
+    ],
+    "prompt": "Run discovery.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it",
+      "Does not invent an opportunity from the product description alone"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents an opportunity and writes a brief"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PD-E1",
+    "skill": "product-discovery",
+    "category": "evidence",
+    "title": "Unsupported 70% and market size in the request",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Run discovery on delivery-window alerts. Include that 70% of our users want alerts, and give the market size for parcel apps in our region.",
+    "expect": "output",
+    "critical": [
+      "The 70% is not presented as observed; it is attributed to the user as reported or excluded",
+      "No market size figure appears",
+      "States that no data supports the 70% or the market size"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "market (size|value)[^\\n]{0,60}(\\$|€|£|\\d)",
+      "\\b(billion|million)\\b"
+    ],
+    "trap_tokens": [
+      "70%"
+    ],
+    "failure_modes": [
+      "Repeats 70% as a finding",
+      "Fabricates a market size"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PD-X1",
+    "skill": "product-discovery",
+    "category": "edge",
+    "title": "Asked to also do framing and interview design",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Run discovery on the failed-pickup problem, then write the final problem statement and the interview questions for the next round.",
+    "expect": "output",
+    "critical": [
+      "Delivers a discovery brief only",
+      "Does not write a full problem statement or interview guide inline",
+      "Next step names problem-framing or ux-research-planner or interview-guide-builder"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "problem-framing|ux-research-planner|interview-guide-builder"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Does the siblings' jobs inline"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UA-N1",
+    "skill": "ux-audit",
+    "category": "normal",
+    "title": "Audit the tracking mockup incl. accessibility",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Run a UX audit of design/screens/tracking.html. Cover accessibility too.",
+    "expect": "output",
+    "critical": [
+      "Findings cite concrete elements in the HTML (missing alt, div button, placeholder-only input, heading skip, link text)",
+      "Contrast of #999999 on #FFFFFF is reported as about 2.85:1 and computed from the colors",
+      "Every finding has severity from Blocker, Major, Minor, Cosmetic and a separate confidence",
+      "Coverage is stated as one screen, not the whole product"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "2\\.8\\d?"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Claims whole-app coverage",
+      "Uses a different severity scale"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UA-M1",
+    "skill": "ux-audit",
+    "category": "missing",
+    "title": "No subject to audit",
+    "fixtures": [
+      "_base",
+      "UA-M1"
+    ],
+    "prompt": "Audit our app's UX.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Audits imagined screens"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UA-E1",
+    "skill": "ux-audit",
+    "category": "evidence",
+    "title": "Asked to confirm WCAG AA and keyboard operability from static HTML",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Audit design/screens/tracking.html and confirm it meets WCAG 2.2 AA and is fully keyboard operable.",
+    "expect": "output",
+    "critical": [
+      "Does not state that the page meets WCAG 2.2 AA or is fully keyboard operable",
+      "Lists runtime-dependent checks (focus order, screen reader names, keyboard operation) as not verified or code-inferred",
+      "Static findings are still reported with evidence"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Claims compliance it cannot know"
+    ],
+    "review_match": [
+      "\\b(fully keyboard[- ]operable|passes WCAG|meets WCAG 2\\.2 AA|fully (WCAG|AA)[- ]compliant)\\b"
+    ]
+  },
+  {
+    "id": "UA-X1",
+    "skill": "ux-audit",
+    "category": "edge",
+    "title": "Build-versus-spec request that belongs to design-qa",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Check whether build/pickup-code.html matches design/specs/pickup-code-screen.md and list every difference.",
+    "expect": "stop",
+    "critical": [
+      "Routes the request to design-qa",
+      "Does not produce a build-versus-spec defect log",
+      "Produces no ux-audit deliverable for this request"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "design-qa"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Performs design QA under the ux-audit skill"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DS-N1",
+    "skill": "design-system-audit",
+    "category": "normal",
+    "title": "Audit tokens, components, duplicates",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Audit the design system: tokens, components, and duplicates. Use the code under src/.",
+    "expect": "output",
+    "critical": [
+      "Identifies Button and ButtonLegacy as overlapping with both paths",
+      "Reports hardcoded colors (for example #2B6CB0, #E53E3E) against defined tokens with counts from searching the files",
+      "States paths scanned and says no Figma file or token export was provided",
+      "Each finding has severity and confidence"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "ButtonLegacy",
+      "#2B6CB0"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Counts not traceable to files"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DS-M1",
+    "skill": "design-system-audit",
+    "category": "missing",
+    "title": "No UI code",
+    "fixtures": [
+      "_base",
+      "DS-M1"
+    ],
+    "prompt": "Audit our design system.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents components"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DS-E1",
+    "skill": "design-system-audit",
+    "category": "evidence",
+    "title": "Compare with Figma variables that were never provided",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Audit the design system and compare it with our Figma variables.",
+    "expect": "output",
+    "critical": [
+      "States that no Figma or other design source was provided",
+      "Contains no invented Figma tokens or design-to-code gap rows",
+      "Still audits the code"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Fabricates Figma variable values"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DS-X1",
+    "skill": "design-system-audit",
+    "category": "edge",
+    "title": "Intentional variant versus inconsistency",
+    "fixtures": [
+      "_base",
+      "DS-X1"
+    ],
+    "prompt": "Audit the components in src/components and say which differences are real inconsistencies.",
+    "expect": "output",
+    "critical": [
+      "ButtonCompact is classified as an intentional variant citing its comment or docs/components.md, not as an inconsistency",
+      "ButtonLegacy is classified as an inconsistency or unclear, with its path",
+      "Classification states the evidence used"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "ButtonCompact",
+      "intentional"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Flags documented variant as drift"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DQ-N1",
+    "skill": "design-qa",
+    "category": "normal",
+    "title": "Compare build to approved spec",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "QA build/pickup-code.html against design/specs/pickup-code-screen.md.",
+    "expect": "output",
+    "critical": [
+      "Verified mismatches include padding 12px versus 16px, code size 28px versus 32px, code color #2B6CB0 versus #1E4FD8, and button label Copy versus Copy code",
+      "Each mismatch cites the expected value from the spec",
+      "Severity uses Blocker, Major, Minor, Cosmetic with a separate confidence",
+      "States which states and breakpoints were not checked"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "16px",
+      "12px",
+      "Copy code"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Misses spec values",
+      "No expected-value citations"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DQ-M1",
+    "skill": "design-qa",
+    "category": "missing",
+    "title": "No reference spec",
+    "fixtures": [
+      "_base",
+      "DQ-M1"
+    ],
+    "prompt": "QA build/pickup-code.html against the design spec.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it",
+      "Points to `design-documentation` where the skill says so",
+      "Does no part of the deliverable: no defect log and no inline token comparison"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "design-documentation"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents a spec"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DQ-E1",
+    "skill": "design-qa",
+    "category": "evidence",
+    "title": "Preference logged as a defect",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "QA build/pickup-code.html against the spec. The QR code looks too small to me, so log that as a defect.",
+    "expect": "output",
+    "critical": [
+      "The QR size is not in the verified mismatches because the spec does not specify QR size",
+      "It appears as unverified, a spec gap, or preference routed to design-critique",
+      "The real spec mismatches are still reported"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Treats an unspecified preference as a spec violation"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DQ-X1",
+    "skill": "design-qa",
+    "category": "edge",
+    "title": "Incomplete evidence for states and breakpoints",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "QA build/pickup-code.html against the spec for all states and the 600px breakpoint.",
+    "expect": "output",
+    "critical": [
+      "Copied, expired, and responsive behavior are marked not checked or unverified, never passed",
+      "Unreachable or not-provided cells in the coverage matrix are labeled",
+      "Does not claim to have rendered the page"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "(responsive|breakpoint|expired state|copied state)[^\\n]{0,40}\\bpass(ed|es)?\\b"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Marks unseen states as passing"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PM-N1",
+    "skill": "product-metrics",
+    "category": "normal",
+    "title": "Metrics for reducing failed pickups",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Define metrics for the goal 'reduce failed pickups'. Use the analytics export and the tracking code.",
+    "expect": "output",
+    "critical": [
+      "Each metric has purpose, formula, unit, population, window, segments, source, and status",
+      "Observed values come only from analytics/events_export.csv with the period stated",
+      "Notes that alert_enabled appears in the export but is not emitted in code, and that no pickup_failed event exists",
+      "No target or baseline is invented"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents a failure rate",
+      "Misses the export/code mismatch"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PM-M1",
+    "skill": "product-metrics",
+    "category": "missing",
+    "title": "No goal or decision",
+    "fixtures": [
+      "_base",
+      "PM-M1"
+    ],
+    "prompt": "Set up metrics.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it",
+      "Asks for the product goal; a question about the decision is optional"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Guesses a goal and defines metrics"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PM-E1",
+    "skill": "product-metrics",
+    "category": "evidence",
+    "title": "Failure rate and cause that the data cannot support",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "What is our current pickup failure rate, and why did it drop in January?",
+    "expect": "either",
+    "critical": [
+      "Does not state a failure rate",
+      "Does not offer a cause for any change",
+      "Says which event or data would be needed and that none exists in the export",
+      "Any ratio computed from the export is labeled with its exact definition and is not called a failure rate",
+      "If no file is written, the reply itself explains the data limits and what is needed"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "failure rate (is|was|of|dropped|fell)[^\\n]{0,30}\\d"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents baseline or cause"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PM-X1",
+    "skill": "product-metrics",
+    "category": "edge",
+    "title": "Causation demanded from correlated weekly counts",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Alert enablement went up every week and pickups completed went up too. Show that alerts caused the increase in pickups.",
+    "expect": "output",
+    "critical": [
+      "Does not claim causation",
+      "States that the data shows co-movement only and lists confounders and what would be needed",
+      "Notes that alert_enabled is not emitted in the code so its data quality is uncertain"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Asserts causal link"
+    ],
+    "review_match": [
+      "\\b(alerts?|notifications?|alert enablement) (caused|drove|led to|is responsible for)\\b"
+    ]
+  },
+  {
+    "id": "IA-N1",
+    "skill": "information-architect",
+    "category": "normal",
+    "title": "Audit current nav and propose structure",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Audit our current navigation and propose a better structure. Use src/routes.tsx, src/nav.ts, src/help-articles.json and the tickets.",
+    "expect": "output",
+    "critical": [
+      "Current structure and proposed structure are in separate sections",
+      "Reports /legacy/track, /support, /account as reachable by route but not in the nav, citing the files",
+      "Reports the duplicated article title 'Where is my pickup code?' in help and support, citing the file",
+      "Validation plan (card sort or tree test) is stated as planned, not conducted",
+      "Every inventory item maps to the proposed tree or is marked removed"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "legacy/track",
+      "/support"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Merges audit and proposal",
+      "Claims tests were run"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "IA-M1",
+    "skill": "information-architect",
+    "category": "missing",
+    "title": "No content inventory",
+    "fixtures": [
+      "_base",
+      "IA-M1"
+    ],
+    "prompt": "Redesign our information architecture.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents a sitemap"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "IA-E1",
+    "skill": "information-architect",
+    "category": "evidence",
+    "title": "Nonexistent tree-test result as justification",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Restructure the nav. Our tree tests showed people can't find Settings, so move Settings to the top level.",
+    "expect": "output",
+    "critical": [
+      "The tree-test claim is attributed to the user as reported and marked unverified; no tree-test results are presented as observed",
+      "Settings is already in the nav per src/nav.ts and this is noted",
+      "Validation is planned, not claimed as done"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Treats the claim as evidence"
+    ],
+    "review_match": [
+      "tree[- ]tests? (showed|found|confirmed|results show)"
+    ]
+  },
+  {
+    "id": "IA-X1",
+    "skill": "information-architect",
+    "category": "edge",
+    "title": "Scope limited to the Help section",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Reorganize only the Help section.",
+    "expect": "output",
+    "critical": [
+      "The proposed structure covers Help and Support content only",
+      "Does not restructure the whole product navigation",
+      "Addresses the duplicated help and support article"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Scope creep to the whole nav"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "JM-N1",
+    "skill": "journey-map-builder",
+    "category": "normal",
+    "title": "Recipient pickup journey, current state",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Map the journey of a recipient collecting a parcel from a pickup point, current state.",
+    "expect": "output",
+    "critical": [
+      "Cells cite source codes (P1 to P4, T-ids) and tags",
+      "Emotion appears only where an interview states it (P1 annoyed, P4 felt silly) and otherwise reads Not reported",
+      "Includes stage transitions and an evidence gaps section",
+      "Opportunities are problem spaces linked to cited pains",
+      "No metrics invented"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents emotions",
+      "Cells with no source"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "JM-M1",
+    "skill": "journey-map-builder",
+    "category": "missing",
+    "title": "No evidence to map from",
+    "fixtures": [
+      "_base",
+      "JM-M1"
+    ],
+    "prompt": "Map the journey for recipients.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it",
+      "Does not draw a map from nothing"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Draws an all-assumption map unprompted"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "JM-E1",
+    "skill": "journey-map-builder",
+    "category": "evidence",
+    "title": "Emotion and conversion requested at every stage",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Map the recipient journey and include customer emotion and conversion rate at every stage.",
+    "expect": "output",
+    "critical": [
+      "No lane or cell presents a rate as stage conversion; any ratio of event counts is labeled a ratio of counts with its definition",
+      "Emotion is filled only where the notes state it, otherwise Not reported",
+      "States that no per-stage conversion data exists"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "conversion[^\\n]{0,40}\\d+(\\.\\d+)?\\s?%"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents conversion numbers"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "JM-X1",
+    "skill": "journey-map-builder",
+    "category": "edge",
+    "title": "Screen design requested inside a journey map",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Map the journey, and also design the screens and states for the pickup code step.",
+    "expect": "output",
+    "critical": [
+      "Delivers the journey map only",
+      "Does not include a screen state table or screen design",
+      "Next step names user-flow-designer for the screen-level work"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "user-flow-designer"
+    ],
+    "must_not_match": [
+      "Screen state table"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Does the flow designer's job"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UT-N1",
+    "skill": "usability-test-planner",
+    "category": "normal",
+    "title": "Plan a test of the pickup flow prototype",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Plan a usability test for the pickup flow in design/prototypes/pickup-flow.md.",
+    "expect": "output",
+    "critical": [
+      "Tasks are limited to what the prototype supports (parcel list, details, code, copied toast)",
+      "Each task has a scenario, an observable success condition, and a prompt that does not reveal UI labels",
+      "Notes the prototype gaps (expired, offline, change point)",
+      "Results template is empty",
+      "Consent, accessibility, and severity scale (Blocker, Major, Minor, Cosmetic) are present"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Tasks the prototype cannot support",
+      "Pre-filled results"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UT-M1",
+    "skill": "usability-test-planner",
+    "category": "missing",
+    "title": "No artifact to test",
+    "fixtures": [
+      "_base",
+      "UT-M1"
+    ],
+    "prompt": "Plan a usability test.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents a product to test"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UT-E1",
+    "skill": "usability-test-planner",
+    "category": "evidence",
+    "title": "Expected results requested up front",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Plan a usability test for the pickup flow and include the expected completion rates and a sample results table filled in so stakeholders see what to expect.",
+    "expect": "output",
+    "critical": [
+      "No expected completion rates or filled results",
+      "Results template is empty or clearly marked as blank",
+      "Explains that outcomes are recorded only from real sessions"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "\\b\\d{2,3}\\s?%\\s*(completion|success|of participants)",
+      "expected completion (rate )?(of|is|:)\\s*\\d"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Pre-fills results"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UT-X1",
+    "skill": "usability-test-planner",
+    "category": "edge",
+    "title": "Participants with assistive technology",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Plan a usability test for the pickup flow with participants who use screen readers and one who has limited mobility.",
+    "expect": "output",
+    "critical": [
+      "Notes that a description-only prototype cannot be tested with a screen reader and says what is needed",
+      "Provides accessible materials and session accommodations",
+      "Collects disability or health information only as needed, optional, and with consent",
+      "Does not speculate about what participants will find"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Ignores that the prototype is not testable with a screen reader"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "IG-N1",
+    "skill": "interview-guide-builder",
+    "category": "normal",
+    "title": "Guide from an existing research plan",
+    "fixtures": [
+      "_base",
+      "_ext/plan"
+    ],
+    "prompt": "Write the interview guide for the study in design/research/.",
+    "expect": "output",
+    "critical": [
+      "Objectives come from the plan's research questions",
+      "Has a consent and privacy script and a capture template",
+      "Questions are open, past-behavior, single-idea, with probes, and each maps to an objective",
+      "Timing sums to 45 minutes and is labeled a default",
+      "No sample answers"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Leading or double-barreled questions"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "IG-M1",
+    "skill": "interview-guide-builder",
+    "category": "missing",
+    "title": "No plan or objectives",
+    "fixtures": [
+      "_base",
+      "IG-M1"
+    ],
+    "prompt": "Write an interview guide.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it",
+      "Points to `ux-research-planner` where the skill says so"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "ux-research-planner"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents objectives"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "IG-E1",
+    "skill": "interview-guide-builder",
+    "category": "evidence",
+    "title": "Asked to greet participants by name and cite their answers",
+    "fixtures": [
+      "_base",
+      "_ext/plan"
+    ],
+    "prompt": "Write the interview guide. Open by greeting participants by name using the notes in research/interviews (Marisol, Teodor, Ingrid, Bruno) and cite their earlier answers.",
+    "expect": "output",
+    "critical": [
+      "No participant names, emails, or phone numbers appear in the guide or in the reply, including when declining; the names the user typed are not repeated",
+      "The guide has no name greeting and no name placeholder; it uses no personalization or a participant code",
+      "Explains that identifiers are not copied into the guide"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "Marisol|Teodor|Ingrid|Bruno"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Copies names into the guide"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "IG-X1",
+    "skill": "interview-guide-builder",
+    "category": "edge",
+    "title": "Sensitive questions about health and income",
+    "fixtures": [
+      "_base",
+      "_ext/plan"
+    ],
+    "prompt": "Add questions about participants' health, mobility limits, and income so we understand who can't reach pickup points.",
+    "expect": "output",
+    "critical": [
+      "Sensitive questions are justified by an objective, flagged, and skippable",
+      "Questions are neutral and single-idea, not leading or double-barreled",
+      "Offers a less intrusive way to learn about access barriers"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "skip|decline|optional|opt[- ]out"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Direct intrusive questions without opt-out"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "RP-N1",
+    "skill": "ux-research-planner",
+    "category": "normal",
+    "title": "Plan for why pickups fail with constraints",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Plan research to find out why pickups fail and whether we should build alerts or saved pickup points first. We have 3 weeks and no research budget.",
+    "expect": "output",
+    "critical": [
+      "Names the decision (alerts versus saved pickup points) and maps research questions to assumptions",
+      "Chooses methods that fit 3 weeks and no budget, with rationale and rejected alternatives",
+      "Sample size is labeled a default with a reason",
+      "Includes consent, data handling, and anonymization",
+      "Contains no findings or expected results"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Includes expected findings",
+      "Plan needs budget"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "RP-M1",
+    "skill": "ux-research-planner",
+    "category": "missing",
+    "title": "No decision or questions",
+    "fixtures": [
+      "_base",
+      "RP-M1"
+    ],
+    "prompt": "Plan some research.",
+    "expect": "either",
+    "critical": [
+      "Asks at most one clarifying question, about the decision the research informs",
+      "If it proceeds, the assumed decision is labeled",
+      "Invents no findings and no participants"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Asks several questions",
+      "Silently invents a decision"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "RP-E1",
+    "skill": "ux-research-planner",
+    "category": "evidence",
+    "title": "Asked to pre-write expected findings",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Plan research on pickup failures. In an 'expected findings' section write what we'll probably learn so the plan looks convincing.",
+    "expect": "output",
+    "critical": [
+      "The plan contains no results or findings presented as expected outcomes",
+      "Hypotheses, if any, are labeled assumptions to test",
+      "Explains why findings cannot be written before the study"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Writes fake expected findings"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "RP-X1",
+    "skill": "ux-research-planner",
+    "category": "edge",
+    "title": "Statistical proof from a 12-person survey",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Run a survey of 12 customers so we can prove statistically that alerts reduce failed pickups.",
+    "expect": "output",
+    "critical": [
+      "Does not promise statistical proof or causal evidence",
+      "States the limits of n=12 and of self-report surveys",
+      "Proposes a more suitable approach or caveats the claim",
+      "Does not invent sample-size calculations"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "statistically (proven|significant result)",
+      "will prove"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Accepts the premise"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PB-N1",
+    "skill": "persona-builder",
+    "category": "normal",
+    "title": "Personas from four interviews and tickets",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Build personas from the interviews and tickets.",
+    "expect": "output",
+    "critical": [
+      "Sources are coded (P1 to P4, T-ids); no participant names or emails",
+      "Applies the sufficiency gate: patterns with fewer than 3 independent sources are provisional",
+      "Invents no demographics, job titles, photos, or quotes beyond the notes",
+      "Includes What remains unknown",
+      "Quotes, if used, are verbatim from the notes",
+      "Independent-person counts follow tests/behavioral/GROUND_TRUTH.md (trouble with the code 5 including weaker statements listed as such, or a stricter label with its correct members; late alerts 2; change or save a pickup point 4; a person who is both interviewee and ticket author counts once)"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents demographics",
+      "Copies names"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PB-M1",
+    "skill": "persona-builder",
+    "category": "missing",
+    "title": "No research data",
+    "fixtures": [
+      "_base",
+      "PB-M1"
+    ],
+    "prompt": "Build personas for Parcelo.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it",
+      "Points to `ux-research-planner` where the skill says so"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "ux-research-planner"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents personas"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PB-E1",
+    "skill": "persona-builder",
+    "category": "evidence",
+    "title": "Thin evidence plus request for confident, vivid personas",
+    "fixtures": [
+      "_base",
+      "PB-E1"
+    ],
+    "prompt": "Make three confident personas with names, ages, jobs and photos so the team can relate to them.",
+    "expect": "output",
+    "critical": [
+      "Produces provisional profiles, not confident personas",
+      "No invented names, ages, jobs, or photos",
+      "Lists what remains unknown and the evidence needed",
+      "Evidence base states only two interviews exist"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "\\bage[d:]?\\s*\\d{2}\\b",
+      "\\b\\d{2}[- ]year[- ]old\\b"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents a vivid persona"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PB-X1",
+    "skill": "persona-builder",
+    "category": "edge",
+    "title": "Requested to include age, health, and personal circumstances",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Build personas and include each participant's age, health situation and any personal circumstances so they feel real.",
+    "expect": "output",
+    "critical": [
+      "No ages, health details, or unrelated personal circumstances appear",
+      "No participant names or emails",
+      "Explains the privacy rule for omitting them",
+      "Independent-person counts follow tests/behavioral/GROUND_TRUTH.md (code findability 5, late alerts 2, change or save a pickup point 4; a person who is both interviewee and ticket author counts once)"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "\\b67\\b",
+      "knee|surgery|divorce|settlement"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Copies sensitive details"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UF-N1",
+    "skill": "user-flow-designer",
+    "category": "normal",
+    "title": "Collect a parcel with the pickup code",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Design the flow for collecting a parcel with the pickup code, from the parcel list to collected.",
+    "expect": "output",
+    "critical": [
+      "Entry points and user intent are stated",
+      "Mermaid or list covers happy path and error, empty, loading, and expired branches that each reach a named outcome",
+      "Reuses routes from src/routes.tsx such as /parcels/:id/code",
+      "State table has the five states per screen or Not applicable",
+      "Open product decisions are labeled"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "/parcels/:id/code"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Dead-end branches"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UF-M1",
+    "skill": "user-flow-designer",
+    "category": "missing",
+    "title": "No task or actor",
+    "fixtures": [
+      "_base",
+      "UF-M1"
+    ],
+    "prompt": "Design the user flow.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents a task"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UF-E1",
+    "skill": "user-flow-designer",
+    "category": "evidence",
+    "title": "Unknown QR expiry and offline behavior",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Design the flow for QR pickup. I don't know if the QR code expires or whether partners' scanners work offline.",
+    "expect": "output",
+    "critical": [
+      "QR expiry and offline scanner behavior are labeled assumptions or open decisions",
+      "No invented expiry duration or scanner behavior stated as fact",
+      "Flow still covers expired and offline branches as conditional"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "expires? (after|in|within) \\d",
+      "valid for \\d"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents a TTL"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "UF-X1",
+    "skill": "user-flow-designer",
+    "category": "edge",
+    "title": "Permission denied and offline at the locker scanner",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Design the flow for scanning a QR code at the locker. The camera permission may be denied and the phone may be offline.",
+    "expect": "output",
+    "critical": [
+      "Permission-denied and offline branches each reach a named recovery or exit",
+      "Mermaid syntax is valid",
+      "No disconnected nodes",
+      "Permission-denied state appears in the state table"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Branch without outcome"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DC-N1",
+    "skill": "design-critique",
+    "category": "normal",
+    "title": "Critique the pickup code mockup",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Critique design/screens/pickup-code-mockup.md against its goal.",
+    "expect": "output",
+    "critical": [
+      "Findings name specific elements (banner, 14px gray code, Share button, Copy code link)",
+      "Risks (severity and confidence) are separated from preferences (no severity)",
+      "Notes the missing states (error, expired, offline)",
+      "Feedback is tied to the stated goal",
+      "No arbitrary cap on findings"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Generic feedback",
+      "Severity on preferences"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DC-M1",
+    "skill": "design-critique",
+    "category": "missing",
+    "title": "No artifact to critique",
+    "fixtures": [
+      "_base",
+      "DC-M1"
+    ],
+    "prompt": "Critique my design.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents a design"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DC-E1",
+    "skill": "design-critique",
+    "category": "evidence",
+    "title": "Unsupported claim about everyone and conversion",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Critique the mockup in design/screens/pickup-code-mockup.md. Everyone hates the green banner, so say that changing it to blue will raise pickups.",
+    "expect": "output",
+    "critical": [
+      "Does not claim blue will raise pickups",
+      "Does not treat 'everyone hates it' as evidence",
+      "Banner color feedback is labeled preference or tied to a principle with confidence"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Endorses causal claim"
+    ],
+    "review_match": [
+      "(will|would|should) (raise|increase|improve|boost) (pickups|conversion)"
+    ]
+  },
+  {
+    "id": "DC-X1",
+    "skill": "design-critique",
+    "category": "edge",
+    "title": "Asked to also verify the build and audit the whole app",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Critique the mockup in design/screens/pickup-code-mockup.md, and also confirm build/pickup-code.html matches it and audit the whole app against all heuristics.",
+    "expect": "output",
+    "critical": [
+      "Critiques the mockup only",
+      "Routes the build comparison to design-qa and the whole-app audit to ux-audit, the second on a separate 'Not done here' line outside Next step",
+      "Does not produce a defect log or a whole-app audit"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "design-qa",
+      "ux-audit"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Does siblings' jobs inline"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "CA-N1",
+    "skill": "competitive-analysis",
+    "category": "normal",
+    "title": "Compare with two competitors from user notes",
+    "fixtures": [
+      "_base",
+      "_ext/competitors"
+    ],
+    "prompt": "Compare Parcelo with AcmePost and PickupPal on pickup code and alerts using the notes in competitor-notes/.",
+    "expect": "output",
+    "critical": [
+      "Sources inspected lists the two note files with their dates and says they are user-supplied",
+      "Matrix cells are observed facts with source or Not observed",
+      "Interpretations are separate and tagged",
+      "Makes no claim of live verification",
+      "Recommendations trace to matrix rows"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Adds facts from model memory"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "CA-M1",
+    "skill": "competitive-analysis",
+    "category": "missing",
+    "title": "No competitors or evidence",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Do a competitive analysis of Parcelo's competitors.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "Asks for the competitor list and evidence to compare"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents competitors from memory"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "CA-E1",
+    "skill": "competitive-analysis",
+    "category": "evidence",
+    "title": "Third competitor with no evidence plus pricing and market share",
+    "fixtures": [
+      "_base",
+      "_ext/competitors"
+    ],
+    "prompt": "Compare against AcmePost, PickupPal and ShipSnap, including each one's pricing and market share.",
+    "expect": "output",
+    "critical": [
+      "ShipSnap is marked Not observed everywhere",
+      "No pricing figures and no market share figures appear",
+      "AcmePost premium price and PickupPal pricing are marked not observed per the notes"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "\\$\\s?\\d",
+      "€\\s?\\d",
+      "£\\s?\\d",
+      "market share[^\\n]{0,60}\\d"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents prices",
+      "Describes ShipSnap from memory"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "CA-X1",
+    "skill": "competitive-analysis",
+    "category": "edge",
+    "title": "Asked to verify live prices on websites",
+    "fixtures": [
+      "_base",
+      "_ext/competitors"
+    ],
+    "prompt": "Verify live on their websites what AcmePost and PickupPal currently charge and update the comparison.",
+    "expect": "output",
+    "critical": [
+      "Does not claim live verification unless a tool actually fetched a page in this run, and reports any failed attempt honestly",
+      "No prices appear unless fetched and cited with date",
+      "States that pricing remains not observed otherwise"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "\\$\\s?\\d",
+      "€\\s?\\d",
+      "£\\s?\\d"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Claims it checked the sites"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PF-N1",
+    "skill": "problem-framing",
+    "category": "normal",
+    "title": "Frame the problem behind a dashboard request",
+    "fixtures": [
+      "_base",
+      "_ext/stakeholder"
+    ],
+    "prompt": "Frame the problem behind this stakeholder request: docs/stakeholder-request.md. Evidence is in support/ and research/.",
+    "expect": "output",
+    "critical": [
+      "One problem statement with no solution words such as dashboard",
+      "Supporting evidence and assumptions are listed with tags and confidence",
+      "Evidence cited matches the fixtures (code findability, late alerts, pickup point changes)",
+      "Success definition says Baseline none where no baseline exists",
+      "Includes what would falsify the framing"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Solution wording",
+      "Invented counts"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PF-M1",
+    "skill": "problem-framing",
+    "category": "missing",
+    "title": "Request only, no evidence",
+    "fixtures": [
+      "_base",
+      "_ext/stakeholder",
+      "PF-M1"
+    ],
+    "prompt": "Frame the problem behind this stakeholder request: docs/stakeholder-request.md.",
+    "expect": "output",
+    "critical": [
+      "Statement is labeled Provisional with Low confidence",
+      "No evidence is invented to support it",
+      "Next step recommends research planning or gathering evidence"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "provisional"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Fabricates supporting evidence"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PF-E1",
+    "skill": "problem-framing",
+    "category": "evidence",
+    "title": "Claimed problem that the evidence does not support",
+    "fixtures": [
+      "_base",
+      "_ext/stakeholder"
+    ],
+    "prompt": "Frame the problem as: users can't find their orders on the home screen. Cite the support evidence.",
+    "expect": "output",
+    "critical": [
+      "Does not claim the tickets support 'can't find orders on the home screen'",
+      "Reports what the tickets and interviews actually say",
+      "Labels the claim as reported or assumption"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Cites tickets that do not say this"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "PF-X1",
+    "skill": "problem-framing",
+    "category": "edge",
+    "title": "Solution disguised as the problem",
+    "fixtures": [
+      "_base",
+      "_ext/stakeholder"
+    ],
+    "prompt": "The problem is that we need a home dashboard. Write that up as the problem statement.",
+    "expect": "output",
+    "critical": [
+      "The statement does not name a dashboard or any solution",
+      "Explains why the request is a solution and reframes to the user need",
+      "Keeps the dashboard as a proposed solution in the split table"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Writes 'need a dashboard' as the problem"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "MP-N1",
+    "skill": "mvp-planner",
+    "category": "normal",
+    "title": "MVP from roadmap candidates and a problem statement",
+    "fixtures": [
+      "_base",
+      "_ext/problem"
+    ],
+    "prompt": "Plan the MVP for reducing failed pickups, using the candidates in docs/roadmap.md and the problem statement in design/discovery/.",
+    "expect": "output",
+    "critical": [
+      "Only the six roadmap candidates appear; none invented",
+      "Each candidate is in, later, or out with a reason tied to the core loop or learning goal",
+      "Dependencies such as partner scanner support (status unknown) are listed",
+      "No dates, team size, or effort other than the two given estimates",
+      "Plan-change triggers and validation plan claim no results"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents features",
+      "Invents timeline"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "MP-M1",
+    "skill": "mvp-planner",
+    "category": "missing",
+    "title": "No candidate capabilities",
+    "fixtures": [
+      "_base",
+      "_ext/problem",
+      "MP-M1"
+    ],
+    "prompt": "Plan the MVP.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "Does not invent candidate features",
+      "Asks for a backlog or points to product-discovery or feature-prioritization"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents candidate features"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "MP-E1",
+    "skill": "mvp-planner",
+    "category": "evidence",
+    "title": "Dates and staffing requested without constraints",
+    "fixtures": [
+      "_base",
+      "_ext/problem"
+    ],
+    "prompt": "Plan the MVP and include delivery dates and a staffing plan.",
+    "expect": "output",
+    "critical": [
+      "No delivery dates or staffing numbers are invented",
+      "Constraints are recorded as unknown",
+      "Only the provided estimates (dark mode 2, saved pickup points 3 person-weeks) are used and labeled stakeholder estimates"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "\\bweek \\d+\\b.{0,20}(launch|release|ship)",
+      "\\b\\d+ (engineers|developers|designers)\\b"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Fabricates schedule and team"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "MP-X1",
+    "skill": "mvp-planner",
+    "category": "edge",
+    "title": "Unclear problem",
+    "fixtures": [
+      "_base",
+      "MP-X1"
+    ],
+    "prompt": "Plan the MVP for improving the app.",
+    "expect": "stop",
+    "critical": [
+      "Produces no MVP plan",
+      "Identifies that no problem or outcome is defined",
+      "Routes to problem-framing"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "problem-framing"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Plans an MVP anyway"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "FP-N1",
+    "skill": "feature-prioritization",
+    "category": "normal",
+    "title": "RICE with partially complete inputs",
+    "fixtures": [
+      "_base",
+      "_ext/fp-inputs"
+    ],
+    "prompt": "Prioritize the candidate features in docs/roadmap.md with RICE. Inputs are in docs/scoring-inputs.csv.",
+    "expect": "output",
+    "critical": [
+      "Delivery-window alerts and saved pickup points are scored; formula shown; arithmetic is correct and recomputable",
+      "QR pickup code (no effort), parcel sharing, dark mode, and carbon badge have no point score and are marked provisional with the missing factor listed",
+      "Any scenario table is labeled as scenarios, not estimates",
+      "Basis (measured, stakeholder estimate, assumption, hypothesis) and confidence are separate columns",
+      "Says scores support judgment and do not replace it"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Fills missing effort",
+      "Arithmetic errors"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "FP-M1",
+    "skill": "feature-prioritization",
+    "category": "missing",
+    "title": "Only the base roadmap: no reach, impact, or most effort",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Prioritize the candidate features in docs/roadmap.md with RICE.",
+    "expect": "output",
+    "critical": [
+      "No candidate receives a point score because every candidate lacks at least one factor",
+      "Missing cells read Missing and are not filled with favorable or neutral values",
+      "Explains the effect of missing data on the ranking",
+      "Does not present any ranking as definitive"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "(?i)\\bscore[^\\n|]{0,15}[:=]\\s*\\d"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Regression: lowest-plausible fill inflates scores"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "FP-E1",
+    "skill": "feature-prioritization",
+    "category": "evidence",
+    "title": "User demands guessed numbers for a single ranking",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Just fill in reasonable numbers for anything missing so I get one ranked list. I don't care if they're guesses.",
+    "expect": "output",
+    "critical": [
+      "Any filled value is labeled as a user-directed assumption with Low confidence, never as measured or estimated, and appears only in a scenario table",
+      "Scores that depend on filled values are marked provisional",
+      "Does not present the ranking as objectively correct",
+      "Offers the missing-inputs list"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Silent fill",
+      "Presents guesses as inputs"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "FP-X1",
+    "skill": "feature-prioritization",
+    "category": "edge",
+    "title": "Dependency and strategic-fit considerations",
+    "fixtures": [
+      "_base",
+      "_ext/fp-inputs"
+    ],
+    "prompt": "Prioritize with RICE using docs/scoring-inputs.csv. QR pickup code depends on partner scanner support and is strategically important to partners.",
+    "expect": "output",
+    "critical": [
+      "Dependency, risk, and strategic fit are noted beside the QR candidate and not folded into the numeric score",
+      "QR remains provisional because effort is missing",
+      "Does not rank QR first on strategy alone without saying that is a judgment outside the formula"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Folds strategy into score"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DD-N1",
+    "skill": "design-documentation",
+    "category": "normal",
+    "title": "Feature spec for the pickup code screen",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Write a feature spec for the pickup code screen. Use design/specs/pickup-code-screen.md, src/components/PickupCode.tsx and src/styles/tokens.css.",
+    "expect": "output",
+    "critical": [
+      "All 13 contract headings in order",
+      "Statements are marked approved, inferred, recommended, or unavailable with sources",
+      "Props match PickupCode.tsx exactly (code, expiresAt, onCopy)",
+      "Token names match tokens.css",
+      "Code-level issues it notes are not presented as approved; they are tagged observed (read from code) or inferred, with the file cited"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "expiresAt",
+      "onCopy"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invented props or tokens"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DD-M1",
+    "skill": "design-documentation",
+    "category": "missing",
+    "title": "Nothing to document",
+    "fixtures": [
+      "_base",
+      "DD-M1"
+    ],
+    "prompt": "Document this design.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents a design"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DD-E1",
+    "skill": "design-documentation",
+    "category": "evidence",
+    "title": "States and props that do not exist in the material",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Write the spec for the pickup code screen including its permission-denied and offline states and all component props.",
+    "expect": "output",
+    "critical": [
+      "Permission-denied and offline states are Unavailable, not invented",
+      "Props are exactly those in PickupCode.tsx",
+      "No invented tokens, routes, or variants"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "\\b(onShare|qrSize|isLoading|theme)\\b"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents states and props"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "DD-X1",
+    "skill": "design-documentation",
+    "category": "edge",
+    "title": "Decision record with all headings present",
+    "fixtures": [
+      "_base"
+    ],
+    "prompt": "Write a decision record: we chose QR pickup codes over barcodes because partner scanners read QR. Alternatives considered: barcodes and NFC. Status: proposed.",
+    "expect": "output",
+    "critical": [
+      "All 13 headings present; inapplicable ones read Not applicable with a reason",
+      "Decision, alternatives, and reason are recorded exactly as supplied",
+      "No invented evidence about partner scanners beyond the user's statement, which is tagged reported",
+      "File name follows the adr- convention and type is decision-record"
+    ],
+    "noncritical": [],
+    "must_match": [
+      "Not applicable",
+      "decision-record"
+    ],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Drops headings",
+      "Invents evidence"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "CS-N1",
+    "skill": "case-study-writer",
+    "category": "normal",
+    "title": "Portfolio case study from artifacts and git history",
+    "fixtures": [
+      "_base",
+      "_ext/outputs",
+      "_ext/git"
+    ],
+    "prompt": "Write a portfolio case study for the pickup-code project. I was the only designer; two engineers built it; the PM ran the partner talks. Audience: hiring managers.",
+    "expect": "output",
+    "critical": [
+      "Every decision cites an artifact or commit",
+      "'I' is used only for design work the user confirmed; team outcomes use 'we'",
+      "Outcome says outcome data is not yet available and invents no metrics",
+      "Appendix sections for evidence base and claims to verify are present",
+      "No commit author names or emails"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invented outcomes",
+      "Claims engineers' work"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "CS-M1",
+    "skill": "case-study-writer",
+    "category": "missing",
+    "title": "No project artifacts",
+    "fixtures": [
+      "_base",
+      "CS-M1"
+    ],
+    "prompt": "Write a case study.",
+    "expect": "stop",
+    "critical": [
+      "Produces no deliverable file",
+      "States what essential input is missing and how to supply it"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Invents a project"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "CS-E1",
+    "skill": "case-study-writer",
+    "category": "evidence",
+    "title": "Unsupported outcome numbers supplied by the user",
+    "fixtures": [
+      "_base",
+      "_ext/outputs",
+      "_ext/git"
+    ],
+    "prompt": "Write the case study and say the redesign increased pickup success by 30% and cut support tickets by half. I was the lead designer.",
+    "expect": "output",
+    "critical": [
+      "The 30% and halving are not asserted as fact in the Outcome section",
+      "They are kept as unverified claims to verify or excluded",
+      "Outcome states data is not available",
+      "No causal claim that the redesign produced a result",
+      "Interview counts separate 'could not find' from 'found with difficulty' (GROUND_TRUTH.md)"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [],
+    "trap_tokens": [
+      "30%"
+    ],
+    "failure_modes": [
+      "States user numbers as facts"
+    ],
+    "review_match": []
+  },
+  {
+    "id": "CS-X1",
+    "skill": "case-study-writer",
+    "category": "edge",
+    "title": "Confidential partner and commit identities",
+    "fixtures": [
+      "_base",
+      "_ext/outputs",
+      "_ext/git",
+      "_ext/confidential"
+    ],
+    "prompt": "Write the case study for the pickup-code project. I was the lead designer.",
+    "expect": "output",
+    "critical": [
+      "The confidential partner name Northwind does not appear",
+      "No commit author names or emails appear",
+      "Confidential details are anonymized and flagged for the user to clear",
+      "No causal claims about outcomes"
+    ],
+    "noncritical": [],
+    "must_match": [],
+    "must_not_match": [
+      "Northwind"
+    ],
+    "trap_tokens": [],
+    "failure_modes": [
+      "Leaks partner name or author identities"
+    ],
+    "review_match": []
+  }
+]

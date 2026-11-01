@@ -1,67 +1,73 @@
 ---
 name: ux-research-planner
-description: Plan a UX research study - research questions, method choice, participants, recruiting, timeline, and analysis plan. Use when the user says "plan research", "what method should we use", "research plan", "study design", or needs to validate assumptions before design.
+description: Plan a UX research study - the decision it informs, research questions, method choice, participants, ethics, capture, analysis, and a feasible timeline. Plans research only; it never invents findings. Use when the user says "plan research", "what method should we use", "research plan", "study design", or needs to validate assumptions before design. Not for writing interview questions (use `interview-guide-builder`), task-based test protocols (use `usability-test-planner`), or synthesizing results into personas (use `persona-builder`).
 ---
 
 # UX Research Planner
 
 ## Purpose
-Turn open questions into a research plan that picks the cheapest valid method, defines participants, and states how results will be analyzed. The plan is the container; guides and protocols come from sibling skills.
+Turn open questions into a feasible plan: the decision the study must inform, the cheapest valid method, who to include, how to treat participants ethically, and how data will be captured and analyzed. The plan contains no findings. Sibling skills write the instruments.
 
 ## Triggers
 - "Plan a study on X", "how should we research this", "what method"
-- Discovery or problem-framing output lists assumptions to validate
-- User asks whether to run interviews, surveys, or usability tests
+- Discovery or problem framing lists assumptions to validate
+- The user asks whether to run interviews, a survey, or a usability test
 
 ## Inputs
-| Input | Required | Source |
+| Input | If missing | Source |
 |---|---|---|
-| Questions or assumptions to answer | yes | user, `design/discovery/` |
-| Constraints (time, budget, access to users) | yes | user |
-| Existing research and personas | optional | `design/research/` |
-| Product stage (concept, prototype, live) | yes | repo inspection, user |
+| Decision the research will inform | Ask one: without it the questions cannot be prioritized | user, `design/discovery/` |
+| Questions or assumptions to answer | Assume: derive them from `design/discovery/` and tag `[inferred]` | user, repo |
+| Constraints (time, budget, access to users) | Assume: plan for the lowest-cost option and say so | user |
+| Product stage (concept, prototype, live) | Assume from the repo and tag it | repo, user |
+| Prior research and personas | Assume none; avoid repeating studies you cannot see | `design/research/` |
 
 ## Workflow
-1. **Inspect the project.** Read `design/discovery/`, `design/research/`. List prior studies so the plan does not repeat them.
-2. **Write research questions.** 3 to 6, answerable, not leading. Map each to the assumption it tests.
-3. **Choose method per question** using the table below. State why alternatives were rejected.
-4. **Define participants.** Criteria from evidence, not invented segments. Sample size with rationale (e.g. 5 to 8 per segment for qualitative).
-5. **Recruiting plan.** Channels available to the team, screener questions, incentives, consent note.
-6. **Timeline and roles.** Prep, fieldwork, synthesis. Who moderates, notes, observes.
-7. **Analysis plan.** How findings will be coded and what output they feed (persona, journey, prioritization).
-8. **Write output**; summarize method and sample in chat.
+1. **Inspect the project.** Read `design/discovery/` and `design/research/`. List prior studies with their dates or `date unknown` so the plan does not repeat or contradict them. Copy no participant identifiers. When tickets and interviews both appear, match ticket authors to interviewees by identity, internally and without printing the identifiers; count each person once and list the members beside every count.
+2. **State the decision and uncertainty.** What choice depends on this study, and what is the cost of being wrong. This sets how much rigor is justified.
+3. **Write 3 to 6 research questions.** Answerable, not leading. Map each to the assumption it tests. The range is a default that keeps a study focused.
+4. **Choose a method per question** from the table. Say why cheaper or alternative methods were rejected. Choose quantitative methods only where data access and sample size make them valid.
+5. **Define participants** from evidence, not invented segments. Give the criteria, the exclusions, and a sample size with its rationale. 5 to 8 per segment is a common default for qualitative work because it tends to surface recurring themes within budget. It is not a statistical guarantee.
+6. **Plan recruiting and ethics.** Channels the team really has, screener questions, consent, compensation, recording and data handling (retention, access, anonymization per §8), and care for vulnerable or sensitive topics.
+7. **Plan capture and analysis.** Where notes go, the coding approach, who reviews, and which outputs the data feeds. Say who owns synthesis, since no dedicated synthesis skill exists.
+8. **Check feasibility:** timeline, roles, tools. Cut scope before stretching the plan. Write the output per §8.
 
-Method guide:
+Method guide (starting points, not rules):
 | Question type | Method |
 |---|---|
-| Why do users do X / what matters | Interviews, contextual inquiry |
-| Can users complete task Y | Usability test (moderated or unmoderated) |
-| How widespread is Z | Survey, analytics (only if instrumented) |
-| Which label or structure works | Card sort, tree test |
-| Which variant performs better | A/B test (needs traffic and instrumentation) |
+| Why do people do X, what matters to them | Interviews, contextual inquiry |
+| Can people complete task Y | Usability test (moderated or unmoderated) |
+| How widespread is Z | Survey or analytics, only if instrumented |
+| Which structure or label fits | Card sort, tree test |
+| Which variant performs better | A/B test, needs traffic and instrumentation |
 
 ## Outputs
+Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../_shared/standard.md`. File:
 `design/research/ux-research-planner-<topic>-<date>.md`:
 ```
 > metadata block
-## Research questions (mapped to assumptions)
+## Decision and research questions (mapped to assumptions)
 ## Method selection and rationale
 ## Participants and screener
-## Recruiting, consent, incentives
-## Timeline and roles
-## Analysis plan
+## Recruiting, consent, and ethics
+## Data capture and analysis plan
+## Timeline, roles, and feasibility
 ## Open questions / to validate
 ## Next step
 ```
+`## Next step` names one handoff: `interview-guide-builder` or `usability-test-planner` to build the study instrument, or `persona-builder` once enough sessions have been synthesized.
 
 ## Quality checks
-- [ ] Global checks in `docs/ARCHITECTURE.md` §7
+- [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] The plan names the decision it informs
 - [ ] Each research question maps to a stated assumption
-- [ ] Method choice justified; quantitative methods only where data access exists
-- [ ] Participant criteria sourced or marked `[assumption]`
-- [ ] Plan contains no findings, only how findings will be obtained
+- [ ] Method choice is justified, and quantitative methods are used only where valid
+- [ ] Sample sizes are labeled as defaults with a reason
+- [ ] Consent, data handling, and anonymization are specified
+- [ ] The plan contains no results or expected findings
 
 ## Boundaries
 - Does not write interview questions → `interview-guide-builder`
-- Does not write test tasks → `usability-test-planner`
-- Does not synthesize into personas → `persona-builder`
+- Does not write task-based test protocols → `usability-test-planner`
+- Does not synthesize findings into profiles → `persona-builder`
+- Does not frame the opportunity or problem → `product-discovery`, `problem-framing`

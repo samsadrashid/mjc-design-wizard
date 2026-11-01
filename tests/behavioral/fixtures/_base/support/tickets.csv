@@ -1,0 +1,13 @@
+id,date,channel,subject,body,customer_name,customer_email
+T-01,2025-01-06,chat,Where is my pickup code,Cannot find the code on the parcel page,Marisol Quenby,marisol.q@example.test
+T-02,2025-01-08,email,Notification came too late,Alert arrived after the shop closed,Orrin Fenwick,orrin.f@example.test
+T-03,2025-01-10,chat,Change pickup point,I need to switch to another shop,Teodor Hallwick,teodor.h@example.test
+T-04,2025-01-13,email,Where is the code,Looking for the code on my phone,Lysandra Pike,lysandra.p@example.test
+T-05,2025-01-15,chat,Pickup point closed,Arrived and the point was closed,Orrin Fenwick,orrin.f@example.test
+T-06,2025-01-17,chat,Cannot save pickup point,Want to keep a favorite shop,Bruno Kestrel,bruno.k@example.test
+T-07,2025-01-20,email,Refund question,Asking about a refund for a lost parcel,Dag Ostrow,dag.o@example.test
+T-08,2025-01-22,chat,Alert too late again,Notification after closing time,Marisol Quenby,marisol.q@example.test
+T-09,2025-01-24,chat,Code not visible,The pickup code is hard to see,Ingrid Valmont,ingrid.v@example.test
+T-10,2025-01-27,email,Cannot log in,Password reset email not received,Wren Calloway,wren.c@example.test
+T-11,2025-01-29,chat,Change pickup point again,Wrong shop selected at checkout,Lysandra Pike,lysandra.p@example.test
+T-12,2025-02-03,chat,Where is my code,Cannot find pickup code,Dag Ostrow,dag.o@example.test

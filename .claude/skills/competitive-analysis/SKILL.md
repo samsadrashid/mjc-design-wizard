@@ -1,56 +1,62 @@
 ---
 name: competitive-analysis
-description: Compare competitor or reference products on features, flows, and UX patterns using only sources the user provides or that are observed directly. Use when the user says "competitive analysis", "how do others do this", "benchmark against", "compare with", or names competitor products.
+description: Compare competitors and alternatives on a defined scope, separating verified observations from interpretation and unknowns, with the sources inspected and when. Use when the user says "competitive analysis", "how do others do this", "benchmark against", "compare with", or names competitor products. Not for critiquing the user's own design (use `design-critique`), ranking the user's own features (use `feature-prioritization`), or framing the wider opportunity (use `product-discovery`).
 ---
 
 # Competitive Analysis
 
 ## Purpose
-Produce a grounded comparison of how competitors or reference products handle a scope, with observed patterns, gaps, and implications. Never guesses competitor behavior from memory alone.
+Produce a grounded comparison of how competitors and alternatives handle a scope. Every matrix cell traces to a source that was actually inspected, and the document says how and when. Interpretation and recommendations are kept apart from observation.
 
 ## Triggers
 - "Compare us to A, B, C", "how does X handle onboarding", "benchmark"
-- User provides screenshots, URLs, recordings, or notes about other products
+- The user provides screenshots, URLs, recordings, exports, or notes about other products
 - Discovery or critique needs an external reference point
 
 ## Inputs
-| Input | Required | Source |
+| Input | If missing | Source |
 |---|---|---|
-| Scope (feature, flow, or whole product) | yes | user |
-| Competitor list | yes | user |
-| Evidence per competitor (screenshots, URLs, notes, public docs) | yes | user or browser if available |
-| Own product state for the same scope | optional | repo, `design/` |
+| Scope (feature, flow, or product area) | Ask one: the scope drives every criterion | user |
+| Competitor or alternative list | Stop: nothing to compare | user |
+| Evidence per competitor (screenshots, pages, docs, notes) | Assume: mark that competitor `Not observed`; if all are unobserved, stop and say what to provide | user; browser only if available |
+| Own product state for the same scope | Assume: compare competitors only | repo, `design/` |
 
 ## Workflow
-1. **Inspect the project.** Read `design/discovery/` and `design/audits/`. Reuse prior analyses.
-2. **Confirm scope and criteria.** Propose 5 to 8 comparison criteria tied to the scope (e.g. steps to complete, error handling, defaults, pricing visibility). Ask the user only if scope is unclear.
-3. **Gather evidence per competitor.** Only from provided material or pages actually visited. Record source and date for each. Where none exists, write `Not observed`.
-4. **Fill the matrix.** Rows: criteria. Columns: competitors plus own product. Cells: short observed fact with tag.
-5. **Extract patterns.** Table-stakes (most do it), differentiators (one does it), gaps (none do it).
-6. **Derive implications** for own product, each tagged `[inferred]` with the matrix rows it rests on.
-7. **Write output**; show the pattern summary in chat.
+1. **Inspect the project.** Read `design/discovery/` and `design/audits/` and reuse earlier analyses. Note which earlier sources are now stale.
+2. **Choose 5 to 8 criteria** tied to the scope (steps to complete, defaults, error handling, pricing visibility). This range is a default that keeps the matrix readable. Do not use generic feature lists.
+3. **Record sources inspected.** For each: name, type, how it was accessed, and the date. Access is one of: provided by the user, fetched live with a tool this session, or user notes. Claim live verification only if a tool fetched it this session. Take the date from the session per §8, or write `date unknown`. Knowledge from model memory is not evidence.
+4. **Fill the matrix.** One short fact per cell with a tag and source, or `Not observed`.
+5. **Extract patterns:** table-stakes (most competitors), differentiators (one), gaps (none). Mark each with its count of competitors observed. Check every gap against every matrix row before writing it. A gap means no observed competitor does it.
+6. **Interpret.** Each interpretation is `[inferred]` and names the matrix rows it rests on, with confidence.
+7. **Derive implications** for the user's product. Each cites an interpretation; none is stated as fact.
+8. **List unknowns** and what evidence would settle them. Write the output per §8.
 
 ## Outputs
+Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../_shared/standard.md`. File:
 `design/discovery/competitive-analysis-<scope>-<date>.md`:
 ```
-> metadata block (sources with dates)
+> metadata block
 ## Scope and criteria
+## Sources inspected (name, type, access method, date)
 ## Comparison matrix
-## Patterns: table-stakes / differentiators / gaps
+## Patterns (table-stakes, differentiators, gaps)
+## Interpretations
 ## Implications for us
-## Evidence gaps
+## Unknowns and evidence gaps
 ## Open questions / to validate
 ## Next step
 ```
+`## Next step` names `product-discovery` to fold in the findings, or `design-critique` to apply them to a specific design.
 
 ## Quality checks
-- [ ] Global checks in `docs/ARCHITECTURE.md` §7
-- [ ] Every matrix cell is observed, reported with a source, or `Not observed`
-- [ ] No pricing, user counts, or market share without a dated source
-- [ ] Criteria map to the stated scope, not generic feature lists
-- [ ] Implications reference matrix rows
+- [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Every cell is an observed fact with a source, a reported fact with its origin, or `Not observed`
+- [ ] The sources section states how each source was accessed and when
+- [ ] No pricing, market share, user counts, or traffic without a dated source
+- [ ] Interpretations and implications trace to matrix rows
+- [ ] Observation, interpretation, and unknown are visibly separate
 
 ## Boundaries
-- Does not frame the opportunity → `product-discovery`
-- Does not critique own design → `design-critique`
-- Does not rank own features → `feature-prioritization`
+- Does not frame the opportunity or hypotheses → `product-discovery`
+- Does not critique the user's own design → `design-critique`
+- Does not rank the user's own features → `feature-prioritization`

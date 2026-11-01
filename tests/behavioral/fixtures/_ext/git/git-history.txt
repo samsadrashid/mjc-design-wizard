@@ -1,0 +1,6 @@
+2025-02-18T10:00:00|Avery Lindqvist|avery.l@example.test|Add pickup code screen skeleton
+2025-02-20T15:30:00|Avery Lindqvist|avery.l@example.test|Show copy toast on code copy
+2025-02-27T09:10:00|Jonas Brightwater|jonas.b@example.test|Add expired-code message
+2025-03-04T14:45:00|Avery Lindqvist|avery.l@example.test|Move code above the fold
+2025-03-11T11:20:00|Jonas Brightwater|jonas.b@example.test|Add QR image to code screen
+2025-03-14T16:00:00|Avery Lindqvist|avery.l@example.test|Update spacing to design tokens

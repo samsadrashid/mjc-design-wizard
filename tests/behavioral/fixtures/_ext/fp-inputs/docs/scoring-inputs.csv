@@ -1,0 +1,7 @@
+candidate,reach_parcels_per_month,impact_1to3,effort_person_weeks,source
+Delivery-window alerts,4000,3,5,stakeholder estimate from product (synthetic)
+Saved pickup points,2500,2,3,stakeholder estimate from product (synthetic)
+QR pickup code,6000,3,,reach and impact from product; effort not estimated (synthetic)
+Parcel sharing with family,,,,nothing provided
+Dark mode,,,2,effort from engineering only
+Carbon-footprint badge,,,,nothing provided

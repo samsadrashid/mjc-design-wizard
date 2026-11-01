@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .venv/
+
+# Behavioral run artifacts are kept locally and excluded from the public repository
+tests/behavioral/runs/

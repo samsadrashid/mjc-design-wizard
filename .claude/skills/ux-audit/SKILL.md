@@ -1,56 +1,63 @@
 ---
 name: ux-audit
-description: Heuristic and accessibility review of a live product, prototype, or design files, producing severity-rated findings with evidence and fixes. Use when the user says "UX audit", "heuristic evaluation", "review the UX", "accessibility review", "what's wrong with this flow".
+description: Heuristic and accessibility review of a product, flow, or set of screens, producing findings with evidence, affected task, severity, confidence, and a recommendation, and stating what was not inspected. Use when the user says "UX audit", "heuristic evaluation", "review the UX", "accessibility review", "what's wrong with this flow". Not for build-versus-design defects (use `design-qa`), feedback on a single proposal against its goals (use `design-critique`), or token and component consistency (use `design-system-audit`).
 ---
 
 # UX Audit
 
 ## Purpose
-Systematically evaluate an experience against usability heuristics and accessibility criteria, logging each finding with location, evidence, severity, and a recommended fix. Findings describe what was observed, never what users "would" feel.
+Evaluate an experience against usability heuristics and accessibility criteria, and log what was actually observed. Each finding says what is wrong, where, for whom, how bad, how sure the evidence is, and what to do. The audit also says what it did not inspect, so no one reads partial coverage as a clean bill of health.
 
 ## Triggers
 - "Audit X", "heuristic review", "accessibility check", "why is this confusing"
-- Pre-redesign baseline or post-launch review
-- Usability test identified issues and the team wants full coverage
+- A baseline before a redesign, or a review after launch
+- Usability test findings exist and the team wants fuller coverage
 
 ## Inputs
-| Input | Required | Source |
+| Input | If missing | Source |
 |---|---|---|
-| Subject: URL, build, screenshots, or design files | yes | user, browser if available |
-| Scope: flows or screens to cover | yes | user |
-| Heuristic set | optional | default: Nielsen 10 + WCAG 2.2 AA |
-| Known issues, prior audits | optional | `design/audits/` |
+| Subject: build or URL, screenshots, design files, or code | Stop: nothing to evaluate | user, repo, browser only if available |
+| Scope: flows and screens to cover | Assume the supplied material is the scope and state it | user |
+| Heuristic set | Assume Nielsen's 10 heuristics and WCAG 2.2 AA as defaults; the user may override | user |
+| Users and tasks the subject serves | Assume from the repo or evidence and tag them | `design/research/`, repo |
+| Prior audits and test results | Assume none | `design/audits/`, `design/research/` |
 
 ## Workflow
-1. **Inspect the project.** Read prior audits, test results, design system docs. Note what to skip (already logged).
-2. **Walk the scope** screen by screen. For each, record: what is shown, what the user can do, what happened on key actions. Screenshots or text descriptions as evidence.
-3. **Evaluate against heuristics.** For each finding: heuristic violated, location, evidence, severity (0 to 4: cosmetic, minor, major, critical, blocker), fix.
-4. **Accessibility pass**: contrast, focus order, keyboard reach, labels, alt text, target size, motion. Mark what could not be verified without tools.
-5. **Group findings** into systemic patterns (e.g. inconsistent error handling) vs one-offs.
-6. **Score coverage**: screens examined vs scope.
-7. **Write output**; show counts by severity and top five findings in chat.
+1. **Inspect the project.** Read prior audits, test results, and design system docs, and skip what is already logged. Record the commit or build evaluated (for example `git rev-parse --short HEAD`) or `version unknown`. Do not transcribe personal data visible in screenshots or fixtures.
+2. **Define coverage.** List the screens, states, and flows in scope, then the ones actually inspected. Every claim of coverage uses these two numbers.
+3. **Inspect each screen** and record what is shown and what the user can do. Use a browser or running build only if one is available and was used. Say so in the method.
+4. **Inspect code when available.** Where feasible, read routes, accessible names (labels, `alt`, ARIA), semantic elements versus clickable `div`s, heading and landmark structure, focus handling, interaction states (hover, focus, disabled, loading, error, empty), and user-facing copy. Findings from code are `[inferred]` about runtime behavior until seen running.
+5. **Log findings.** One row each: observed issue, location, affected user and task, heuristic or criterion, evidence with source, severity, confidence, recommendation. Severity is from `../_shared/standard.md` §8 (Blocker, Major, Minor, Cosmetic) and rates impact on the task. Confidence (High, Medium, Low) rates the evidence and is separate.
+6. **Run the accessibility pass.** Report a contrast ratio only if it was computed from known color values. List checks that need tools or a live build as not verified, never as passing.
+7. **Separate hypotheses.** Suspected issues without direct evidence go in as `Hypothesis` rows, unrated, with the way to validate them. Group repeated issues into systemic patterns only when several findings support the pattern.
+8. **State what was not inspected,** and write the output per §8.
 
 ## Outputs
+Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../_shared/standard.md`. File:
 `design/audits/ux-audit-<scope>-<date>.md`:
 ```
-> metadata block (scope coverage)
+> metadata block (build or commit, coverage as inspected of in scope)
 ## Method and heuristic set
-## Findings table (id, location, heuristic, evidence, severity, fix)
+## Findings table (status, location, affected task, criterion, evidence, severity, confidence, recommendation)
 ## Accessibility findings
 ## Systemic patterns
 ## Not verified / out of scope
 ## Open questions / to validate
 ## Next step
 ```
+`## Next step` names one handoff: `design-qa` once fixes are built, `usability-test-planner` to validate hypotheses with users, or `design-system-audit` when patterns point to shared components.
 
 ## Quality checks
-- [ ] Global checks in `docs/ARCHITECTURE.md` §7
-- [ ] Every finding has location and observable evidence
-- [ ] Severity uses the defined scale consistently
-- [ ] No claims about user behavior without research citation
-- [ ] Unverifiable accessibility checks listed, not assumed passing
+- [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Every finding has a location, evidence with a source, severity, and confidence
+- [ ] Severity uses only Blocker, Major, Minor, Cosmetic; confidence is a separate column
+- [ ] Observed issues, hypotheses, and uninspected areas are visibly separate
+- [ ] Coverage is stated as inspected of in scope; no claim of full coverage otherwise
+- [ ] Code-derived findings are marked as inferred until observed running
+- [ ] Unverified accessibility checks are listed, not assumed to pass
 
 ## Boundaries
-- Does not log design-vs-build mismatches → `design-qa`
-- Does not check token or component consistency → `design-system-audit`
-- Does not critique a proposal in review → `design-critique`
+- Does not log build-versus-design differences → `design-qa`
+- Does not critique one proposal against its goals → `design-critique`
+- Does not audit tokens or component consistency → `design-system-audit`
+- Does not plan tests with users → `usability-test-planner`

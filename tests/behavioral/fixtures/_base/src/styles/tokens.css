@@ -1,0 +1,11 @@
+:root {
+  --color-primary: #1E4FD8;
+  --color-danger: #C53030;
+  --color-text: #1A202C;
+  --color-surface: #FFFFFF;
+  --space-2: 8px;
+  --space-4: 16px;
+  --radius-md: 8px;
+  --font-size-body: 16px;
+  --font-size-code: 32px;
+}

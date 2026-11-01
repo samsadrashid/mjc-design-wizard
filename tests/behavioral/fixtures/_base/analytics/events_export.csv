@@ -1,0 +1,17 @@
+week_start,event,count
+2025-01-06,parcel_screen_view,1200
+2025-01-06,pickup_code_shown,800
+2025-01-06,pickup_completed,640
+2025-01-06,alert_enabled,90
+2025-01-13,parcel_screen_view,1260
+2025-01-13,pickup_code_shown,830
+2025-01-13,pickup_completed,668
+2025-01-13,alert_enabled,150
+2025-01-20,parcel_screen_view,1310
+2025-01-20,pickup_code_shown,870
+2025-01-20,pickup_completed,716
+2025-01-20,alert_enabled,240
+2025-01-27,parcel_screen_view,1290
+2025-01-27,pickup_code_shown,880
+2025-01-27,pickup_completed,742
+2025-01-27,alert_enabled,310

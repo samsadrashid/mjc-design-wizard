@@ -29,87 +29,55 @@ Target length: 50 to 130 lines. Prefer tables and checklists over prose.
 
 ## 2. Evidence-first rule
 
-No skill invents data. Every claim in an output carries a tag:
-
-| Tag | Meaning |
-|---|---|
-| `[observed]` | Seen directly in repo, files, screenshots, or user-provided material. Cite the path or source. |
-| `[reported]` | Stated by the user or a stakeholder. Name who said it. |
-| `[inferred]` | Reasoned from observed or reported facts. State the reasoning. |
-| `[assumption]` | Not yet validated. Must appear in an "Open questions / to validate" list. |
-
-Forbidden: fabricated user quotes, personas, analytics, conversion rates, test results, NPS, revenue, dates, or competitor facts. When data is missing, the output says `No data available` and proposes how to obtain it.
+Moved to `.claude/skills/_shared/standard.md` (section 2) so that installed skills carry it. Skills cite it from there.
 
 ## 3. Project awareness
 
-Step 1 of every workflow inspects the project before writing:
-
-1. Read `README*`, `docs/`, `design/`, `research/`, `CHANGELOG*`, and any file the user names.
-2. Look for prior outputs from this toolkit under `design/` (see §4) and build on them instead of restarting.
-3. Identify product type, platform, users, and constraints from what exists. Record gaps as `[assumption]`.
-4. Never modify source code, `raw/`, or `.obsidian/` directories. Skills write only under `design/` unless the user names another path.
+Moved to `.claude/skills/_shared/standard.md` (section 3) so that installed skills carry it. Skills cite it from there.
 
 ## 4. Output locations
 
-All artifacts are Markdown under `design/` in the project root:
-
-```
-design/
-  discovery/         product-discovery, problem-framing, competitive-analysis
-  research/          ux-research-planner, interview-guide-builder, usability-test-planner, persona-builder
-  journeys/          journey-map-builder, user-flow-designer
-  architecture/      information-architect
-  audits/            ux-audit, design-system-audit, design-qa, design-critique
-  metrics/           product-metrics
-  planning/          mvp-planner, feature-prioritization
-  docs/              design-documentation, case-study-writer
-```
-
-Filename: `<skill>-<topic>-<YYYY-MM-DD>.md`. Each file starts with a metadata block:
-
-```markdown
-> skill: <name> · date: <date> · scope: <what was examined> · sources: <paths or "none">
-```
+Moved to `.claude/skills/_shared/standard.md` (section 4) so that installed skills carry it. Skills cite it from there.
 
 ## 5. Skill boundaries (no overlap)
 
 | Phase | Skill | Owns | Hands off to |
 |---|---|---|---|
-| Discover | product-discovery | Opportunity framing, hypotheses, discovery plan | problem-framing, ux-research-planner |
-| Discover | problem-framing | One sharp problem statement, HMW, success definition | mvp-planner, feature-prioritization |
-| Discover | competitive-analysis | Competitor feature and UX comparison from observed sources | product-discovery, design-critique |
-| Research | ux-research-planner | Research questions, method selection, recruiting, schedule | interview-guide-builder, usability-test-planner |
-| Research | interview-guide-builder | Discussion guide for one study | ux-research-planner (method choice) |
-| Research | usability-test-planner | Task-based test protocol and scoring | design-qa (defect logging) |
-| Research | persona-builder | Personas and segments from existing evidence only | journey-map-builder |
-| Model | journey-map-builder | End-to-end experience across touchpoints and time | user-flow-designer (screen-level) |
-| Model | user-flow-designer | Screen and state-level flows for one task | information-architect |
-| Model | information-architect | Navigation, taxonomy, content model, labels | user-flow-designer |
-| Evaluate | ux-audit | Heuristic and accessibility review of a live or designed product | design-qa, design-critique |
-| Evaluate | design-system-audit | Token, component, and pattern consistency | design-qa |
-| Evaluate | design-qa | Build-vs-design defect log before or after release | ux-audit |
-| Evaluate | design-critique | Structured feedback on a specific design proposal | ux-audit (systemic issues) |
-| Measure | product-metrics | Metric trees, instrumentation specs, and reading existing data | problem-framing |
-| Plan | mvp-planner | Scope cut, release slices, risks | feature-prioritization |
-| Plan | feature-prioritization | Scoring and ranking a given backlog | mvp-planner |
-| Communicate | design-documentation | Specs and rationale for a shipped or in-progress design | case-study-writer |
-| Communicate | case-study-writer | Narrative of a finished project for portfolio or review | design-documentation |
+| Discover | product-discovery | Context, knowledge gaps, hypotheses, discovery plan (no research performed) | problem-framing, ux-research-planner, competitive-analysis |
+| Discover | problem-framing | One bounded problem statement with evidence, assumptions, HMW, success definition | ux-research-planner, feature-prioritization, mvp-planner |
+| Discover | competitive-analysis | Competitor comparison from inspected sources, with interpretation kept separate | product-discovery, design-critique |
+| Research | ux-research-planner | Decision, research questions, method, participants, ethics, analysis plan | interview-guide-builder, usability-test-planner, persona-builder |
+| Research | interview-guide-builder | Discussion guide, consent script, capture template for one study | persona-builder, journey-map-builder (synthesis) |
+| Research | usability-test-planner | Task-based test protocol, accessibility, capture and analysis plan | ux-research-planner (recruiting or method unsettled), feature-prioritization (ranking fixes) |
+| Research | persona-builder | Personas or provisional profiles from existing evidence, with unknowns listed | journey-map-builder, ux-research-planner (evidence gaps) |
+| Model | journey-map-builder | End-to-end experience across touchpoints and time | user-flow-designer (stage detail), ux-research-planner (evidence gaps), feature-prioritization (opportunities) |
+| Model | user-flow-designer | Screen and state-level flows for one task | design-documentation (approved flow), usability-test-planner (test paths), information-architect (navigation problems) |
+| Model | information-architect | Navigation, taxonomy, content model, labels | ux-research-planner (validation), user-flow-designer (top-task flows), design-documentation (approved structure) |
+| Evaluate | ux-audit | Heuristic and accessibility review of a live or designed product | design-qa (verify fixes), usability-test-planner (validate hypotheses), design-system-audit (shared-component patterns) |
+| Evaluate | design-system-audit | Token, component, and pattern consistency | design-qa (verify fixes), design-documentation (component and usage docs) |
+| Evaluate | design-qa | Build-vs-design defect log before or after release | design-documentation (spec gaps), design-system-audit (shared-component mismatches), ux-audit (usability issues) |
+| Evaluate | design-critique | Structured feedback on a specific design proposal | ux-audit (systemic issues), design-qa (once built), usability-test-planner (test risky assumptions) |
+| Measure | product-metrics | Metric trees, instrumentation specs, and reading existing data | problem-framing (undefined success), ux-research-planner (experiments, surveys), feature-prioritization (impact inputs) |
+| Plan | mvp-planner | Scope cut, release slices, risks | problem-framing (unclear problem), feature-prioritization (candidates to rank), product-metrics (validation measures), user-flow-designer (core loop) |
+| Plan | feature-prioritization | Scoring and ranking a given backlog | mvp-planner (scope top candidates), product-metrics (reach and impact data), ux-research-planner (verify low-confidence inputs) |
+| Communicate | design-documentation | Specs and rationale for a shipped or in-progress design | design-qa (verify the build), case-study-writer (completed project) |
+| Communicate | case-study-writer | Narrative of a finished project for portfolio or review | design-documentation (missing technical detail), product-metrics (outcome measurement) |
 
 Rule: a skill never performs a sibling's job. It links to the sibling and stops.
+
+The "Hands off to" column lists the next-step handoffs a skill's Outputs section must name. It is one-directional: two skills may point at each other when the condition differs.
 
 ## 6. Style
 
 - Concise. Short sentences, tables, checklists. No filler or motivational prose.
-- Ask at most three clarifying questions, and only when an answer changes the output. Otherwise proceed and list assumptions.
+- Missing information follows the shared standard (section 8): stop only when an essential input is absent, ask at most one question when the answer materially changes the output, otherwise proceed with labeled assumptions.
 - Every output ends with `## Open questions / to validate` and `## Next step` (one line, may name a sibling skill).
-- No external AI APIs, no network calls beyond what the user asks for.
+- No external AI API integrations. Optional session tools (a browser, design-tool connectors) are used only on targets the user names or provides.
 
 ## 7. Quality checks (global)
 
-Every skill's final checklist includes these, plus its own:
+Moved to `.claude/skills/_shared/standard.md` (section 7) so that installed skills carry it. Skills cite it from there.
 
-- [ ] Project inspected; sources listed in metadata block.
-- [ ] Every claim tagged `[observed]`, `[reported]`, `[inferred]`, or `[assumption]`.
-- [ ] No fabricated research, metrics, results, or quotes.
-- [ ] Output written to the §4 path, or shown in chat if the user asked for chat only.
-- [ ] Ends with open questions and one next step.
+## 8. Shared quality standard
+
+Moved to `.claude/skills/_shared/standard.md` (section 8) so that installed skills carry it. Skills cite it from there.

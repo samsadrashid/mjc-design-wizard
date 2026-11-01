@@ -1,58 +1,68 @@
 ---
 name: mvp-planner
-description: Cut a scoped problem into the smallest releasable slice that tests the riskiest assumption, with explicit in/out scope, release slices, risks, and learning goals. Use when the user says "MVP", "what's the smallest version", "scope this down", "release plan", "v1 scope".
+description: Turn an understood problem and desired outcome into a bounded, testable minimum viable product - target users, essential versus later capabilities with reasons, dependencies, risks, unresolved decisions, and how the MVP will be validated. Use when the user says "MVP", "what's the smallest version", "scope this down", "release plan", "v1 scope". Not for clarifying an undefined problem (use `problem-framing`), ranking a candidate list (use `feature-prioritization`), or defining metrics (use `product-metrics`).
 ---
 
 # MVP Planner
 
 ## Purpose
-Define what ships first and why: a minimal slice tied to a hypothesis, what is deliberately excluded, how later slices build on it, and what each slice must teach the team.
+Decide what ships first and why. The MVP is the smallest release that tests the riskiest assumption for a defined user, built around one core loop. Every capability is placed in, later, or out with a reason. The plan names what would change it. It works only from capabilities, users, and constraints the project or the user supplies.
 
 ## Triggers
 - "Plan the MVP for X", "cut scope", "what's v1"
-- Problem framing and discovery exist and the team is ready to commit
-- Backlog is large and needs a first slice
+- Problem framing exists and the team is ready to commit to a first release
+- A backlog is large and needs a first slice
 
 ## Inputs
-| Input | Required | Source |
+| Input | If missing | Source |
 |---|---|---|
-| Problem statement and riskiest assumption | yes | `design/discovery/`, user |
-| Candidate features or user stories | yes | user, prioritization output |
-| Constraints (team, time, platform, dependencies) | yes | user, repo |
-| Existing product capabilities | yes | repo inspection |
+| Problem statement and desired outcome | Stop: an unclear problem cannot be scoped. Point to `problem-framing` | `design/discovery/`, user |
+| Candidate capabilities | Stop: this skill does not invent features. Ask for a backlog or point to `product-discovery` | user, issues, `design/` |
+| Target users | Assume from the problem statement and tag them; invent no persona | `design/research/`, user |
+| Constraints (team, time, platform, regulation, dependencies) | Ask one. If unanswered, record them as unknown and give no date estimates | user, repo |
+| Existing product capabilities | Assume from the repo and tag them | repo |
+| Prioritization output | Assume none; follow the user's stated priorities or mark the order unprioritized | `design/planning/` |
 
 ## Workflow
-1. **Inspect the project.** Read discovery, framing, prioritization, and existing features in code. Reuse what already exists.
-2. **Name the learning goal.** What the first release must prove or disprove. Tie to the riskiest assumption.
-3. **Define the core loop.** The minimum path from entry to value for one actor. One flow, one actor.
-4. **Scope table.** Per candidate: in slice 1, later slice, or out, with a one-line reason. Default is out.
-5. **Release slices.** 2 to 4 slices, each with: scope, learning goal, exit criteria, dependencies.
-6. **Risks and mitigations**: technical, adoption, data, operational. Tag likelihood as `[inferred]` with reasoning.
-7. **Definition of done** for slice 1, including instrumentation (link `product-metrics`).
-8. **Write output**; show slice 1 scope and learning goal in chat.
+1. **Inspect the project.** Read discovery, framing, prioritization, and research outputs, and find existing features in code that the MVP can reuse. List sources with dates or `date unknown`. Copy no personal data from research notes.
+2. **Restate** the problem, target users, and desired outcome with evidence tags and confidence (High, Medium, Low per `../_shared/standard.md` §8). Flag anything assumed.
+3. **Name the learning goal:** the riskiest assumption the MVP must test, and what result would confirm or refute it.
+4. **Define the core loop:** the shortest path from entry to value for one user type. One loop and one user type is a default, because a single loop keeps the result interpretable.
+5. **Build the scope table.** For each candidate: in the MVP, later, or out. The reason must tie to the core loop or the learning goal. The default is later unless the loop or the learning goal needs it. Add the dependencies for each row.
+6. **Cut release slices.** One to three is a default, because more slices imply certainty the plan does not have. Each has scope, learning goal, observable exit criteria, and dependencies.
+7. **List risks, assumptions, and unresolved decisions** with the reasoning behind each likelihood or impact judgment, tagged `[inferred]`. Name an owner or `owner unknown`.
+8. **Plan validation.** How the MVP will be tested (the metrics to define with `product-metrics`, the research to plan with `ux-research-planner`) and what evidence would change the plan: expand, cut, or stop. Claim no result.
+9. **Define done for slice 1,** including instrumentation. Give effort or dates only if the user provided them, labeled as stakeholder estimates. Write the output per §8.
 
 ## Outputs
+Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../_shared/standard.md`. File:
 `design/planning/mvp-plan-<topic>-<date>.md`:
 ```
 > metadata block
+## Problem, users, and outcome (evidence and confidence)
 ## Learning goal and riskiest assumption
 ## Core loop
-## Scope table (in / later / out with reasons)
+## Scope table (in MVP, later, out, with reasons and dependencies)
 ## Release slices
-## Risks and mitigations
+## Risks, assumptions, and unresolved decisions
+## Validation plan and plan-change triggers
 ## Definition of done (slice 1)
 ## Open questions / to validate
 ## Next step
 ```
+If the user asks for dates or staffing, say under `## Risks, assumptions, and unresolved decisions` that none can be given without the constraints, and list what is needed. `## Next step` names one handoff: `problem-framing` if the problem is still unclear, `feature-prioritization` if candidates still need ranking, `product-metrics` to define the validation measures, or `user-flow-designer` to design the core loop.
 
 ## Quality checks
-- [ ] Global checks in `docs/ARCHITECTURE.md` §7
-- [ ] Slice 1 contains exactly one core loop
-- [ ] Every excluded item has a reason
-- [ ] Each slice has exit criteria that are observable
-- [ ] No effort estimates in days unless the user provided them
+- [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Every candidate capability came from the user or the project; none was invented
+- [ ] Each in, later, and out decision has a reason tied to the core loop or learning goal
+- [ ] Slice 1 contains one core loop for one user type, or the exception is justified
+- [ ] Assumptions, dependencies, and unresolved decisions are listed with owners or `owner unknown`
+- [ ] The plan states what evidence would change it and claims no results
+- [ ] No dates or effort figures the user did not provide
 
 ## Boundaries
-- Does not score the backlog → `feature-prioritization`
-- Does not define metrics → `product-metrics`
-- Does not frame the problem → `problem-framing`
+- Does not define or clarify the problem → `problem-framing`
+- Does not rank or score candidates → `feature-prioritization`
+- Does not define metrics or instrumentation in detail → `product-metrics`
+- Does not design the flow itself → `user-flow-designer`
