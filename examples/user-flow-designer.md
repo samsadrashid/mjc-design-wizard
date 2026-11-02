@@ -14,67 +14,107 @@
 
 ## What the skill does
 
-1. Reads `src/routes.tsx` and existing auth screens.
-2. Defines the start state and the success and failure end states.
-3. Draws the happy path, then error paths, then fills the state table.
-4. Tags backend behavior it cannot see as `[assumption]`.
+1. Reads `src/routes.tsx` and the existing auth screens, and lists them as sources.
+2. Traces the task before drawing: entry points, decisions, errors, retries, and end states.
+3. Builds the transition inventory, draws one complete diagram with one labeled arrow per row, then one diagram per individual flow.
+4. Records what the sources do not settle, runs the integrity check, and tags backend behavior it cannot see.
 
 ## Output shape (`design/journeys/user-flow-password-reset-<YYYY-MM-DD>.md`)
 
 ````markdown
 > skill: user-flow-designer · date: <YYYY-MM-DD> · scope: password reset · sources: src/routes.tsx (hypothetical)
 
-## Task, actor, entry and exit states
-- Actor: a signed-out user who cannot sign in [assumption: no other actors considered].
-- Entry points and intent:
-  - `/sign-in` via a "Forgot password" link: the user tried to sign in and failed [observed: src/routes.tsx; link text is an assumption].
-  - `/forgot-password` opened directly, for example from a bookmark: the user already knows they need a reset [inferred: the route exists on its own].
-  - An emailed link to `/reset-password/:token`: the user requested a reset earlier and is resuming [observed: src/routes.tsx].
-- Success exit: signed in with a new password.
-- Failure exits: abandoned at any step; link expired and not renewed.
+## Task, actors, entry and exit states
+- Actor: a signed-out user who cannot sign in. No other actor moves this task.
+- Entry points and intent: `/sign-in` "Forgot password" (sign-in just failed); `/forgot-password` opened directly (already knows); emailed link to `/reset-password/:token` (resuming).
+- Ends: signed in with a new password; abandoned at any step; link expired and not renewed.
 
-## Flow diagram (Mermaid or list)
+## Evidence base
+- src/routes.tsx, date unknown: lists `/sign-in`, `/forgot-password`, `/reset-password/:token`. No screen for an expired link.
+- No tests, specification, or earlier flow doc found.
+
+## Complete flow
 ```mermaid
 flowchart TD
-  A[Sign in] -->|Forgot password| B[Request reset]
-  B -->|Submit email| C{Request accepted?}
-  C -->|Yes, same screen whether or not the account exists| D[Check your inbox]
-  C -->|Rate limited or network error| B
-  D -->|Open emailed link| E{Token valid?}
-  E -->|Yes| F[Set new password]
-  E -->|Expired or used| G[Link expired]
-  G -->|Request new link| B
-  F -->|Password accepted| H[Signed in]
-  F -->|Weak or mismatched| F
+  A("Sign in") -->|T1 · Forgot password| B("Request reset")
+  B -->|T2 · Submit email| C{"Request accepted?"}
+  C -->|T3 · yes| D("Pending · Check your inbox")
+  C -->|T4 · rate limited or network error| E("Error · Try again message")
+  E -->|T5 · retry| B
+  D -->|T6 · open emailed link| F{"Token valid?"}
+  F -->|T7 · yes| G("Set new password")
+  F -->|T8 · expired or used| H("Error · Link expired")
+  H -->|T9 · request new link| B
+  G -->|T10 · weak or mismatched| G
+  G -->|T11 · accepted| Z(["End · Signed in"])
+  D -->|T12 · leaves without opening| Y(["End · Abandoned"])
+```
+| Shape and text | Meaning |
+|---|---|
+| Rounded box | Screen or state |
+| Diamond | Decision; every outgoing edge is labeled |
+| Stadium, `End ·` | Terminal state |
+| `Error ·`, `Pending ·` prefix | Error or waiting state |
+
+## Transition inventory
+| ID | From | Trigger | Condition | To | Feedback | Status | Evidence |
+|---|---|---|---|---|---|---|---|
+| T1 | Sign in | Tap Forgot password | none | Request reset | Request screen | Verified | src/routes.tsx |
+| T3 | Request accepted? | Response | accepted | Check your inbox | Same message whether or not the account exists | Inferred | no API read |
+| T8 | Token valid? | Open link | expired or used | Link expired | Expired message | Unknown | no expired screen in routes |
+| T11 | Set new password | Submit | accepted | Signed in | Home | Inferred | auto sign-in not confirmed |
+
+(Rows T2, T4 to T7, T9, T10, T12 follow the same pattern.)
+
+## Individual flows
+### F1 · Primary journey: reset and sign in
+Purpose: the common path. Actor: signed-out user. Ends: signed in.
+```mermaid
+flowchart LR
+  A("Sign in") -->|T1| B("Request reset") -->|T2, T3| D("Check your inbox") -->|T6, T7| G("Set new password") -->|T11| Z(["End · Signed in"])
+```
+4 steps. Candidate: show the inbox message inline on Request reset and drop a screen.
+
+### F2 · Request fails and is retried
+Purpose: recovery from a rejected request. Actor: signed-out user. Ends: back on Request reset.
+```mermaid
+flowchart LR
+  B("Request reset") -->|T2| C{"Request accepted?"} -->|T4 · rate limited or network error| E("Error · Try again message") -->|T5 · retry| B
 ```
 
-## Alternate and error paths
-- Invalid email format: stays on B with an inline error.
-- Rate limit or network error: stays on B with a retry message.
-- Expired or used link: G, with a path back to B. No such screen exists in the routes [observed: src/routes.tsx].
-- Back navigation from D returns to B with the email kept.
-- Abandonment after D: the link stays valid until it expires [assumption].
+### F3 · Expired link and weak password loops
+Purpose: recovery after the email step. Actor: signed-out user. Ends: back on Request reset, or still on Set new password.
+```mermaid
+flowchart LR
+  D("Check your inbox") -->|T6| F{"Token valid?"} -->|T8 · expired or used| H("Error · Link expired") -->|T9 · request new link| B("Request reset")
+  G("Set new password") -->|T10 · weak or mismatched| G
+```
+
+### F4 · Abandon
+Purpose: the user leaves before using the link. Actor: signed-out user. Ends: abandoned.
+```mermaid
+flowchart LR
+  D("Pending · Check your inbox") -->|T12 · leaves| Y(["End · Abandoned"])
+```
 
 ## Screen state table
-| Screen | Empty | Loading | Partial | Error | Success |
-|---|---|---|---|---|---|
-| B Request reset | Email empty, button disabled | Spinner on button | Email typed, not valid | Invalid format; rate limit; network | Moves to D |
-| D Check your inbox | Not applicable | Not applicable | Resend available after a delay [assumption] | Resend failed | Not applicable |
-| F Set new password | Both fields empty | Spinner on button | Fields filled, strength shown | Weak password; mismatch; token rejected | Moves to H |
-| G Link expired | Not applicable | Not applicable | Not applicable | Not applicable | "Request new link" moves to B |
+| Screen | Empty | Loading | Partial | Error | Success | Permission denied |
+|---|---|---|---|---|---|---|
+| Request reset | Button disabled `[inferred]` | Spinner `[inferred]` | Email typed, invalid | Invalid format; rate limit; network | Moves to inbox | Not applicable |
+| Set new password | Both fields empty | Spinner | Strength shown | Weak; mismatch; token rejected | Signed in | Not applicable |
 
-No screen in this flow is gated by a permission, so there is no permission-denied column [inferred: all routes are reachable signed out].
+## Gaps, contradictions, and unknowns
+- Missing: no expired-link screen in the routes, though T8 needs one.
+- Unknown: token lifetime and single use; whether the API reveals that an account exists.
 
-## Data and permission notes
-- Token lifetime and single use: unknown [assumption]; confirm with the backend owner.
-- Whether the API reveals if an email has an account: unknown. The diagram assumes it does not [assumption].
-
-## Step count and simplification candidates
-Happy path: 5 screens (A, B, D, F, H). Candidate: after sending, show the inbox message inline on B and drop D.
+## Flow integrity check
+- One complete diagram: 10 nodes, 12 edges, 12 inventory rows (8 of them elided in this example); edges and rows match by ID.
+- Individual flows F1 to F4 together cover T1 to T12.
+- Every entry reaches an end state; no unreachable nodes; both decisions have two labeled branches.
+- Status: 2 Verified, 8 Inferred, 2 Unknown. Not compared: tests (none found) and the API.
 
 ## Open questions / to validate
 - What is the token lifetime, and is it single use?
-- Is rate limiting enforced server side?
 - Should signing in happen automatically after reset?
 
 ## Next step

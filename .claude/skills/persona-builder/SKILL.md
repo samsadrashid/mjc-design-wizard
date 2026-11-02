@@ -44,10 +44,14 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Personas` page one card per persona and per provisional profile (marked provisional), each with goals, behaviors, pains, and design implications plus their sources and confidence, and the What remains unknown list. Use behavior-based labels and participant codes only; never add names, photos, ages, or quotes that are not in the Markdown. The Markdown file stays the source of truth.
+
 `## Next step` names `journey-map-builder` to place the actor in an experience, or `ux-research-planner` when provisional profiles need more evidence.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] No invented names, ages, photos, job titles, or quotes
 - [ ] No personal identifiers from sources appear in the output
 - [ ] Withheld sensitive details are not restated when explaining the omission
@@ -55,6 +59,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 - [ ] Profiles below the sufficiency gate are labeled provisional
 - [ ] Clusters rest on behavior and goals, not demographics
 - [ ] "What remains unknown" is present
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not plan or run research → `ux-research-planner`

@@ -45,16 +45,20 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw one frame on the `UX Audit` page with a card per finding (location, severity, confidence, recommendation) and a coverage card that keeps the not-inspected list. Never draw a finding, severity, or location that is not in the Markdown, never show an unverified accessibility check as passed, and never transcribe personal data from screenshots. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `design-qa` once fixes are built, `usability-test-planner` to validate hypotheses with users, or `design-system-audit` when patterns point to shared components.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Every finding has a location, evidence with a source, severity, and confidence
 - [ ] Severity uses only Blocker, Major, Minor, Cosmetic; confidence is a separate column
 - [ ] Observed issues, hypotheses, and uninspected areas are visibly separate
 - [ ] Coverage is stated as inspected of in scope; no claim of full coverage otherwise
 - [ ] Code-derived findings are marked as inferred until observed running
 - [ ] Unverified accessibility checks are listed, not assumed to pass
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not log build-versus-design differences → `design-qa`

@@ -47,16 +47,20 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw token swatches, the component inventory, and findings as documentation frames on the `Design System Audit` page. Never create or change variables, styles, or components in the Figma file, and never draw a token value, occurrence count, or component that is not in the Markdown or show an intentional variant or unclear difference as an inconsistency. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `design-qa` to verify fixes in a build, or `design-documentation` to document components and usage.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Coverage states paths scanned, paths excluded, and what could not be reached
 - [ ] All counts come from searches that are recorded or reproducible
 - [ ] Each finding is classified inconsistency, intentional variant, or unclear
 - [ ] Duplicates list both paths; findings cite the file or token
 - [ ] No design system is assumed; absence is reported as absence
 - [ ] No recommendation to adopt a specific external library unless the user asked
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not evaluate usability → `ux-audit`

@@ -11,7 +11,7 @@ Scenarios planned: 76. Skills covered: 19.
 | BLOCKED | 0 |
 | NOT EXECUTED | 0 |
 
-Current standard: `49700991f7`. Scenarios by the standard version their latest attempt ran against: `49700991f7`: 25, `6426474b14`: 25, `87b1ad1860`: 7, `8f4607ccef`: 19. Only attempts with the same fingerprint are treated as duplicates, and `collect` refuses to store them.
+Current standard: `c99bdcc284`. Scenarios by the standard version their latest attempt ran against: `49700991f7`: 22, `6426474b14`: 25, `87b1ad1860`: 7, `8f4607ccef`: 19, `c99bdcc284`: 3. Only attempts with the same fingerprint are treated as duplicates, and `collect` refuses to store them.
 
 ## Per scenario
 
@@ -54,7 +54,7 @@ Current standard: `49700991f7`. Scenarios by the standard version their latest a
 | IG-E1 | `interview-guide-builder` | evidence | PASS | 4 | FAIL → FAIL → FAIL → PASS | 87b1ad1860 |
 | IG-X1 | `interview-guide-builder` | edge | PASS | 6 | PASS → FAIL → FAIL → FAIL → FAIL → PASS | 49700991f7 |
 | RP-N1 | `ux-research-planner` | normal | PASS | 2 | PASS → PASS | 6426474b14 |
-| RP-M1 | `ux-research-planner` | missing | FAIL | 4 | FAIL → PASS → FAIL → FAIL | 49700991f7 |
+| RP-M1 | `ux-research-planner` | missing | FAIL | 6 | FAIL → PASS → FAIL → FAIL → PASS → FAIL | c99bdcc284 |
 | RP-E1 | `ux-research-planner` | evidence | PASS | 3 | PASS → PASS → PASS | 49700991f7 |
 | RP-X1 | `ux-research-planner` | edge | PASS | 2 | PASS → PASS | 6426474b14 |
 | PB-N1 | `persona-builder` | normal | PASS | 4 | PASS → FAIL → FAIL → PASS | 49700991f7 |
@@ -73,7 +73,7 @@ Current standard: `49700991f7`. Scenarios by the standard version their latest a
 | CA-M1 | `competitive-analysis` | missing | PASS | 3 | PASS → PASS → PASS | 49700991f7 |
 | CA-E1 | `competitive-analysis` | evidence | PASS | 2 | PASS → PASS | 8f4607ccef |
 | CA-X1 | `competitive-analysis` | edge | PASS | 2 | FAIL → PASS | 8f4607ccef |
-| PF-N1 | `problem-framing` | normal | FAIL | 6 | PASS → FAIL → FAIL → FAIL → FAIL → FAIL | 49700991f7 |
+| PF-N1 | `problem-framing` | normal | FAIL | 9 | PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → FAIL | c99bdcc284 |
 | PF-M1 | `problem-framing` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
 | PF-E1 | `problem-framing` | evidence | PASS | 3 | FAIL → FAIL → PASS | 6426474b14 |
 | PF-X1 | `problem-framing` | edge | PASS | 3 | FAIL → PASS → PASS | 6426474b14 |
@@ -91,14 +91,14 @@ Current standard: `49700991f7`. Scenarios by the standard version their latest a
 | DD-X1 | `design-documentation` | edge | PASS | 2 | PASS → PASS | 6426474b14 |
 | CS-N1 | `case-study-writer` | normal | PASS | 4 | FAIL → PASS → FAIL → PASS | 49700991f7 |
 | CS-M1 | `case-study-writer` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
-| CS-E1 | `case-study-writer` | evidence | FAIL | 5 | PASS → FAIL → FAIL → PASS → FAIL | 49700991f7 |
+| CS-E1 | `case-study-writer` | evidence | FAIL | 7 | PASS → FAIL → FAIL → PASS → FAIL → PASS → FAIL | c99bdcc284 |
 | CS-X1 | `case-study-writer` | edge | PASS | 4 | PASS → FAIL → PASS → PASS | 49700991f7 |
 
 ## Open failures
 
-- **RP-M1**: - [F] G2 Evidence integrity : (a) line 16 "All evidence is over 600 days old and predates v1.4 being live per README `[observed]`" and RESPONSE "predate v1.4": README says only "Status: v1.4 is live" and gives no release date, so "predates v1.4" is an unsupported fact mis-tagged as observed. (b) line 14 analytics age "664 to 642" claimed as a python3 date diff: last week_start 2025-01-27 to 2026-11-01 is 643 days (week end 2025-02-02 would be 637), so 642 is wrong. Other ages recomputed and correct: interviews 2025-02-11/2025-02-14 = 628/625; tickets 2025-01-06/2025-02-03 = 664/636. Counts recomputed against GROUND_TRUTH: explicit "could not find" 3 = P1 (T-01 "Cannot find the code on the pa
-- **PF-N1**: - [F] G2 Evidence integrity / quotation marks : (a) The Rejected alternatives bullet reads `"Customers cannot see where their parcels are" (the stakeholder's framing)`. These words are in no source; the only stakeholder words are "People keep asking where their stuff is." This is a coined framing label in quotation marks presented as the stakeholder's words, which SKILL step 3 forbids and standard section 8 ("Quotation marks surround only words a source contains verbatim") prohibits. (b) `"Customers cannot change or save pickup points"` in the next bullet is also a coined label in quotation marks, not in any source. (c) Supporting evidence says "explicit "cannot find / looking for the code"
-- **CS-E1**: - [F] C5 Counts separate 'could not find' from 'found with difficulty' : The two tiers exist, but the strict tier is mislabelled. "People who stated they could not find or see the code ... 4, namely P1 (via T-01), P3 (also T-09), the T-04 requester and the T-12 requester." T-04's body is "Looking for the code on my phone", which states no failure to find or see; per GROUND_TRUTH clarification T-04 is a weaker statement and the explicit "could not find" count is 3 (P1 via T-01, P3, T-12 author). The ticket line "4 tickets (T-01, T-04, T-09, T-12) that say the pickup code could not be found or seen" is also wrong: T-04 says neither, and T-09 says "hard to see", not "could not see". The same wr
+- **RP-M1**: - [F] G2 Evidence integrity : "Out of scope here (other themes seen in sources): late notifications (P1, T-02, T-05, T-08) ... [observed]" tags T-05 as a late-notification ticket, but T-05 reads "Pickup point closed / Arrived and the point was closed" and says nothing about alert timing (support/tickets.csv); an [observed] claim that does not match its source. All else checks: ages recomputed with `date` against 2026-11-02 are 665 (2025-01-06), 637 (2025-02-03), 629 (2025-02-11), 626 (2025-02-14), matching the plan; the strict count "3 people - P1 (T-01), P3 (interview), the customer on T-12" matches GROUND_TRUTH; T-04, T-09 (P3, not recounted), P1 scrolling and P4 losing the code are listed
+- **PF-N1**: - [F] C3 Evidence matches fixtures : counts are right (3 could-not-find: T-01, T-12, P3; 5 with trouble; late alerts 2 people), but the split table says `Support tickets with "where is my/the code" subjects: T-01, T-04, T-12` - a quoted phrase that is not verbatim in any source (subjects are "Where is my pickup code", "Where is the code", "Where is my code"); a composite presented in quotation marks as source wording. - [F] G2 Evidence integrity : same non-verbatim quotation "where is my/the code" (otherwise ages 665/637/629/626 days verified with python3, and "about 21 months" is consistent).
+- **CS-E1**: - [F] C5 Counts separate could-not-find from found-with-difficulty : the split is made and the strict count is right ("3 people (P1 via T-01, P3, T-12)"), but the weaker group is labeled "3 more people" while its members are only the T-04 author and P4 (T-09 is P3 "already counted", P1 scrolling is P1 already counted); RESPONSE.md repeats "3 more had weaker trouble: T-04, P4, and P1 having to scroll", recounting P1. Correct is 2 more, 5 people total (GROUND_TRUTH). - [F] G2 Evidence integrity : the same count label "3 more people" does not match its listed members (2 new people), a count not traceable to the fixtures. Other checks pass: ages recomputed with `date` vs 2026-11-02 are tickets 6
 
 ## Reruns
 
@@ -139,7 +139,7 @@ Current standard: `49700991f7`. Scenarios by the standard version their latest a
 - IG-E1: FAIL → FAIL → FAIL → PASS
 - IG-X1: PASS → FAIL → FAIL → FAIL → FAIL → PASS
 - RP-N1: PASS → PASS
-- RP-M1: FAIL → PASS → FAIL → FAIL
+- RP-M1: FAIL → PASS → FAIL → FAIL → PASS → FAIL
 - RP-E1: PASS → PASS → PASS
 - RP-X1: PASS → PASS
 - PB-N1: PASS → FAIL → FAIL → PASS
@@ -158,7 +158,7 @@ Current standard: `49700991f7`. Scenarios by the standard version their latest a
 - CA-M1: PASS → PASS → PASS
 - CA-E1: PASS → PASS
 - CA-X1: FAIL → PASS
-- PF-N1: PASS → FAIL → FAIL → FAIL → FAIL → FAIL
+- PF-N1: PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → FAIL
 - PF-M1: PASS → PASS
 - PF-E1: FAIL → FAIL → PASS
 - PF-X1: FAIL → PASS → PASS
@@ -176,5 +176,5 @@ Current standard: `49700991f7`. Scenarios by the standard version their latest a
 - DD-X1: PASS → PASS
 - CS-N1: FAIL → PASS → FAIL → PASS
 - CS-M1: PASS → PASS
-- CS-E1: PASS → FAIL → FAIL → PASS → FAIL
+- CS-E1: PASS → FAIL → FAIL → PASS → FAIL → PASS → FAIL
 - CS-X1: PASS → FAIL → PASS → PASS

@@ -47,15 +47,20 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Product Discovery` page the opportunity statement, one evidence card per inventory row (claim, tag, source, confidence), the knowledge gaps, and the ranked hypotheses beside their planned method and signal. Label every plan item as planned, not done. Never draw research results, metrics, or user quotes that are not in the Markdown; discovery plans research and does not conduct it. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `problem-framing` when evidence is enough to state the problem, `ux-research-planner` when gaps dominate, `competitive-analysis` when alternatives are poorly understood. If the user asked a direct question (for example whether to build), answer it under `## Opportunity statement`, as far as the evidence allows, or say it cannot be answered yet.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] The brief states that only existing material was read; no discovery activity is implied
 - [ ] Every hypothesis cites an evidence row or is tagged `[assumption]`
 - [ ] No market size, user count, or revenue figure unless sourced and dated
 - [ ] Gaps are listed as gaps and not filled with plausible detail
 - [ ] The plan tests the riskiest hypotheses first
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not write the problem statement → `problem-framing`

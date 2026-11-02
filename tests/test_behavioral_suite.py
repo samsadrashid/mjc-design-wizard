@@ -138,6 +138,35 @@ class HarnessScreening(unittest.TestCase):
         res = self.check("PB-N1", {}, response="Persona based on Marisol Quenby")
         self.assertEqual(res["A9"], "FAIL")
 
+    # Regression screens for the open failures. They detect the defect in saved output;
+    # they cannot make a model avoid it.
+    def test_age_descriptor_is_flagged(self) -> None:
+        # PF-N1 attempt 7: "older" sat beside P3, whose note records an age.
+        res = self.check("PF-N1", {}, response="whether older or less app-confident users are affected is [assumption]")
+        self.assertEqual(res.get("A17"), "REVIEW")
+        self.assertNotIn("A17", self.check("PF-N1", {}, response="whether less app-confident users are affected"))
+
+    def test_evidence_age_must_match_its_date(self) -> None:
+        # RP-M1 attempt 4: 642 days given where the dates give 643.
+        bad = self.check("RP-M1", {}, response="last week 2025-01-27 (642 days old)", run_date="2026-11-01")
+        self.assertEqual(bad["A18"], "FAIL")
+        ok = self.check("RP-M1", {}, response="last week 2025-01-27 (643 days old)", run_date="2026-11-01")
+        self.assertEqual(ok["A18"], "PASS")
+        # the a4 table form: range of dates beside a range of ages
+        table = self.check("RP-M1", {}, response="| export | weeks 2025-01-06 to 2025-01-27 | 664 to 642 |", run_date="2026-11-01")
+        self.assertEqual(table["A18"], "FAIL")
+        # PF-N1 attempt 8 form: age before its date, all correct; must not pair across clauses
+        order = self.check("PF-N1", {}, response="against 2026-11-02): tickets 665 days (2025-01-06) to 637 days (2025-02-03) old",
+                           run_date="2026-11-02")
+        self.assertEqual(order["A18"], "PASS")
+
+    def test_could_not_find_count_with_weaker_ticket_is_flagged(self) -> None:
+        # CS-E1 attempt 5 and PF-N1 attempt 6: T-04 says "Looking for the code", not that it could not be found.
+        bad = self.check("CS-E1", {}, response="4 tickets (T-01, T-04, T-09, T-12) say the code could not be found or seen")
+        self.assertEqual(bad["A19"], "REVIEW")
+        ok = self.check("CS-E1", {}, response="Could not find the code: T-01, T-12. Weaker: T-04, T-09.")
+        self.assertEqual(ok["A19"], "PASS")
+
     def test_unexpected_date_is_flagged_and_run_date_allowed(self) -> None:
         bad = self.check("PB-N1", {}, response="Interviewed on 2031-05-05")
         self.assertEqual(bad["A8"], "FAIL")

@@ -46,15 +46,20 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Interview Guides` page one block per timed section with its minutes, the questions and probes inside each block, the objective-to-question map, and the consent script. Mark sensitive questions optional and skippable. Never draw participant names, greetings with names, or sample answers. The Markdown file stays the source of truth.
+
 `## Next step` names one skill: `persona-builder` when patterns across several interviews should be synthesized, or `journey-map-builder` when the goal is an end-to-end experience map. Never point back to `ux-research-planner` or to this skill.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Every core question maps to an objective
 - [ ] No leading, double-barreled, or hypothetical-preference questions
 - [ ] Sensitive questions are justified, flagged, and skippable
 - [ ] Timing sums to the session length, labeled as a default
 - [ ] The guide contains no sample answers or expected findings
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not choose the method, sample, or recruiting → `ux-research-planner`

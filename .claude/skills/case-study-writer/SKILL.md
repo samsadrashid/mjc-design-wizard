@@ -55,16 +55,21 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Case Studies` page one frame per narrative section from Summary to Visuals to include, each claim keeping its class and any `[TO VERIFY]` marker, and the outcome as written, including "not yet available". Never draw the two author-only appendix sections, and never draw an outcome, metric, quote, client name, or contribution that is not in the Markdown. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `design-documentation` if technical detail is missing, or `product-metrics` if outcome measurement is missing.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Every decision cites an artifact; every claim is classified verified, recollection, interpretation, or missing
 - [ ] No outcome number, lift, user count, quote, or timeline without a source
 - [ ] No causal claim without supporting evidence
 - [ ] The user's contribution and the team's are distinguished, as confirmed by the user
 - [ ] Placeholders are labeled `[TO VERIFY]`, and confidential details are anonymized or flagged
 - [ ] Length is within the target, labeled as a default
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not write specs → `design-documentation`

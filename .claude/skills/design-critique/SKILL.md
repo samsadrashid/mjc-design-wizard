@@ -47,16 +47,21 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Design Critiques` page the goal and basis, the What works list, one card per usability or accessibility finding ranked by impact (element, evidence, principle or criterion, severity, confidence, recommendation), the preference observations in a separate group marked as opinion, and the missing states. Never draw a screenshot or a finding, defect, or element that is not in the Markdown, and never show a preference as a usability risk. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `ux-audit` for systemic issues across the experience, `design-qa` once it is built, or `usability-test-planner` to test the riskiest assumptions with users.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Every item names a specific element
 - [ ] Risks cite the goal, a named principle, or evidence; preferences are marked as opinions
 - [ ] Severity appears only on risks and uses the shared scale; confidence is separate
 - [ ] Items are ranked by impact; no count limit is applied
 - [ ] Critique stays constructive and does not rewrite the design
 - [ ] Unshown states are listed, not assumed to be fine
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not sweep an entire experience against heuristics → `ux-audit`

@@ -49,10 +49,15 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
-Missing cells read `Missing` and are never blank or defaulted. `## Next step` names one handoff: `mvp-planner` to scope the top candidates, `product-metrics` when reach or impact need data, or `ux-research-planner` to verify low-confidence inputs.
+Missing cells read `Missing` and are never blank or defaulted.
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Feature Prioritization` page the scoring table as a matrix (one row per candidate; value, basis, and confidence for each factor), the ranked complete candidates with their calculation, a separate provisional tier that shows each `Missing` factor, and any scenario table labeled as scenarios, not estimates. Never fill a missing cell, and never draw a score or input value that is not in the Markdown. The Markdown file stays the source of truth.
+
+`## Next step` names one handoff: `mvp-planner` to scope the top candidates, `product-metrics` when reach or impact need data, or `ux-research-planner` to verify low-confidence inputs.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] No missing input has been replaced with a favorable, neutral, or default value
 - [ ] Any candidate with a missing factor is provisional and has no point score
 - [ ] The formula and scales are shown, and every score can be recomputed from the table
@@ -60,6 +65,7 @@ Missing cells read `Missing` and are never blank or defaulted. `## Next step` na
 - [ ] Scenario tables are labeled as scenarios, not estimates
 - [ ] The output says the ranking supports a decision and does not replace judgment
 - [ ] Dependencies, risk, and strategic fit are noted where they matter
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not generate candidate features → `product-discovery`

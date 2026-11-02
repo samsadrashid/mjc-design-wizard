@@ -47,15 +47,21 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
-Supporting evidence and assumptions sit directly under `## Problem statement`. `## Next step` names one handoff: `ux-research-planner` when evidence is thin, `feature-prioritization` when candidate solutions exist, `mvp-planner` when scope is ready to cut.
+Supporting evidence and assumptions sit directly under `## Problem statement`.
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Problem Framing` page the symptom, problem, and solution split as three columns, a problem statement card with its supporting evidence, assumptions, and its Provisional label when it applies, the ranked How Might We list, and the success definition with its baseline or `Baseline: none`. Never draw evidence, a baseline, or a success target that is not in the Markdown. Show a stakeholder's framing only in their exact words; never put quotation marks around a label you coined. The Markdown file stays the source of truth.
+
+`## Next step` names one handoff: `ux-research-planner` when evidence is thin, `feature-prioritization` when candidate solutions exist, `mvp-planner` when scope is ready to cut.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] The statement contains no solution or feature name
 - [ ] Each "because" clause cites evidence, or the statement is labeled Provisional
 - [ ] Assumptions the statement depends on are listed, not hidden in wording
 - [ ] Success definition has a baseline or says none exists
 - [ ] One statement only; rejected alternatives noted with reasons
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not explore the wider opportunity or plan discovery → `product-discovery`

@@ -50,16 +50,21 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Product Metrics` page one card per metric definition (purpose, formula, unit, population, window, segments, source, status), the metric tree as labeled shapes joined by arrow lines, and the guardrails, instrumentation, and data-quality limits. Keep observed values, targets, and estimates in separately labeled groups, and show any missing value as `Missing` and any unconfirmed formula as provisional. Never draw a baseline, target, outcome, or number that is not in the Markdown. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `problem-framing` when success is still undefined, `ux-research-planner` for experiments or surveys, or `feature-prioritization` when metrics supply impact inputs.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Every metric has all definition fields, or is marked not yet defined
 - [ ] Numbers appear only with a source, period, and definition
 - [ ] Observed, proposed, target, estimated, and hypothesized values are labeled apart
 - [ ] No invented baselines, causes, or experiment results
 - [ ] Each metric has a guardrail and a note on how it could mislead
 - [ ] Event properties avoid personal identifiers or record the reason
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not state the problem or success in words → `problem-framing`

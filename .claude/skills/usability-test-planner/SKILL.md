@@ -48,15 +48,20 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Usability Testing` page the test goals and artifact, one task card per task (scenario, prompt, success criteria, observation points), the measures with any threshold not yet agreed marked `[assumption]`, and the empty results template. Never draw results, completion rates, or findings; none exist until real sessions run. The Markdown file stays the source of truth.
+
 `## Next step` names `ux-research-planner` if recruiting or method is unsettled, or `feature-prioritization` to rank fixes after real sessions.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Each task has an observable success condition
 - [ ] Task prompts do not leak interface labels
 - [ ] Thresholds are agreed before testing or marked `[assumption]`
 - [ ] Accessibility needs of participants are addressed
 - [ ] The results template is empty and no outcomes are pre-filled
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not choose methods or recruit → `ux-research-planner`

@@ -24,7 +24,7 @@ A skill is a `SKILL.md` file with YAML frontmatter that Claude Code loads on dem
 | Research | `usability-test-planner` | Tasks, measures, script, results template |
 | Research | `persona-builder` | Evidence-backed personas or labeled proto-personas |
 | Model | `journey-map-builder` | Stage-by-stage journey map with moments of truth |
-| Model | `user-flow-designer` | Mermaid flow plus screen state table |
+| Model | `user-flow-designer` | One complete flow plus a diagram per individual flow, a sourced transition inventory, gaps, and integrity check |
 | Model | `information-architect` | Content inventory, navigation tree, labels, content model |
 | Evaluate | `ux-audit` | Heuristic and accessibility findings with severity |
 | Evaluate | `design-system-audit` | Token, component, pattern inventory and drift |
@@ -121,6 +121,37 @@ design/
 
 Filenames: `<skill>-<topic>-<YYYY-MM-DD>.md`. Each file opens with a metadata line naming the skill, date, scope, and sources.
 
+## Figma output (optional)
+
+All 19 skills can also draw their result as editable objects in a Figma design file. Each draws on its own page (see the page map in `figma.md` §4). The Markdown file is always written and stays the source of truth. The rules live in [.claude/skills/_shared/figma.md](.claude/skills/_shared/figma.md).
+
+**Setup**
+
+1. Connect the Figma MCP server in Claude Code and sign in. To use a different Figma account, sign out and reconnect it with `/mcp`; the skills never switch accounts.
+2. Create `design/figma.json` in your project and set `publishing.enabled` to `true`. Publishing is off by default, and a connected Figma account alone is not permission to write.
+3. Optionally put an existing design file's URL in `file.url`. Without one, the adapter is instructed to create a project file and record its key; this path has not been tested live, so supplying an existing file is the tested route.
+
+```json
+{
+  "schema_version": 1,
+  "publishing": { "enabled": true, "confirm_each_run": true },
+  "privacy": { "allow_quotes": false, "allow_participant_codes": true },
+  "file": { "url": "https://www.figma.com/design/<file-key>/..." },
+  "pages": {},
+  "artifacts": {}
+}
+```
+
+**What it does.** One file per project, an `Overview` page, and one page per skill created on first use (for example `UX Audit`, `User Flows`, `Design System Audit`). With `confirm_each_run` on (the default), each run asks before writing. Each result is one tagged frame. A rerun updates that frame in place by changing text and adding content only. If a hand edit changed a property the fingerprint tracks (text, size, position, fill), the rerun leaves the frame alone and adds a new version. Edits the fingerprint cannot see, such as corner radius, are not detected; they survive because in-place updates never restyle. Any update that would remove or restyle content is a replacement and needs your confirmation; without it, a new version is drawn and the old frame is kept. Nothing outside the integration's own frames is changed, and deleting anything needs confirmation. Flows are drawn as shapes with labels and arrow lines on the `User Flows` page. Design system audits are documentation only: they never create or change variables, styles, or components.
+
+**Limitations.** Tested live only in a scratch file with synthetic data (see `figma.md` §9), not on real projects. Edits to properties the fingerprint does not track, such as corner radius or effects, are not detected; reruns therefore only change text and add content in place, and anything more asks before replacing. No images or screenshots are placed. Figma rate limits depend on your seat. Research skills draw plans, guides, and personas only: never study results, participant names, or quotes (quotes only if `privacy.allow_quotes` is `true`). Every skill draws only what its Markdown contains: no invented pages, emotions, defects, competitor capabilities, outcomes, screenshots, or numbers. Case studies never draw their author-only appendix sections. Publishing was live-tested on 8 of 19 skills and the disabled path on 7 (two of them not in the first group), so 10 skills have some live run; the other 9 are covered only by validator checks of their instructions. Manual-edit safety was live-tested on the pilot skills and `mvp-planner`, and two frames were reviewed visually (see `figma.md` §9).
+
+**Troubleshooting.** When `design/figma.json` exists, the reply ends with a `Figma:` line; projects without it get no Figma line. `not used (publishing disabled)`: set `publishing.enabled`. `not used (design/figma.json unreadable)`: fix the JSON or `schema_version`. `not used (tools unavailable)` or `not used (no Figma account connected)`: connect the Figma MCP with `/mcp`. `not used (run not confirmed)`: confirm the run when asked. `not used (no design file)`: put a design file URL in `file.url`. File access errors: check that your account can edit the file. A failed run still writes the Markdown file.
+
+## MJC Emotional Layer
+
+MJC talks in chat with a calm, curious, design-obsessed voice and signs each completed reply with one text emoticon, such as `-_-`, `o_o`, `ಠ_ಠ`, or `^_^`, alone on the last line after a blank line (never pictographic emoji, and no other emoticon in the reply). Replies that are only JSON, code, or another strict format get no signature. The rules and the expression library live in one file, [.claude/skills/_shared/personality.md](.claude/skills/_shared/personality.md); each of the 19 skills cites it with one quality-check line instead of copying it. Expressions follow the moment the skill is in (gathering, analyzing, a finding, an error, verified completion) and never appear in written files, metadata, tables, JSON, or Figma text. Personality never changes a skill's steps, approval gates, or evidence rules, and `^_^` is used only after checks pass. Ask for no emoticons and MJC stops for the session; a future setting can switch the layer off in that one file. New skills adopt it by adding the same quality-check line.
+
 ## Validation
 
 ```bash
@@ -144,7 +175,7 @@ Follow [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (format, section order, boun
 - Skills guide reasoning; they do not fetch analytics, open design tools, or run tests by themselves. They use whatever Claude Code can read in the repo or what you paste in.
 - Browser-based inspection (live audits, competitor pages) requires a Claude Code setup with browser access; otherwise provide screenshots.
 - Quality of output tracks quality of evidence in the project. Each skill's Inputs table sets what happens when something is missing. In general, a skill stops and says what to supply when an essential input or evidence is missing, may ask one focused question when a less important input is missing, and otherwise proceeds with gaps labeled `[assumption]` instead of presenting them as fact. The exact rules differ by skill.
-- Behavioral evaluation is limited. In the current run, 3 of 76 scenarios fail: PF-N1, RP-M1, and CS-E1 (see [tests/behavioral/RESULTS.md](tests/behavioral/RESULTS.md)). These are single-sample scenario results on a synthetic project, not a statistical estimate of reliability.
+- Behavioral evaluation is limited. In the current run, 3 of 76 scenarios fail: PF-N1, RP-M1, and CS-E1 (see [tests/behavioral/RESULTS.md](tests/behavioral/RESULTS.md)). A targeted fix stopped the specific defects recorded for them (evidence ages, release-order claims, "could not find" counts, age descriptors) in every rerun, but each rerun failed on a different evidence slip, so all three remain unresolved ([FINDINGS](tests/behavioral/FINDINGS.md)). These are single-sample scenario results on a synthetic project, not a statistical estimate of reliability.
 
 ## License
 

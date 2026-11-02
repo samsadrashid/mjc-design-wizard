@@ -50,16 +50,22 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
-If the user asks for dates or staffing, say under `## Risks, assumptions, and unresolved decisions` that none can be given without the constraints, and list what is needed. `## Next step` names one handoff: `problem-framing` if the problem is still unclear, `feature-prioritization` if candidates still need ranking, `product-metrics` to define the validation measures, or `user-flow-designer` to design the core loop.
+If the user asks for dates or staffing, say under `## Risks, assumptions, and unresolved decisions` that none can be given without the constraints, and list what is needed.
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `MVP Planning` page the core loop as shapes with arrow vectors, the scope table as in MVP, later, and out columns with each candidate's source, reason, and dependencies, the release slices with exit criteria, and the risks with owners or `owner unknown`. Never draw a candidate that is not in the Markdown, or a date or estimate the user did not supply. The Markdown file stays the source of truth.
+
+`## Next step` names one handoff: `problem-framing` if the problem is still unclear, `feature-prioritization` if candidates still need ranking, `product-metrics` to define the validation measures, or `user-flow-designer` to design the core loop.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Every candidate capability came from the user or the project; none was invented
 - [ ] Each in, later, and out decision has a reason tied to the core loop or learning goal
 - [ ] Slice 1 contains one core loop for one user type, or the exception is justified
 - [ ] Assumptions, dependencies, and unresolved decisions are listed with owners or `owner unknown`
 - [ ] The plan states what evidence would change it and claims no results
 - [ ] No dates or effort figures the user did not provide
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not define or clarify the problem → `problem-framing`

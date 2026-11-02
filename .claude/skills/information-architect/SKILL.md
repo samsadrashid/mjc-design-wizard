@@ -54,16 +54,21 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Information Architecture` page the current structure and the proposed structure as two separate trees of labeled shapes joined by arrow lines, parent above child, each proposed node carrying its change marker, plus the labeling decisions and the content model as tables. Mark anything not confirmed in the Markdown as proposed or `[assumption]`, and the validation plan as planned. Never draw pages, routes, labels, or links that are not in the Markdown. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `ux-research-planner` to run the validation, `user-flow-designer` to design flows for the top tasks, or `design-documentation` once the structure is approved.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] The current structure is derived from the inventory, and the proposal is clearly separate
 - [ ] Every finding cites a source, and unsupported suspicions are listed as unverified
 - [ ] Every inventory item appears in the proposed tree or is marked removed
 - [ ] Labels use evidence vocabulary or are flagged for testing
 - [ ] The validation plan says nothing was conducted
 - [ ] Depth and breadth are stated, and exceptions are justified
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not design task-level flows → `user-flow-designer`

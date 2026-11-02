@@ -8,6 +8,7 @@ quality of a skill's output; see .claude/skills/_shared/standard.md section 8.
 """
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -305,6 +306,242 @@ def validate_links(root: Path, report: Report) -> None:
         report.check(not broken, f"{f.relative_to(root)}: relative links resolve {broken or ''}".strip())
 
 
+# Skills that publish through the shared Figma adapter: every skill, since Batch D.
+FIGMA_SKILLS = set(EXPECTED)
+# Every integrated skill's Figma line must say, in its own terms, what is never drawn.
+FIGMA_GROUNDED_SKILLS = FIGMA_SKILLS
+FIGMA_NOT_USED = ("publishing disabled", "design/figma.json unreadable", "tools unavailable",
+                  "run not confirmed", "no Figma account connected", "no design file")
+FIGMA_MCP_TOOLS = re.compile(r"\b(use_figma|create_session|create_new_file|get_metadata|whoami|generate_diagram)\b")
+FIGMA_CASES = (
+    "Publishing disabled or configuration missing",
+    "Configuration unreadable",
+    "Figma tools unavailable",
+    "No file and creation not possible",
+    "No artifact entry, or stored node missing",
+    "Owned, stored fingerprint has the `fp1:` prefix and equals the current one",
+    "Owned, fingerprint matches, but the update needs more than the non-destructive rules allow",
+    "Owned but fingerprint differs",
+    "Stored fingerprint missing or lacks the current `fp1:` prefix",
+    "Node at stored ID lacks the tag",
+)
+# required wording in the action cell of safety-critical decision rows
+FIGMA_ROW_RULES = {
+    "Owned, stored fingerprint has the `fp1:` prefix": "only within the non-destructive update rules",
+    "Owned, fingerprint matches, but the update needs more": "Ask the user to confirm it. Without confirmation, draw a new version from the Markdown",
+    "Owned but fingerprint differs": "never by cloning the edited frame",
+    "Stored fingerprint missing or lacks": "Preserve the frame and ask the user to confirm a replacement",
+}
+
+
+def validate_figma(root: Path, report: Report) -> None:
+    """Structural checks on the optional Figma adapter. These never contact Figma."""
+    path = root / ".claude" / "skills" / "_shared" / "figma.md"
+    if not path.is_file():
+        return
+    text = path.read_text(encoding="utf-8")
+    tag = "figma adapter"
+    block = re.search(r"```json\n(.*?)\n```", text, re.S)
+    try:
+        config = json.loads(block.group(1)) if block else None
+    except json.JSONDecodeError:
+        config = None
+    report.check(isinstance(config, dict), f"{tag}: default configuration is valid JSON")
+    config = config if isinstance(config, dict) else {}
+    report.check(isinstance(config.get("schema_version"), int), f"{tag}: configuration has a schema version")
+    publishing = config.get("publishing", {})
+    report.check(publishing.get("enabled") is False, f"{tag}: publishing is disabled by default")
+    report.check(publishing.get("confirm_each_run") is True, f"{tag}: per-run confirmation is on by default")
+    privacy = config.get("privacy", {})
+    report.check(privacy.get("allow_quotes") is False, f"{tag}: quotes are not published by default")
+    flat = json.dumps(config).lower()
+    report.check(not re.search(r"token|secret|password|api_?key|credential", flat),
+                 f"{tag}: configuration has no credential fields")
+    rows = re.findall(r"^\| ([a-z0-9-]+) \| ([^|]+?) \| ([^|]+?) \|$", text, re.M)
+    pages = {s: pg.strip() for s, pg, _ in rows if s in EXPECTED}
+    topics = {s: tp.strip() for s, _, tp in rows if s in EXPECTED}
+    report.check(set(pages) == EXPECTED, f"{tag}: page map covers all 19 skills")
+    report.check(len(set(pages.values())) == len(pages), f"{tag}: page names are unique")
+    report.check(pages.get("user-flow-designer") == "User Flows", f"{tag}: user flows draw on the User Flows page")
+    missing = [c for c in FIGMA_CASES if c not in text]
+    report.check(not missing, f"{tag}: decision table covers every case {missing or ''}".strip())
+    report.check("getSharedPluginData" in text and "stored for the artifact key" in text,
+                 f"{tag}: ownership needs the stored node ID and the tag")
+    report.check("Markdown file is always written first" in text, f"{tag}: Markdown stays the source of truth")
+    report.check("// MJC fingerprint fp1. Paste unchanged." in text and 'return "fp1:"' in text,
+                 f"{tag}: one exact fingerprint function is given")
+    report.check("never by cloning the edited frame" in text, f"{tag}: new versions are drawn from the Markdown")
+    for case, rule in FIGMA_ROW_RULES.items():
+        row = next((l for l in text.split("\n") if l.startswith(f"| {case}")), "")
+        report.check(rule in row, f"{tag}: decision row '{case[:40]}' requires: {rule[:50]}")
+    report.check("a matching fingerprint does not prove the frame is unchanged" in text,
+                 f"{tag}: a matching fingerprint is not treated as proof of no edits")
+    report.check("may therefore only change the characters of existing text nodes and append new nodes" in text
+                 and "never deletes, recreates, reorders, or restyles existing nodes" in text,
+                 f"{tag}: in-place updates are limited to non-destructive changes")
+    # Skipped-publishing lines are fixed strings: a free-form reason lets replies drift.
+    reasons = set(re.findall(r"Figma: not used \(([^)`]*)\)", text))
+    report.check(reasons == set(FIGMA_NOT_USED), f"{tag}: 'not used' reasons are the fixed set {sorted(reasons ^ set(FIGMA_NOT_USED)) or ''}".strip())
+    reporting = text.split("## 8.", 1)[-1].split("## 9.", 1)[0]
+    report.check(all(f"`Figma: not used ({r})`" in reporting for r in FIGMA_NOT_USED)
+                 and "Copy a `not used` line exactly" in reporting,
+                 f"{tag}: reporting lists each exact 'not used' line and says to copy it")
+    # Every decision outcome needs its own reporting line, so a reply never misstates what happened.
+    report.check("replacement not confirmed, the earlier frame was left unchanged" in reporting
+                 and "`Figma: failed (file not found or no edit access)`" in reporting,
+                 f"{tag}: reporting covers unconfirmed replacement and file access failure")
+    skills_dir = root / ".claude" / "skills"
+    citing ={d.name for d in skills_dir.iterdir() if d.is_dir() and not d.name.startswith("_")
+              and "../_shared/figma.md" in (d / "SKILL.md").read_text(encoding="utf-8")}
+    report.check(citing == FIGMA_SKILLS, f"{tag}: cited by exactly the integrated skills {sorted(citing ^ FIGMA_SKILLS) or ''}".strip())
+    for name in sorted(FIGMA_SKILLS):
+        skill_file = skills_dir / name / "SKILL.md"
+        if not skill_file.is_file():
+            continue
+        body = skill_file.read_text(encoding="utf-8")
+        stag = f"{name}: figma"
+        page = pages.get(name, "")
+        line = next((l for l in body.split("\n") if l.startswith("Figma (optional, per `../_shared/figma.md`)")), "")
+        report.check(bool(page) and f"`{page}` page" in line, f"{stag} line names its mapped page '{page}'")
+        report.check("The Markdown file stays the source of truth" in line, f"{stag} line keeps Markdown as the source of truth")
+        report.check(any(l.startswith("- [ ]") and "../_shared/figma.md" in l for l in body.split("\n")),
+                     f"{stag} quality check cites the adapter")
+        report.check(not FIGMA_MCP_TOOLS.search(body), f"{stag} has no direct MCP tool calls (uses the shared adapter)")
+        if name in FIGMA_GROUNDED_SKILLS:
+            report.check(re.search(r"\b[Nn]ever (draw|add)\b", line) is not None,
+                         f"{stag} line limits drawing to what the Markdown supports")
+        _, sbody = parse(body)
+        outputs = "\n".join(section(sbody, "Outputs"))
+        holes = re.findall(r"<[a-z]+>", topics.get(name, ""))
+        report.check(bool(topics.get(name)) and (topics[name] == "`main`" or (holes and all(h in outputs for h in holes))),
+                     f"{stag} artifact topic comes from its output filename")
+
+
+# Rules that make user-flow-designer's diagram traceable: each arrow is an inventory row with evidence.
+FLOW_SKILL_RULES = {
+    "transition statuses": ("`Verified` (a source shows it", "`Inferred` (a reasonable reading", "`Unknown` (no source settles it)"),
+    "one edge per inventory row": ("Every inventory row is one labeled arrow, and every arrow is a row",),
+    "terminal and legend conventions": ('id(["End · ..."])', "legend table"),
+    "one complete diagram, not trimmed": ("always one diagram that holds every transition",
+                                          "never drop a branch to make it fit"),
+    "individual flows cover every transition": ("**Draw each individual flow.**",
+                                                "Together the individual flows cover every inventory transition"),
+    "integrity check": ("**Run the flow integrity check**", "Do not call the flow exhaustive"),
+    "contradictions name both sources": ("Never resolve a contradiction by choosing a side silently",),
+}
+
+
+def validate_user_flow(root: Path, report: Report) -> None:
+    """Checks that user-flow-designer keeps its evidence rules and that its example follows them."""
+    skill = root / ".claude" / "skills" / "user-flow-designer" / "SKILL.md"
+    example = root / "examples" / "user-flow-designer.md"
+    if not skill.is_file() or not example.is_file():
+        return
+    text = skill.read_text(encoding="utf-8")
+    for rule, phrases in FLOW_SKILL_RULES.items():
+        report.check(all(p in text for p in phrases), f"user-flow-designer: states rule '{rule}'")
+    ex = example.read_text(encoding="utf-8")
+    flow = ex.split("## Complete flow", 1)[-1].split("## Transition inventory", 1)[0]
+    edges = re.findall(r"-->\|([^|]*)\|", flow)
+    report.check(bool(edges) and all(re.match(r"T\d+ · ", e) for e in edges),
+                 "example user-flow-designer.md: every complete-flow edge is labeled with a transition ID")
+    report.check('(["End · ' in flow and "| Meaning |" in flow,
+                 "example user-flow-designer.md: terminal states are marked and a legend is present")
+    inventory = ex.split("## Transition inventory", 1)[-1].split("## ", 1)[0]
+    report.check(all(c in inventory for c in ("| Status |", "| Evidence |", "Verified", "Unknown")),
+                 "example user-flow-designer.md: inventory has status and evidence columns")
+    report.check(len(re.findall(r"```mermaid", flow)) == 1,
+                 "example user-flow-designer.md: complete flow is one diagram")
+    individual = ex.split("## Individual flows", 1)[-1].split("## Screen state table", 1)[0] if "## Individual flows" in ex else ""
+    covered = set(re.findall(r"\bT\d+\b", individual))
+    report.check(bool(re.search(r"^### F1 · ", individual, re.M)) and covered >= set(re.findall(r"\bT\d+\b", flow)),
+                 "example user-flow-designer.md: individual flows cover every complete-flow transition")
+
+
+PERSONALITY_LINE = "- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output"
+PERSONALITY_RULES = {
+    "text emoticons only": ("Never use pictographic emoji",),
+    "at most one per reply": ("At most one emoticon per reply",),
+    "never in files or structured output": ("Never in written files or structured output",),
+    "no false success": ("unless the completion conditions were met and verified",),
+    "serious issues not playful": ("Accessibility failures, security or privacy problems",),
+    "does not change behavior": ("It never adds steps, messages, or questions",),
+    "closing signature": ("ends with exactly one emoticon from section 3, alone on its own final line",
+                          "separated from the content above by one blank line", "Nothing follows it"),
+    "no duplicate opening": ("No opening emoticon as well",),
+    "strict-format exception": ("The reply is only a strict-format artifact", "the artifact itself never changes"),
+}
+EMOTICONS = ("._.", "o_o", "-_-", ">:)", "ಠ_ಠ", "o_O", "(ツ)", "x_x", "^_^", "^-^")
+PICTOGRAPH = re.compile("[\U0001F000-\U0001FAFF☀-➿️]")
+SIGNATURES = ("._.;", "._.", "o_o", "-_-", ">:)", "ಠ_ಠ", "o_O", "¯\\_(ツ)_/¯", "x_x", "^_^", "^-^")
+SUCCESS = ("^_^", "^-^")
+
+
+def emoticon_count(text: str) -> int:
+    """Counts library emoticons, matching longest first so `._.;` is not also counted as `._.`."""
+    n = 0
+    for e in sorted(SIGNATURES, key=len, reverse=True):
+        n += text.count(e)
+        text = text.replace(e, " ")
+    return n
+
+
+def reply_problems(reply: str, kind: str = "normal") -> list[str]:
+    """Form checks for one chat reply. kind: normal, failed (no success close), or strict (no emoticon)."""
+    problems = []
+    if PICTOGRAPH.search(reply):
+        problems.append("pictographic emoji")
+    if kind == "strict":
+        if emoticon_count(reply):
+            problems.append("emoticon in strict-format output")
+        return problems
+    lines = reply.rstrip("\n").split("\n")
+    last = lines[-1]
+    if last not in SIGNATURES:
+        problems.append("last line is not exactly one emoticon")
+    elif len(lines) < 3 or lines[-2].strip() != "" or not lines[-3].strip():
+        problems.append("signature not separated by exactly one blank line after content")
+    if emoticon_count(reply) != 1:
+        problems.append(f"{emoticon_count(reply)} emoticons; expected exactly one")
+    if kind == "failed" and last in SUCCESS:
+        problems.append("success expression on a failed workflow")
+    return problems
+
+
+def personality_samples(text: str) -> list[tuple[str, str]]:
+    """(kind, body) for each `kind: <k>` line followed by a ```text block in personality.md."""
+    return re.findall(r"^kind: (\w+)\n```text\n(.*?)\n```", text, re.M | re.S)
+
+
+def validate_personality(root: Path, report: Report) -> None:
+    """Checks the shared personality file, that every skill cites it, and that outputs stay emoticon-free."""
+    path = root / ".claude" / "skills" / "_shared" / "personality.md"
+    report.check(path.is_file(), "personality: _shared/personality.md exists")
+    text = path.read_text(encoding="utf-8") if path.is_file() else ""
+    for rule, phrases in PERSONALITY_RULES.items():
+        report.check(all(p in text for p in phrases), f"personality: states rule '{rule}'")
+    report.check(all(e in text for e in EMOTICONS), "personality: library lists every expression")
+    samples = personality_samples(text)
+    report.check({k for k, _ in samples} >= {"normal", "failed", "strict"},
+                 "personality: sample replies cover normal, failed, and strict output")
+    for i, (kind, body) in enumerate(samples, 1):
+        bad = reply_problems(body, kind)
+        report.check(not bad, f"personality: sample {i} ({kind}) has correct form {bad or ''}".strip())
+    skill_files = sorted((root / ".claude" / "skills").glob("*/SKILL.md"))
+    for f in skill_files + [path]:
+        body = f.read_text(encoding="utf-8")
+        name = f.parent.name if f.name == "SKILL.md" else "personality"
+        report.check(not PICTOGRAPH.search(body), f"{name}: no pictographic emoji")
+        if f.name == "SKILL.md":
+            report.check(body.count(PERSONALITY_LINE) == 1, f"{name}: cites shared personality once")
+            report.check(not any(e in body for e in EMOTICONS), f"{name}: does not copy emoticons")
+    for ex in sorted((root / "examples").glob("*.md")):
+        block = example_output_block(ex.read_text(encoding="utf-8"))
+        out = "\n".join(block[0]) if block else ""
+        report.check(not any(e in out for e in EMOTICONS) and not PICTOGRAPH.search(out),
+                     f"example {ex.name}: written output has no emoticons")
+
+
 def validate(root: Path = DEFAULT_ROOT, echo: bool = True) -> Report:
     report = Report(echo)
     skills_dir = root / ".claude" / "skills"
@@ -348,6 +585,9 @@ def validate(root: Path = DEFAULT_ROOT, echo: bool = True) -> Report:
         report.check(f"({ex.name})" in etext, f"examples/README.md: lists {ex.name}")
         validate_example(root, ex, report)
 
+    validate_figma(root, report)
+    validate_user_flow(root, report)
+    validate_personality(root, report)
     validate_links(root, report)
     return report
 

@@ -39,6 +39,10 @@ Moved to `.claude/skills/_shared/standard.md` (section 3) so that installed skil
 
 Moved to `.claude/skills/_shared/standard.md` (section 4) so that installed skills carry it. Skills cite it from there.
 
+Optional Figma output is a projection of the Markdown file, never a replacement. Its rules (configuration in `design/figma.json`, publishing off by default, skill-to-page map, ownership by stored node ID plus a shared plugin data tag, fingerprinted updates limited to changing text and appending nodes, since the fingerprint does not cover every property and cannot prove a frame is unedited) live in `.claude/skills/_shared/figma.md`. Every skill cites it (`FIGMA_SKILLS` in `tests/validate_skills.py` equals all 19); the validator enforces that set and checks each skill's page, artifact topic, Markdown-first line, and adapter-citing quality check.
+
+Conversational tone (the MJC Emotional Layer) lives in `.claude/skills/_shared/personality.md`. Every skill cites it with one identical quality-check line; it affects chat replies only, never files or structured output. `validate_personality` in `tests/validate_skills.py` checks the citation in all 19 skills, the core rules including the closing signature, no pictographic emoji, no copied emoticons in skills, no emoticons in example outputs, and the form of the sample replies in `personality.md` §6 through `reply_problems` (signature last, one blank line before it, exactly one emoticon, none in strict output, no success expression on a failed run).
+
 ## 5. Skill boundaries (no overlap)
 
 | Phase | Skill | Owns | Hands off to |

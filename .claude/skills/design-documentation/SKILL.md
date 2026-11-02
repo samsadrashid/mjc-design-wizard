@@ -57,10 +57,13 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ```
 Adapting the contract: never delete a heading. If a section does not apply, write `Not applicable: <reason>`. If it applies but the information does not exist, write `Unavailable: <what is missing>`. A component doc fills components, tokens, states, and accessibility in depth and marks flows as not applicable. A decision record fills purpose, context, and decisions, and marks the rest as not applicable.
 
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Design Documentation` page one section frame per heading in the document's order, each keeping its Approved, Inferred, or Recommended label and its sources, with components, props, tokens, and states as tables, and every `Not applicable` or `Unavailable` line drawn as written. Never draw a decision, requirement, token value, or component that is not in the Markdown, and never mark inferred behavior as approved. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `design-qa` to verify the build against this document, or `case-study-writer` once the project is complete.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] All thirteen headings are present, in order, for every document type
 - [ ] Every statement is marked approved, inferred, recommended, or unavailable, with a source
 - [ ] Inapplicable sections say `Not applicable` with a reason; missing facts say `Unavailable`
@@ -68,6 +71,7 @@ Adapting the contract: never delete a heading. If a section does not apply, writ
 - [ ] Each interactive element has its relevant states documented or marked unavailable
 - [ ] Decisions list alternatives and reasons
 - [ ] No usability claims without a linked evidence source
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not design the flow itself → `user-flow-designer`

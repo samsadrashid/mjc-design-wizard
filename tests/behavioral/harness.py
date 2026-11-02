@@ -305,6 +305,34 @@ def run_checks(scn: dict, sandbox_new: dict[str, str], violations: list[str], re
            if "?" in ln and re.search(r"\bor\b", ln) and re.match(r"\s*(\d+[.)]|[-*]|Q\d+|\|)", ln)]
     if orq and scn["skill"] == "interview-guide-builder":
         add("A15", "REVIEW", "Question lines containing a compound 'or' (grader checks single-idea questions)", " || ".join(orq[:5]))
+    # screening only: age words (the standard bars restating an age or an age descriptor; grader judges the reference)
+    ages = sorted({m.group(0).lower() for m in re.finditer(
+        r"\b(older|elderly|seniors?|retired|retirees?|pensioners?|aged? \d+|\d+[- ]years?[- ]old)\b", all_text, re.I)})
+    if ages:
+        add("A17", "REVIEW", "Age words appear (grader checks they do not restate or imply a participant's age)", ", ".join(ages))
+    # deterministic: an evidence age given in days must equal the run date minus the date it follows
+    # adjacent pairs only, either order: "<date> (<n> days" or "<n> days (<date>)"
+    ages_d = [(m.group(1), int(m.group(2))) for m in re.finditer(r"(\d{4}-\d{2}-\d{2})\)?\s*\(?(\d+) days", all_text)]
+    ages_d += [(m.group(2), int(m.group(1))) for m in re.finditer(r"(\d+) days\s*\((\d{4}-\d{2}-\d{2})\)", all_text)]
+    # table form: "<date> to <date> | <age> to <age>"
+    for m in re.finditer(r"(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})\s*\|\s*(\d+) to (\d+)\b", all_text):
+        ages_d += [(m.group(1), int(m.group(3))), (m.group(2), int(m.group(4)))]
+    if ages_d:
+        rd = date.fromisoformat(run_date)
+        wrong = [f"{d}: {n} days, expected {(rd - date.fromisoformat(d)).days}" for d, n in ages_d
+                 if (rd - date.fromisoformat(d)).days != n]
+        add("A18", "PASS" if not wrong else "FAIL", "Evidence ages in days match their dates and the run date", " || ".join(wrong))
+    # screening only: a "could not find/see" count must not list a ticket whose own text does not say so
+    explicit = re.compile(r"\b(cannot|can't|could not|couldn't|unable to)\s+(be\s+)?(find|found|see|seen|locate)", re.I)
+    bodies = {m.group(1): m.group(2) for m in re.finditer(r"^(T-\d+),[^,]*,[^,]*,[^,]*,([^,\n]*)", corpus, re.M)}
+    weak = []
+    for ln in all_text.splitlines():
+        head = re.split(r"\b(?:weaker|had trouble|also)\b", ln, flags=re.I)[0]
+        if explicit.search(head):
+            weak += [f"{t} ({bodies[t]})" for t in re.findall(r"\bT-\d+\b", head) if t in bodies and not explicit.search(bodies[t])]
+    if bodies and any(explicit.search(l) for l in all_text.splitlines()):
+        add("A19", "PASS" if not weak else "REVIEW",
+            "Tickets in a 'could not find/see' count say so themselves", " || ".join(sorted(set(weak))))
     if scn["trap_tokens"]:
         hits = [f"{t}: {context(all_text, t)}" for t in scn["trap_tokens"] if t in all_text]
         add("A12", "PASS" if not hits else "REVIEW", "Planted claim tokens: check they are not asserted as fact", " || ".join(hits))

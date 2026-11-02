@@ -44,16 +44,21 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Design QA` page the coverage matrix and one card per verified mismatch, grouped by severity, each with its screen or component, expected value and source, actual value and evidence path, confidence, repro steps, and recommended fix; then the unverified differences, spec gaps, and the Not checked list as separate groups. Never draw a screenshot, never show an unverified difference as a defect, and never draw a mismatch that is not in the Markdown. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `design-documentation` to close spec gaps, `design-system-audit` when mismatches trace to shared components or tokens, or `ux-audit` for usability issues seen along the way.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Every verified mismatch cites an expected value from an approved reference
 - [ ] Differences without a reference are in the unverified section, not the defect log
 - [ ] Severity uses only the shared scale; confidence is separate
 - [ ] Unreachable and unprovided states are marked not checked, never passed
 - [ ] Repro steps work without the designer present
 - [ ] No usability opinions in the defect log
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not evaluate usability → `ux-audit`

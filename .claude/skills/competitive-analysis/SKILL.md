@@ -46,15 +46,20 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Competitive Analysis` page the comparison matrix with each cell keeping its source and date and showing `Not observed` where nothing was seen, one card per source inspected, the patterns, and the interpretations and unknowns as separately labeled groups marked `[inferred]` or unknown. Never draw a competitor capability, logo, screenshot, or claim that is not in the Markdown. The Markdown file stays the source of truth.
+
 `## Next step` names `product-discovery` to fold in the findings, or `design-critique` to apply them to a specific design.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Every cell is an observed fact with a source, a reported fact with its origin, or `Not observed`
 - [ ] The sources section states how each source was accessed and when
 - [ ] No pricing, market share, user counts, or traffic without a dated source
 - [ ] Interpretations and implications trace to matrix rows
 - [ ] Observation, interpretation, and unknown are visibly separate
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not frame the opportunity or hypotheses → `product-discovery`

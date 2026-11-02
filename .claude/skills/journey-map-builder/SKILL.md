@@ -54,16 +54,21 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Journey Maps` page the journey as a grid with stages as columns and lanes as rows, each cell keeping its evidence tag and source, plus the moments of truth, the opportunities linked to their pain points, and the evidence gaps. Show an empty cell as `Not reported`. Never draw a stage, emotion, quote, or pain point that is not in the Markdown, and never present an assumption or hypothesis as observed. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `user-flow-designer` to detail a stage, `ux-research-planner` to close evidence gaps, or `feature-prioritization` to rank the opportunities.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] Every cell cites a source code and a tag, or reads `Not reported` or `Not observed`
 - [ ] No emotions, channels, or metrics that the evidence does not contain
 - [ ] A map with no evidence is labeled a hypothesis and every cell is `[assumption]`
 - [ ] Transitions are described, and evidence gaps are listed
 - [ ] Opportunities are problem spaces and each links to a cited pain point
 - [ ] No personal identifiers from sources appear in the output
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not detail screen-level flows or states → `user-flow-designer`

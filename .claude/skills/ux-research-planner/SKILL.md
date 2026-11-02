@@ -55,16 +55,21 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Open questions / to validate
 ## Next step
 ```
+
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `UX Research Plans` page the decision, each research question beside the assumption it tests and its chosen method, the participant criteria with the sample size labeled as a default, and the timeline. Label everything as planned; never draw findings or expected results. The Markdown file stays the source of truth.
+
 `## Next step` names one handoff: `interview-guide-builder` or `usability-test-planner` to build the study instrument, or `persona-builder` once enough sessions have been synthesized.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
+- [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
 - [ ] The plan names the decision it informs
 - [ ] Each research question maps to a stated assumption
 - [ ] Method choice is justified, and quantitative methods are used only where valid
 - [ ] Sample sizes are labeled as defaults with a reason
 - [ ] Consent, data handling, and anonymization are specified
 - [ ] The plan contains no results or expected findings
+- [ ] Any Figma output followed `../_shared/figma.md`, and the reply reports only Figma results a tool confirmed
 
 ## Boundaries
 - Does not write interview questions → `interview-guide-builder`
