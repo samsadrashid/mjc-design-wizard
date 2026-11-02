@@ -24,7 +24,7 @@ Turn a project's real artifacts into a narrative that shows the problem, the con
 | Length target | Assume 800 to 1200 words as a default for a portfolio read | user |
 
 ## Workflow
-1. **Inspect the project.** Read every `design/` artifact, the changelog, and the git history if available (`git log` for dates and areas changed). Build a timeline of date, artifact, and decision. Commit dates show when work landed, not when design happened. Commit authors show who committed, not who designed. Do not copy author emails or other identifiers. When tickets and interviews both appear, match ticket authors to interviewees by identity, internally and without printing the identifiers; count each person once and list the members beside every count.
+1. **Inspect the project.** Read every `design/` artifact, the changelog, and the git history if available (`git log` for dates and areas changed). Build a timeline of date, artifact, and decision. Commit dates show when work landed, not when design happened. Commit authors show who committed, not who designed. Do not copy author emails or other identifiers. When tickets and interviews both appear, match ticket authors to interviewees by identity, internally and without printing the identifiers; count each person once and list the members beside every count. Write the strict count first; then build the weaker-statements line by removing every person already in the strict line (a ticket author who was also interviewed is one person) and only then write its number.
 2. **Classify every claim** you may use:
    - **Verified:** supported by an artifact or the history, with a citation.
    - **Recollection:** supplied by the user. Label it so, and keep it out of the Outcome unless corroborated.

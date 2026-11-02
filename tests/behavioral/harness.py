@@ -158,6 +158,36 @@ def fixture_corpus(scn: dict) -> str:
     return "\n".join(parts)
 
 
+def person_of(scn: dict) -> dict[str, str]:
+    """Maps each ticket and interview ID to its person's name, so one person is counted once across sources."""
+    out: dict[str, str] = {}
+    for d in scn["fixtures"]:
+        for p in sorted((FIXTURES / d).rglob("*")):
+            if p.is_file() and p.suffix == ".csv":
+                for m in re.finditer(r"^(T-\d+),(?:[^,\n]*,){4}([^,\n]+),", p.read_text(encoding="utf-8", errors="replace"), re.M):
+                    out[m.group(1)] = m.group(2).strip()
+            elif p.is_file() and re.fullmatch(r"P\d+\.md", p.name):
+                m = re.search(r"^Participant:\s*([^|\n]+)", p.read_text(encoding="utf-8", errors="replace"), re.M)
+                if m:
+                    out[p.stem] = m.group(1).strip()
+    return out
+
+
+def source_items(scn: dict) -> dict[str, str]:
+    """Text of each ticket (T-xx row) and interview (Pn file) in the scenario's fixtures."""
+    items: dict[str, str] = {}
+    for d in scn["fixtures"]:
+        for p in sorted((FIXTURES / d).rglob("*")):
+            if not p.is_file() or not is_text(p):
+                continue
+            if p.suffix == ".csv":
+                for m in re.finditer(r"^(T-\d+),(.*)$", p.read_text(encoding="utf-8", errors="replace"), re.M):
+                    items[m.group(1)] = m.group(2)
+            elif re.fullmatch(r"P\d+\.md", p.name):
+                items[p.stem] = p.read_text(encoding="utf-8", errors="replace")
+    return items
+
+
 def skill_contract_info(skill: str) -> tuple[list[str], list[str]]:
     text = (REPO / ".claude" / "skills" / skill / "SKILL.md").read_text(encoding="utf-8")
     _, body = v.parse(text)
@@ -290,6 +320,43 @@ def run_checks(scn: dict, sandbox_new: dict[str, str], violations: list[str], re
                      if 2 <= len(m.group(1).split()) <= 4 and norm_text(m.group(1)) not in corp_words})
     if sflags:
         add("A16", "REVIEW", "Short quoted phrases not found in the fixtures or prompt (grader checks they are not presented as source words)", " || ".join(sflags[:8]))
+    # deterministic: a quote attributed to a source item ("words" (T-01), P3: "words") is word for word in that item
+    items = source_items(scn)
+    prose = re.sub(r"```mermaid.*?```", " ", all_text, flags=re.S)
+    misquotes, attributed = [], 0
+    for m in re.finditer(r"[\"“]([^\"”\n]{3,220})[\"”]", prose):
+        after = re.match(r"\s{0,2}[(\[]\s*((?:T-\d+|P\d+)(?:\s*[,;]\s*(?:T-\d+|P\d+))*)", prose[m.end():m.end() + 40])
+        # the ID list just before the quote, same line and table cell ("T-09 (", "P3 said ", "T-01, T-12 ")
+        lead = re.split(r"[\n|]", prose[max(0, m.start() - 40):m.start()])[-1]
+        before = re.search(r"(?<![\w-])((?:T-\d+|P\d+)(?:\s*,\s*(?:T-\d+|P\d+))*)\b[^\"“\w]{0,4}(?:said|says|wrote)?[^\"“\w]{0,3}$", lead)
+        ids = re.findall(r"T-\d+|P\d+", after.group(1) if after else (before.group(1) if before else ""))
+        ids = [i for i in ids if i in items]
+        if not ids:
+            continue
+        attributed += 1
+        q = f" {norm_text(m.group(1))} "
+        # IDs written before the quote credit the words to each of them, so every one must contain them;
+        # a list after the quote may be a theme's members, so at least one must contain them
+        found = [q in f" {norm_text(items[i])} " for i in ids]
+        if "/" in m.group(1) or not (any(found) if after else all(found)):
+            misquotes.append(f"{m.group(1)} ({', '.join(ids)})")
+    if attributed:
+        add("A20", "PASS" if not misquotes else "FAIL",
+            "Quotes attributed to a ticket or participant appear word for word in that source", " || ".join(misquotes[:8]))
+    # screening only: an unattributed quote that nearly matches source wording (a paraphrase or merge in quotation marks)
+    lines = [norm_text(l) for l in corpus.splitlines() if l.strip()]
+    near = []
+    for m in re.finditer(r"[\"“]([^\"”\n]{8,120})[\"”]", prose):
+        qw = norm_text(m.group(1)).split()
+        qn = " ".join(qw)
+        if len(qw) < 3 or f" {qn} " in f" {corp_words} ":
+            continue
+        best = max((len(set(qw) & set(l.split())) / len(set(qw)) for l in lines), default=0)
+        if best >= 0.75:
+            near.append(m.group(1))
+    if near:
+        add("A21", "REVIEW", "Quoted text nearly matches a source but is not word for word (grader checks it is not shown as source words)",
+            " || ".join(sorted(set(near))[:8]))
     # screening only: an omission note near a category word. Semantic privacy judgment stays with the grader.
     cats = r"(health|mobility|stairs|surgery|age|family|legal|divorce|medical|disabilit|personal circumstances)"
     om = [m.group(0) for m in re.finditer(r"[^.\n]*\b(left out|omitted|withheld|not recorded)\b[^.\n]*", all_text, re.I)
@@ -333,6 +400,33 @@ def run_checks(scn: dict, sandbox_new: dict[str, str], violations: list[str], re
     if bodies and any(explicit.search(l) for l in all_text.splitlines()):
         add("A19", "PASS" if not weak else "REVIEW",
             "Tickets in a 'could not find/see' count say so themselves", " || ".join(sorted(set(weak))))
+    # deterministic: count lines in the standard's form "<label>: N people — T-01, P3" (IDs only after the dash)
+    # state the number of distinct people listed (ticket authors matched to interviewees); every member of a
+    # "could not find" line has a source of their own that says so; a weaker or "more" line repeats nobody from that line
+    people, items = person_of(scn), source_items(scn)
+    ids_rx = r"(?:T-\d+|P\d+)"
+    count_rx = rf"^[-*\s]*(.{{3,120}}?):\s*(\d+) (?:more )?people\s+—\s+({ids_rx}(?:,\s*{ids_rx})*)\s*\.?(?:\s*`?\[[^\]\n]*\]`?)*\s*$"
+    bad_counts, seen_form = [], False
+    for txt in list(deliverables.values()) + [response]:
+        rows = [(m.group(1), int(m.group(2)), re.findall(ids_rx, m.group(3))) for m in re.finditer(count_rx, txt, re.M)]
+        seen_form = seen_form or bool(rows)
+        strict: set[str] = set()
+        for label, n, ids in rows:
+            who = {people.get(i, i) for i in ids}
+            if len(who) != n:
+                bad_counts.append(f"{label}: {n} people but {len(who)} distinct listed ({', '.join(ids)})")
+            if re.search(r"could not find", label, re.I) and not re.search(r"weaker|more", label, re.I):
+                strict |= who
+                said = {people.get(i, i) for i, txt_i in items.items() if explicit.search(txt_i)}
+                bad_counts += [f"{label}: {i} has no source that says it could not be found"
+                               for i in ids if i in items and people.get(i, i) not in said]
+        for label, n, ids in rows:
+            if re.search(r"weaker|more", label, re.I) and strict & {people.get(i, i) for i in ids}:
+                bad_counts.append(f"{label}: repeats a person already in the could-not-find count ({', '.join(ids)})")
+    if seen_form:
+        add("A22", "PASS" if not bad_counts else "FAIL",
+            "Count lines state the number of distinct people listed, strict members say so themselves, and weaker groups repeat nobody",
+            " || ".join(bad_counts[:6]))
     if scn["trap_tokens"]:
         hits = [f"{t}: {context(all_text, t)}" for t in scn["trap_tokens"] if t in all_text]
         add("A12", "PASS" if not hits else "REVIEW", "Planted claim tokens: check they are not asserted as fact", " || ".join(hits))

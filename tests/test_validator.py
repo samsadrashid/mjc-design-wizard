@@ -600,6 +600,18 @@ class ValidatorTests(unittest.TestCase):
         self.edit(".claude/skills/_shared/personality.md", lambda t: t.replace("All quality checks passed.\n\n^_^", "All quality checks passed. ^_^", 1))
         self.assertFails("personality: sample 3 (normal) has correct form")
 
+    def test_flow_dead_end_rule_required(self) -> None:
+        self.edit(self.FLOW, lambda t: t.replace("is a defect to fix before saving", "may be noted", 1))
+        self.assertFails("user-flow-designer: states rule 'dead ends fixed, not noted'")
+
+    def test_problem_framing_stakeholder_form_required(self) -> None:
+        self.edit(".claude/skills/problem-framing/SKILL.md", lambda t: t.replace("`Our reading: <words>`", "a paraphrase", 1))
+        self.assertFails("problem-framing: states rule 'stakeholder words verbatim, rewording separate'")
+
+    def test_case_study_weaker_line_rule_required(self) -> None:
+        self.edit(".claude/skills/case-study-writer/SKILL.md",
+                  lambda t: t.replace("removing every person already in the strict line", "listing weaker statements", 1))
+        self.assertFails("case-study-writer: states rule 'weaker line excludes the strict count'")
 
 class ReplyFormTests(unittest.TestCase):
     def test_good_reply(self) -> None:

@@ -4,8 +4,9 @@ Companion to `RESULTS.md` (generated). Everything here comes from graded runs in
 
 ## Current result
 Latest attempt of each of the 76 scenarios (see `RESULTS.md`, generated):
-- 73 PASS
-- 3 FAIL: PF-N1, RP-M1, CS-E1 (details under "Open failures after the last rerun" and "Targeted fix round")
+- 74 PASS
+- 2 FAIL: CS-E1, UF-N1 (details under "Rerun of the structural fix")
+- Latest-attempt scoring flatters PF-N1, whose last three attempts went PASS, FAIL, PASS. Under 3-of-3, PF-N1, CS-E1, and UF-N1 are not fixed; RP-M1, UF-E1, and UF-X1 hold.
 - 0 BLOCKED
 - 0 NOT EXECUTED
 
@@ -82,6 +83,34 @@ Graders sometimes reported a different hash (`d58d8ff18654`, `2e9c1c3ace`): that
 - Harness screens added (deterministic detection, not prevention): A17 age words (REVIEW), A18 evidence age in days vs its date and the run date (FAIL on mismatch; adjacent pairs and range tables only), A19 tickets in a "could not find/see" count whose own text does not say so (REVIEW). Unit tests in `tests/test_behavioral_suite.py` failed before the code existed and pass now. Re-screening stored attempts: A19 flags PF-N1 a6 and CS-E1 a5, A18 flags RP-M1 a4 (642 vs 643), A17 flags PF-N1 a7; no stored PASS attempt is flagged. A18 first paired ages with the wrong date when the age came first; that produced a false FAIL in PF-N1 a8's AUTO.md (written at collection, before the fix). The corrected screen passes a8; a8's AUTO.md is kept as collected.
 - Post-fix attempts: PF-N1 a8 PASS, a9 FAIL (a merged paraphrase of three ticket subjects in quotation marks, the original class); RP-M1 a6 FAIL (T-05 "Arrived and the point was closed" listed under late notifications); CS-E1 a7 FAIL (weaker group labelled "3 more people" while one of the three, P1, is already in the strict count). In every post-fix attempt the targeted defects did not recur: ages correct, release order stated as unknown, T-04 and T-09 never in a "could not find" count, no age words.
 - Status: all three remain FAIL. The targeted classes are fixed in the observed attempts; each scenario failed on a different evidence-integrity slip (quotation marks, ticket-to-theme attribution, a count label). Earlier rounds show that adding wording for each new slip does not hold, so no further wording was added. These are model-reliability limits on single samples, not a proven fix.
+
+## Structural fix round, steps 1 to 3 (2026-11-02, not yet rerun)
+Wording alone did not hold across three rounds, so this round changes the output form and makes the checks deterministic.
+- Step 1, quotes. Standard: copy each passage before quoting it, write a source quote as `"exact words" (ID)`, never join, shorten, or reword quoted words, and never put an own label or summary in quotation marks. Harness: A20 (FAIL) checks every quote attributed to a ticket or participant (`"words" (T-01)`, `P3 "words"`) word for word against that item; A21 (REVIEW) flags unattributed quotes that nearly match source wording. A check over every quotation mark was tried first and dropped: skills legitimately quote their own questions, tasks, and labels, so it flagged at least 30 of the 76 latest attempts.
+- Step 2, counts. Standard: one line per person count in the form `<label>: N people — ID, ID`, only IDs after the dash; a weaker line lists only people not in the strict count. Harness: A22 (FAIL), on lines in that form, checks N against the distinct people listed (ticket authors matched to interviewees through the fixtures), that each strict member has a source of their own that says it could not be found, and that a weaker or "more" line repeats nobody from the strict line. Making A19 a FAIL was tried and reverted: it matches any line mentioning "could not find" and flagged 22 attempts that had passed.
+- Step 3, themes. Standard: when items are grouped into themes, each item's ID and its own words sit beside the theme, and an item is filed only under a theme its words state. A20 then verifies those words; whether the theme fits stays with the grader.
+- Re-screen of all 225 stored attempts with the new checks (stored AUTO and EVAL files unchanged): A20 fails 8 attempts, all real misquotes (for example JM-N1 a5 gives P4's "felt silly" to P1; PF-N1 a1 attributes T-12's subject to P4). One of them is a latest PASS, IA-N1 a4, whose grader had noted the paraphrase as non-critical; a rerun would now fail it. A22 fires on no stored attempt, since none uses the new count form.
+- Also seen on re-screen, not caused by this round: UF-E1, UF-N1, UF-X1 fail A4 because the user-flow-designer contract changed after they ran, and PM-E1 a4 fails A8 as before.
+- Status before rerun: PF-N1, RP-M1, CS-E1 FAIL.
+
+## Rerun of the structural fix (2026-11-02, standard `f729c98cb1`, 3 attempts each)
+18 new attempts, graded by separate grader agents against the scenario criteria, GROUND_TRUTH.md, and the standard. `RESULTS.md` still scores the latest attempt only, so it reads 74 PASS / 2 FAIL; under the 3-of-3 rule used for this round, 3 of the 6 scenarios hold.
+
+| Scenario | Attempts | Result | Failures |
+|---|---|---|---|
+| RP-M1 | 7, 8, 9 | 3 of 3 PASS | none; every attempt stopped with one question, so the plan-writing path that failed before (ages, theme filing) was not exercised |
+| UF-E1 | 3, 4, 5 | 3 of 3 PASS | none (new user-flow contract) |
+| UF-X1 | 3, 4, 5 | 3 of 3 PASS | none (new user-flow contract) |
+| PF-N1 | 10, 11, 12 | 2 of 3 | a11 G2: the stakeholder's sentence reworded inside quotation marks ("where is my stuff"), the original class |
+| CS-E1 | 8, 9, 10 | 2 of 3 | a10 C5, G2: weaker line "3 people — T-04, P1, P4" repeats P1, already in the strict count through T-01 |
+| UF-N1 | 3, 4, 5 | 1 of 3 | a4 C2: a decision with no rejected branch and a pending state with no failure exit; a5 G2: one quote credited to T-01 and T-12, only T-12 has those words |
+
+- The count form worked as intended in CS-E1 a10: the slip sat on one line in the new form, where a check can see it. A22 missed it at collection because the line ended with an `[observed]` tag; the pattern now allows trailing tags and fails a10 on re-screen (regression test added).
+- A20 accepted a quote credited to several sources if any one contained it, and read only the last ID before a quote. It now reads the whole ID list; IDs written before a quote must each contain the words, a list after a quote (often a theme's members) needs at least one. Re-screen fails UF-N1 a5, matching its grader (regression test added).
+- PF-N1 a11 was flagged by A16 and A21 (REVIEW). Unattributed quotes stay review-only, because skills quote their own labels and copy.
+- Grader template corrected: non-critical findings are `[N]`, not `[F]`, as the suite's integrity test expects (CS-E1 a8 G7 relabelled).
+- Next fixes, by cause: PF-N1, a fixed form for the stakeholder's words (verbatim line plus `(our reading)` for any rewording); CS-E1, a case-study-writer step that writes the weaker line only after removing everyone in the strict line; UF-N1, an integrity-check rule that a known dead end is a failure to fix, not a note. RP-M1 needs a fixture or prompt that reaches the plan to test the earlier slip.
+- Applied (skills only, not yet rerun): problem-framing step 3 writes the stakeholder's sentence once as `Stakeholder said: "<exact sentence>" (<file>)` and any rewording as `Our reading: <words>` without quotation marks; case-study-writer step 1 builds the weaker line by removing everyone in the strict line before writing its number; user-flow-designer step 9 treats a dead end or a decision or pending state with no failure exit as a defect to fix before saving. The validator checks each rule (`EVIDENCE_FORM_RULES`, `FLOW_SKILL_RULES`) with mutation tests. RP-M1's scenario is unchanged: changing it to reach the plan is a scenario decision left to the maintainer.
 
 ## Not done / risks
 - After the targeted regression, 19 scenarios still have their latest attempt on v2 (Tier 2 and Tier 3 in `docs/BATCH-H-REPORT.md` §6). The four skills edited in this pass have other scenarios whose latest attempt predates the edit.

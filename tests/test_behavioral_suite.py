@@ -167,6 +167,41 @@ class HarnessScreening(unittest.TestCase):
         ok = self.check("CS-E1", {}, response="Could not find the code: T-01, T-12. Weaker: T-04, T-09.")
         self.assertEqual(ok["A19"], "PASS")
 
+    def test_attributed_quote_must_be_verbatim_in_its_source(self) -> None:
+        # PF-N1 attempt 9 merged ticket subjects; JM-N1 attempt 5 gave P4's words to P1.
+        merged = self.check("PF-N1", {}, response='Tickets "where is my/the code" (T-01, T-04)')
+        self.assertEqual(merged["A20"], "FAIL")
+        wrong_person = self.check("JM-N1", {}, response='P1 "felt silly" about asking support')
+        self.assertEqual(wrong_person["A20"], "FAIL")
+        # UF-N1 attempt 5: one quote credited to two tickets, only one of which has those words
+        shared = self.check("UF-N1", {}, response='T2 cites T-01, T-12 "Cannot find pickup code"')
+        self.assertEqual(shared["A20"], "FAIL")
+        ok = self.check("JM-N1", {}, response='P4 said "I felt silly" | T-05 "Arrived and the point was closed"')
+        self.assertEqual(ok["A20"], "PASS")
+        self.assertNotIn("A20", self.check("JM-N1", {}, response='Task: "Find your pickup code"'))
+
+    def test_near_verbatim_unattributed_quote_is_flagged(self) -> None:
+        # PF-N1 attempts 2 to 6: "where is my parcel" / "where is my stuff" for "where their stuff is".
+        res = self.check("PF-N1", {}, response='Stakeholder framing: "people keep asking where my stuff is"')
+        self.assertEqual(res.get("A21"), "REVIEW")
+
+    def test_count_line_matches_its_members(self) -> None:
+        # CS-E1 attempt 7: "3 more people" where P1 was already in the strict count.
+        ok = self.check("CS-E1", {}, response="- Could not find the code: 3 people — P1, P3, T-12\n"
+                                              "- Weaker statements, not counted above: 2 people — T-04, P4")
+        self.assertEqual(ok["A22"], "PASS")
+        repeat = self.check("CS-E1", {}, response="- Could not find the code: 3 people — P1, P3, T-12\n"
+                                                  "- Weaker statements: 3 more people — T-04, P4, P1")
+        self.assertEqual(repeat["A22"], "FAIL")
+        same_person = self.check("CS-E1", {}, response="- Could not find the code: 3 people — P1, T-01, P3")
+        self.assertEqual(same_person["A22"], "FAIL")
+        weak_member = self.check("CS-E1", {}, response="- Could not find the code: 4 people — P1, P3, T-12, T-04")
+        self.assertEqual(weak_member["A22"], "FAIL")
+        # CS-E1 attempt 10: the same slip with trailing evidence tags, which the first pattern missed
+        tagged = self.check("CS-E1", {}, response="Could not find the pickup code: 3 people — P3, T-01, T-12 [observed]\n"
+                                                  "Weaker statements (looking for, lost it): 3 people — T-04, P1, P4 [observed]")
+        self.assertEqual(tagged["A22"], "FAIL")
+
     def test_unexpected_date_is_flagged_and_run_date_allowed(self) -> None:
         bad = self.check("PB-N1", {}, response="Interviewed on 2031-05-05")
         self.assertEqual(bad["A8"], "FAIL")

@@ -428,7 +428,22 @@ FLOW_SKILL_RULES = {
                                                 "Together the individual flows cover every inventory transition"),
     "integrity check": ("**Run the flow integrity check**", "Do not call the flow exhaustive"),
     "contradictions name both sources": ("Never resolve a contradiction by choosing a side silently",),
+    "dead ends fixed, not noted": ("is a defect to fix before saving",),
 }
+
+# Evidence-form rules added after behavioral failures (PF-N1 quotes, CS-E1 counts); see tests/behavioral/FINDINGS.md
+EVIDENCE_FORM_RULES = {
+    "problem-framing": {"stakeholder words verbatim, rewording separate": ("Stakeholder said: \"<their exact sentence>\"", "`Our reading: <words>`")},
+    "case-study-writer": {"weaker line excludes the strict count": ("removing every person already in the strict line",)},
+}
+
+
+def validate_evidence_forms(root: Path, report: Report) -> None:
+    for skill, rules in EVIDENCE_FORM_RULES.items():
+        path = root / ".claude" / "skills" / skill / "SKILL.md"
+        text = path.read_text(encoding="utf-8") if path.is_file() else ""
+        for rule, phrases in rules.items():
+            report.check(all(ph in text for ph in phrases), f"{skill}: states rule '{rule}'")
 
 
 def validate_user_flow(root: Path, report: Report) -> None:
@@ -588,6 +603,7 @@ def validate(root: Path = DEFAULT_ROOT, echo: bool = True) -> Report:
     validate_figma(root, report)
     validate_user_flow(root, report)
     validate_personality(root, report)
+    validate_evidence_forms(root, report)
     validate_links(root, report)
     return report
 

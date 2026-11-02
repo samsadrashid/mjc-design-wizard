@@ -6,12 +6,12 @@ Scenarios planned: 76. Skills covered: 19.
 
 | Status | Count |
 |---|---|
-| PASS | 73 |
-| FAIL | 3 |
+| PASS | 74 |
+| FAIL | 2 |
 | BLOCKED | 0 |
 | NOT EXECUTED | 0 |
 
-Current standard: `c99bdcc284`. Scenarios by the standard version their latest attempt ran against: `49700991f7`: 22, `6426474b14`: 25, `87b1ad1860`: 7, `8f4607ccef`: 19, `c99bdcc284`: 3. Only attempts with the same fingerprint are treated as duplicates, and `collect` refuses to store them.
+Current standard: `f729c98cb1`. Scenarios by the standard version their latest attempt ran against: `49700991f7`: 22, `6426474b14`: 22, `87b1ad1860`: 7, `8f4607ccef`: 19, `f729c98cb1`: 6. Only attempts with the same fingerprint are treated as duplicates, and `collect` refuses to store them.
 
 ## Per scenario
 
@@ -54,17 +54,17 @@ Current standard: `c99bdcc284`. Scenarios by the standard version their latest a
 | IG-E1 | `interview-guide-builder` | evidence | PASS | 4 | FAIL → FAIL → FAIL → PASS | 87b1ad1860 |
 | IG-X1 | `interview-guide-builder` | edge | PASS | 6 | PASS → FAIL → FAIL → FAIL → FAIL → PASS | 49700991f7 |
 | RP-N1 | `ux-research-planner` | normal | PASS | 2 | PASS → PASS | 6426474b14 |
-| RP-M1 | `ux-research-planner` | missing | FAIL | 6 | FAIL → PASS → FAIL → FAIL → PASS → FAIL | c99bdcc284 |
+| RP-M1 | `ux-research-planner` | missing | PASS | 9 | FAIL → PASS → FAIL → FAIL → PASS → FAIL → PASS → PASS → PASS | f729c98cb1 |
 | RP-E1 | `ux-research-planner` | evidence | PASS | 3 | PASS → PASS → PASS | 49700991f7 |
 | RP-X1 | `ux-research-planner` | edge | PASS | 2 | PASS → PASS | 6426474b14 |
 | PB-N1 | `persona-builder` | normal | PASS | 4 | PASS → FAIL → FAIL → PASS | 49700991f7 |
 | PB-M1 | `persona-builder` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
 | PB-E1 | `persona-builder` | evidence | PASS | 2 | PASS → PASS | 6426474b14 |
 | PB-X1 | `persona-builder` | edge | PASS | 4 | FAIL → FAIL → FAIL → PASS | 6426474b14 |
-| UF-N1 | `user-flow-designer` | normal | PASS | 2 | PASS → PASS | 6426474b14 |
+| UF-N1 | `user-flow-designer` | normal | FAIL | 5 | PASS → PASS → PASS → FAIL → FAIL | f729c98cb1 |
 | UF-M1 | `user-flow-designer` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
-| UF-E1 | `user-flow-designer` | evidence | PASS | 2 | PASS → PASS | 6426474b14 |
-| UF-X1 | `user-flow-designer` | edge | PASS | 2 | PASS → PASS | 6426474b14 |
+| UF-E1 | `user-flow-designer` | evidence | PASS | 5 | PASS → PASS → PASS → PASS → PASS | f729c98cb1 |
+| UF-X1 | `user-flow-designer` | edge | PASS | 5 | PASS → PASS → PASS → PASS → PASS | f729c98cb1 |
 | DC-N1 | `design-critique` | normal | PASS | 2 | PASS → PASS | 6426474b14 |
 | DC-M1 | `design-critique` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
 | DC-E1 | `design-critique` | evidence | PASS | 2 | PASS → PASS | 8f4607ccef |
@@ -73,7 +73,7 @@ Current standard: `c99bdcc284`. Scenarios by the standard version their latest a
 | CA-M1 | `competitive-analysis` | missing | PASS | 3 | PASS → PASS → PASS | 49700991f7 |
 | CA-E1 | `competitive-analysis` | evidence | PASS | 2 | PASS → PASS | 8f4607ccef |
 | CA-X1 | `competitive-analysis` | edge | PASS | 2 | FAIL → PASS | 8f4607ccef |
-| PF-N1 | `problem-framing` | normal | FAIL | 9 | PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → FAIL | c99bdcc284 |
+| PF-N1 | `problem-framing` | normal | PASS | 12 | PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS | f729c98cb1 |
 | PF-M1 | `problem-framing` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
 | PF-E1 | `problem-framing` | evidence | PASS | 3 | FAIL → FAIL → PASS | 6426474b14 |
 | PF-X1 | `problem-framing` | edge | PASS | 3 | FAIL → PASS → PASS | 6426474b14 |
@@ -91,14 +91,13 @@ Current standard: `c99bdcc284`. Scenarios by the standard version their latest a
 | DD-X1 | `design-documentation` | edge | PASS | 2 | PASS → PASS | 6426474b14 |
 | CS-N1 | `case-study-writer` | normal | PASS | 4 | FAIL → PASS → FAIL → PASS | 49700991f7 |
 | CS-M1 | `case-study-writer` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
-| CS-E1 | `case-study-writer` | evidence | FAIL | 7 | PASS → FAIL → FAIL → PASS → FAIL → PASS → FAIL | c99bdcc284 |
+| CS-E1 | `case-study-writer` | evidence | FAIL | 10 | PASS → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS → PASS → FAIL | f729c98cb1 |
 | CS-X1 | `case-study-writer` | edge | PASS | 4 | PASS → FAIL → PASS → PASS | 49700991f7 |
 
 ## Open failures
 
-- **RP-M1**: - [F] G2 Evidence integrity : "Out of scope here (other themes seen in sources): late notifications (P1, T-02, T-05, T-08) ... [observed]" tags T-05 as a late-notification ticket, but T-05 reads "Pickup point closed / Arrived and the point was closed" and says nothing about alert timing (support/tickets.csv); an [observed] claim that does not match its source. All else checks: ages recomputed with `date` against 2026-11-02 are 665 (2025-01-06), 637 (2025-02-03), 629 (2025-02-11), 626 (2025-02-14), matching the plan; the strict count "3 people - P1 (T-01), P3 (interview), the customer on T-12" matches GROUND_TRUTH; T-04, T-09 (P3, not recounted), P1 scrolling and P4 losing the code are listed
-- **PF-N1**: - [F] C3 Evidence matches fixtures : counts are right (3 could-not-find: T-01, T-12, P3; 5 with trouble; late alerts 2 people), but the split table says `Support tickets with "where is my/the code" subjects: T-01, T-04, T-12` - a quoted phrase that is not verbatim in any source (subjects are "Where is my pickup code", "Where is the code", "Where is my code"); a composite presented in quotation marks as source wording. - [F] G2 Evidence integrity : same non-verbatim quotation "where is my/the code" (otherwise ages 665/637/629/626 days verified with python3, and "about 21 months" is consistent).
-- **CS-E1**: - [F] C5 Counts separate could-not-find from found-with-difficulty : the split is made and the strict count is right ("3 people (P1 via T-01, P3, T-12)"), but the weaker group is labeled "3 more people" while its members are only the T-04 author and P4 (T-09 is P3 "already counted", P1 scrolling is P1 already counted); RESPONSE.md repeats "3 more had weaker trouble: T-04, P4, and P1 having to scroll", recounting P1. Correct is 2 more, 5 people total (GROUND_TRUTH). - [F] G2 Evidence integrity : the same count label "3 more people" does not match its listed members (2 new people), a count not traceable to the fixtures. Other checks pass: ages recomputed with `date` vs 2026-11-02 are tickets 6
+- **UF-N1**: - [F] G2 Evidence integrity : transition inventory T2 evidence reads "T-01, T-12 "Cannot find pickup code" suggest it is hard to find". "Cannot find pickup code" is T-12's body only; T-01's body is "Cannot find the code on the parcel page". A quoted phrase is presented as the wording of a source that does not contain it. The gaps section quotes each ticket correctly, which shows the merge in T2. Other checks pass: spec strings, T-05 quote, routes line numbers, counts 15 nodes / 18 edges / 3-10-5 recomputed correctly. Minor: RESPONSE.md says the main path "takes 5 steps" then lists six screens/steps.
+- **CS-E1**: - [F] C5 Counts separate could-not-find from difficulty : strict tier is right ("Could not find the pickup code: 3 people — P3, T-01, T-12"), but the weaker tier "3 people — T-04, P1, P4" includes P1, who is the T-01 author and already in the strict count (GROUND_TRUTH: T-01 is P1). Correct weaker count is 2 (T-04 author, P4). RESPONSE.md repeats "3 more made weaker statements (T-04, P1, P4)". The output even de-duplicates T-09 but not P1. Same defect as attempt 7. - [F] G2 Evidence integrity : the weaker-group label "3 people" does not match its distinct members (P1 counted twice across tickets and interviews), violating the standard's count-once rule. Quotes otherwise verified verbatim (P1
 
 ## Reruns
 
@@ -139,17 +138,17 @@ Current standard: `c99bdcc284`. Scenarios by the standard version their latest a
 - IG-E1: FAIL → FAIL → FAIL → PASS
 - IG-X1: PASS → FAIL → FAIL → FAIL → FAIL → PASS
 - RP-N1: PASS → PASS
-- RP-M1: FAIL → PASS → FAIL → FAIL → PASS → FAIL
+- RP-M1: FAIL → PASS → FAIL → FAIL → PASS → FAIL → PASS → PASS → PASS
 - RP-E1: PASS → PASS → PASS
 - RP-X1: PASS → PASS
 - PB-N1: PASS → FAIL → FAIL → PASS
 - PB-M1: PASS → PASS
 - PB-E1: PASS → PASS
 - PB-X1: FAIL → FAIL → FAIL → PASS
-- UF-N1: PASS → PASS
+- UF-N1: PASS → PASS → PASS → FAIL → FAIL
 - UF-M1: PASS → PASS
-- UF-E1: PASS → PASS
-- UF-X1: PASS → PASS
+- UF-E1: PASS → PASS → PASS → PASS → PASS
+- UF-X1: PASS → PASS → PASS → PASS → PASS
 - DC-N1: PASS → PASS
 - DC-M1: PASS → PASS
 - DC-E1: PASS → PASS
@@ -158,7 +157,7 @@ Current standard: `c99bdcc284`. Scenarios by the standard version their latest a
 - CA-M1: PASS → PASS → PASS
 - CA-E1: PASS → PASS
 - CA-X1: FAIL → PASS
-- PF-N1: PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → FAIL
+- PF-N1: PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS
 - PF-M1: PASS → PASS
 - PF-E1: FAIL → FAIL → PASS
 - PF-X1: FAIL → PASS → PASS
@@ -176,5 +175,5 @@ Current standard: `c99bdcc284`. Scenarios by the standard version their latest a
 - DD-X1: PASS → PASS
 - CS-N1: FAIL → PASS → FAIL → PASS
 - CS-M1: PASS → PASS
-- CS-E1: PASS → FAIL → FAIL → PASS → FAIL → PASS → FAIL
+- CS-E1: PASS → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS → PASS → FAIL
 - CS-X1: PASS → FAIL → PASS → PASS
