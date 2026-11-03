@@ -16,7 +16,7 @@ Show one actor's experience across stages and touchpoints so the team can see wh
 ## Inputs
 | Input | If missing | Source |
 |---|---|---|
-| Actor (a persona, role, or described user) | Ask one: the map is meaningless without whose journey it is | `design/research/`, user |
+| Actor (a persona, role, or described user) | Ask one: the map is meaningless without whose journey it is. If unanswered, use the best-evidenced actor in `design/research/` and tag it `[inferred]`; if none can be inferred, stop | `design/research/`, user |
 | Scope: first and last moment, current or future state | Assume current state and a scope inferred from the evidence; tag it | user |
 | Evidence (research notes, support tickets, analytics, observed product) | Stop: do not draw a map from nothing. If the user wants a workshop starter, label every cell `[assumption]` and the map a hypothesis | `design/research/`, repo, user files |
 | Existing personas or maps | Assume none | `design/research/`, `design/journeys/` |
@@ -57,7 +57,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Journey Maps` page the journey as a grid with stages as columns and lanes as rows, each cell keeping its evidence tag and source, plus the moments of truth, the opportunities linked to their pain points, and the evidence gaps. Show an empty cell as `Not reported`. Never draw a stage, emotion, quote, or pain point that is not in the Markdown, and never present an assumption or hypothesis as observed. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `user-flow-designer` to detail a stage, `ux-research-planner` to close evidence gaps, or `feature-prioritization` to rank the opportunities.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `user-flow-designer` to detail a stage, `ux-research-planner` to close evidence gaps, or `feature-prioritization` to rank the opportunities.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

@@ -577,7 +577,7 @@ class ValidatorTests(unittest.TestCase):
         self.assertFails("design-qa: cites shared personality once")
 
     def test_personality_no_pictographic_emoji(self) -> None:
-        self.edit(".claude/skills/_shared/personality.md", lambda t: t.replace("| `^_^` | Satisfied", "| \U0001F600 | Satisfied", 1))
+        self.edit(".claude/skills/_shared/personality.md", lambda t: t.replace("| `^_^` | Successful completion", "| \U0001F600 | Successful completion", 1))
         self.assertFails("personality: no pictographic emoji")
 
     def test_personality_false_success_rule(self) -> None:

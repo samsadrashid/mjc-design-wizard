@@ -16,7 +16,7 @@ Turn open questions into a feasible plan: the decision the study must inform, th
 ## Inputs
 | Input | If missing | Source |
 |---|---|---|
-| Decision the research will inform | Ask one: without it the questions cannot be prioritized | user, `design/discovery/` |
+| Decision the research will inform | Ask one: without it the questions cannot be prioritized. If unanswered, assume the decision is whether to proceed with the opportunity in `design/discovery/` and tag it `[assumption]` | user, `design/discovery/` |
 | Questions or assumptions to answer | Assume: derive them from `design/discovery/` and tag `[inferred]` | user, repo |
 | Constraints (time, budget, access to users) | Assume: plan for the lowest-cost option and say so | user |
 | Product stage (concept, prototype, live) | Assume from the repo and tag it | repo, user |
@@ -58,7 +58,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `UX Research Plans` page the decision, each research question beside the assumption it tests and its chosen method, the participant criteria with the sample size labeled as a default, and the timeline. Label everything as planned; never draw findings or expected results. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `interview-guide-builder` or `usability-test-planner` to build the study instrument, or `persona-builder` once enough sessions have been synthesized.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `interview-guide-builder` for an interview study, `usability-test-planner` for task testing, or `persona-builder` once enough sessions have been synthesized.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

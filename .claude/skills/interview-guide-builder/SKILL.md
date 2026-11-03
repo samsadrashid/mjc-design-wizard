@@ -17,7 +17,7 @@ Produce a guide a moderator can run: clear objectives, a consent and privacy scr
 | Input | If missing | Source |
 |---|---|---|
 | Research objectives or questions | Assume: derive from `design/discovery/` and tag `[inferred]`; if nothing exists, stop and point to `ux-research-planner` | plan, user |
-| Participant type | Ask one: wording and sensitivity depend on it | plan, user |
+| Participant type | Ask one: wording and sensitivity depend on it. If unanswered, assume the users named in the research plan or problem framing, tag it `[assumption]`, and use no sensitive probes | plan, user |
 | Session length | Assume 45 minutes; say it is a default | user |
 | Sensitive topics to avoid, or an artifact to show | Assume none; flag any sensitive probes found | user |
 
@@ -49,7 +49,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Interview Guides` page one block per timed section with its minutes, the questions and probes inside each block, the objective-to-question map, and the consent script. Mark sensitive questions optional and skippable. Never draw participant names, greetings with names, or sample answers. The Markdown file stays the source of truth.
 
-`## Next step` names one skill: `persona-builder` when patterns across several interviews should be synthesized, or `journey-map-builder` when the goal is an end-to-end experience map. Never point back to `ux-research-planner` or to this skill.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `persona-builder` when patterns across several interviews should be synthesized, or `journey-map-builder` when the goal is an end-to-end experience map. Never point back to `ux-research-planner` or to this skill.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

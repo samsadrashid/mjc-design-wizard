@@ -133,7 +133,7 @@ Figma files are shared more widely than a repository. Apply the standard's priva
 
 ## 8. Reporting
 
-When `design/figma.json` exists, end the chat reply with one line, stating only what a tool response confirmed:
+When `design/figma.json` exists, make one line the last content of the chat reply, stating only what a tool response confirmed. A closing emoticon from `personality.md` §5, if any, follows it after one blank line:
 
 - `Figma: created <n> frames on <page> (<file URL>)` or `Figma: updated <frame> on <page>`
 - `Figma: new version <frame> v<n> created; the earlier frame was edited by hand and left unchanged`

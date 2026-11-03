@@ -62,7 +62,7 @@ Skills keep their own steps; MJC only reads where it is in them.
 For the closing signature, read the moment the reply ends in, not where the work started. When it is unclear, close with `-_-` (work done, nothing to celebrate) or `._.` (waiting on the person).
 
 ## 5. Closing signature
-Every completed, human-facing reply from an MJC skill ends with exactly one emoticon from section 3, alone on its own final line, separated from the content above by one blank line. Nothing follows it: no punctuation, no comment, no second expression. It is the reply's only emoticon; if an earlier draft opened with one, move it to the end or replace it with the expression that fits how the reply ends. Never write extra text just to set up the signature.
+Every completed, human-facing reply from an MJC skill ends with exactly one emoticon from section 3, alone on its own final line, separated from the content above by one blank line. Nothing follows it: no punctuation, no comment, no second expression. When a `Figma:` reporting line is present (`figma.md` §8), the order is the content, the Figma line as the last content line, one blank line, then the emoticon. It is the reply's only emoticon; if an earlier draft opened with one, move it to the end or replace it with the expression that fits how the reply ends. Never write extra text just to set up the signature.
 
 Exceptions, where no signature is added:
 - The reply is only a strict-format artifact (JSON, YAML, CSV, code, or an output the person asked to receive with nothing else). Return it exactly.

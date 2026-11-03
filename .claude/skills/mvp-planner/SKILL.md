@@ -54,7 +54,7 @@ If the user asks for dates or staffing, say under `## Risks, assumptions, and un
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `MVP Planning` page the core loop as shapes with arrow vectors, the scope table as in MVP, later, and out columns with each candidate's source, reason, and dependencies, the release slices with exit criteria, and the risks with owners or `owner unknown`. Never draw a candidate that is not in the Markdown, or a date or estimate the user did not supply. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `problem-framing` if the problem is still unclear, `feature-prioritization` if candidates still need ranking, `product-metrics` to define the validation measures, or `user-flow-designer` to design the core loop.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `problem-framing` if the problem is still unclear, `feature-prioritization` if candidates still need ranking, `product-metrics` to define the validation measures, or `user-flow-designer` to design the core loop.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

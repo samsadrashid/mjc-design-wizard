@@ -47,7 +47,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ```
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw one frame on the `UX Audit` page with a card per finding (location, severity, confidence, recommendation) and a coverage card that keeps the not-inspected list. Never draw a finding, severity, or location that is not in the Markdown, never show an unverified accessibility check as passed, and never transcribe personal data from screenshots. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `design-qa` once fixes are built, `usability-test-planner` to validate hypotheses with users, or `design-system-audit` when patterns point to shared components.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `design-qa` once fixes are built, `usability-test-planner` to validate hypotheses with users, or `design-system-audit` when patterns point to shared components.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

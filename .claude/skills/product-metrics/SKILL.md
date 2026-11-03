@@ -53,7 +53,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Product Metrics` page one card per metric definition (purpose, formula, unit, population, window, segments, source, status), the metric tree as labeled shapes joined by arrow lines, and the guardrails, instrumentation, and data-quality limits. Keep observed values, targets, and estimates in separately labeled groups, and show any missing value as `Missing` and any unconfirmed formula as provisional. Never draw a baseline, target, outcome, or number that is not in the Markdown. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `problem-framing` when success is still undefined, `ux-research-planner` for experiments or surveys, or `feature-prioritization` when metrics supply impact inputs.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `problem-framing` when success is still undefined, `ux-research-planner` for experiments or surveys, or `feature-prioritization` when metrics supply impact inputs.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

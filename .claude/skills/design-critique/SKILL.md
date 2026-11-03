@@ -50,7 +50,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Design Critiques` page the goal and basis, the What works list, one card per usability or accessibility finding ranked by impact (element, evidence, principle or criterion, severity, confidence, recommendation), the preference observations in a separate group marked as opinion, and the missing states. Never draw a screenshot or a finding, defect, or element that is not in the Markdown, and never show a preference as a usability risk. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `ux-audit` for systemic issues across the experience, `design-qa` once it is built, or `usability-test-planner` to test the riskiest assumptions with users.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `ux-audit` for systemic issues across the experience, `design-qa` once it is built, or `usability-test-planner` to test the riskiest assumptions with users.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

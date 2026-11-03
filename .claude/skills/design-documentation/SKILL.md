@@ -26,7 +26,7 @@ Record what a design is, how it behaves, and why, in a form engineers can build 
 1. **Inspect the project.** Read the flow, route definitions, component files and their props or types, token files, Storybook stories, and existing docs. Use names and values found there. Record the commit or version documented, or `version unknown`. Copy no personal data from fixtures.
 2. **Choose the type** and file name (see Outputs). The heading contract is the same for all types.
 3. **Fill each section from sources.** Mark every statement:
-   - **Approved:** a cited source and an approver, or `approver unknown`.
+   - **Approved:** the user or the source marks it approved. Cite the source and the approver, or `approver unknown`. Without that mark, the statement is Inferred or Recommended.
    - **Inferred:** read from code or convention. Say where.
    - **Recommended:** the author's suggestion.
    - **Unavailable:** the fact does not exist in the material. Say what is missing.
@@ -59,7 +59,7 @@ Adapting the contract: never delete a heading. If a section does not apply, writ
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Design Documentation` page one section frame per heading in the document's order, each keeping its Approved, Inferred, or Recommended label and its sources, with components, props, tokens, and states as tables, and every `Not applicable` or `Unavailable` line drawn as written. Never draw a decision, requirement, token value, or component that is not in the Markdown, and never mark inferred behavior as approved. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `design-qa` to verify the build against this document, or `case-study-writer` once the project is complete.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `design-qa` to verify the build against this document, or `case-study-writer` once the project is complete.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

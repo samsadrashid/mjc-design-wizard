@@ -51,7 +51,7 @@ Supporting evidence and assumptions sit directly under `## Problem statement`.
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Problem Framing` page the symptom, problem, and solution split as three columns, a problem statement card with its supporting evidence, assumptions, and its Provisional label when it applies, the ranked How Might We list, and the success definition with its baseline or `Baseline: none`. Never draw evidence, a baseline, or a success target that is not in the Markdown. Show a stakeholder's framing only in their exact words; never put quotation marks around a label you coined. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `ux-research-planner` when evidence is thin, `feature-prioritization` when candidate solutions exist, `mvp-planner` when scope is ready to cut.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `ux-research-planner` when evidence is thin, `feature-prioritization` when candidate solutions exist, `mvp-planner` when scope is ready to cut.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

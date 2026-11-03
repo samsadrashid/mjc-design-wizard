@@ -49,7 +49,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ```
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw token swatches, the component inventory, and findings as documentation frames on the `Design System Audit` page. Never create or change variables, styles, or components in the Figma file, and never draw a token value, occurrence count, or component that is not in the Markdown or show an intentional variant or unclear difference as an inconsistency. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `design-qa` to verify fixes in a build, or `design-documentation` to document components and usage.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `design-qa` to verify fixes in a build, or `design-documentation` to document components and usage.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

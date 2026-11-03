@@ -19,7 +19,7 @@ Map the context around an opportunity: users, desired outcomes, constraints, alt
 | Opportunity or request | Stop: nothing to frame | user |
 | Project context (README, docs, roadmap) | Assume: list what could not be found | repo |
 | Existing research, tickets, analytics | Assume none exists; record it as a gap | `design/`, `research/`, user files |
-| Constraints (time, budget, platform, regulation) | Ask one, only if it changes the plan's depth | user |
+| Constraints (time, budget, platform, regulation) | Ask one, only if it changes the plan's depth. If unanswered, record constraints as unknown and give no time or cost estimates | user |
 
 If several inputs are missing, ask the single question whose answer most changes the plan. Handle everything else per `../_shared/standard.md` §8.
 
@@ -50,7 +50,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Product Discovery` page the opportunity statement, one evidence card per inventory row (claim, tag, source, confidence), the knowledge gaps, and the ranked hypotheses beside their planned method and signal. Label every plan item as planned, not done. Never draw research results, metrics, or user quotes that are not in the Markdown; discovery plans research and does not conduct it. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `problem-framing` when evidence is enough to state the problem, `ux-research-planner` when gaps dominate, `competitive-analysis` when alternatives are poorly understood. If the user asked a direct question (for example whether to build), answer it under `## Opportunity statement`, as far as the evidence allows, or say it cannot be answered yet.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `problem-framing` when evidence is enough to state the problem, `ux-research-planner` when gaps dominate, `competitive-analysis` when alternatives are poorly understood. If the user asked a direct question (for example whether to build), answer it under `## Opportunity statement`, as far as the evidence allows, or say it cannot be answered yet.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

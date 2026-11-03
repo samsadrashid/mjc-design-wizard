@@ -17,7 +17,7 @@ Produce a protocol for evaluating a prototype or product with real participants:
 | Input | If missing | Source |
 |---|---|---|
 | Artifact under test (prototype, build, flow doc) | Stop: tasks cannot be written against nothing | user, `design/journeys/` |
-| Goals or flows to evaluate | Ask one: tasks follow from them | user, research plan |
+| Goals or flows to evaluate | Ask one: tasks follow from them. If unanswered, derive goals from the artifact's primary flow and tag them `[assumption]` | user, research plan |
 | Participant criteria | Assume from the research plan or personas and tag it | plan, `design/research/` |
 | Moderated or unmoderated | Assume moderated; say it is a default | user |
 | Known concerns from audits or critique | Assume none | `design/audits/` |
@@ -51,7 +51,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Usability Testing` page the test goals and artifact, one task card per task (scenario, prompt, success criteria, observation points), the measures with any threshold not yet agreed marked `[assumption]`, and the empty results template. Never draw results, completion rates, or findings; none exist until real sessions run. The Markdown file stays the source of truth.
 
-`## Next step` names `ux-research-planner` if recruiting or method is unsettled, or `feature-prioritization` to rank fixes after real sessions.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `ux-research-planner` if recruiting or method is unsettled, or `feature-prioritization` to rank fixes after real sessions.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

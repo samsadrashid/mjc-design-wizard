@@ -16,7 +16,7 @@ Produce a grounded comparison of how competitors and alternatives handle a scope
 ## Inputs
 | Input | If missing | Source |
 |---|---|---|
-| Scope (feature, flow, or product area) | Ask one: the scope drives every criterion | user |
+| Scope (feature, flow, or product area) | Ask one: the scope drives every criterion. If unanswered, state the scope inferred from the request and tag it `[assumption]` | user |
 | Competitor or alternative list | Stop: nothing to compare | user |
 | Evidence per competitor (screenshots, pages, docs, notes) | Assume: mark that competitor `Not observed`; if all are unobserved, stop and say what to provide | user; browser only if available |
 | Own product state for the same scope | Assume: compare competitors only | repo, `design/` |
@@ -49,7 +49,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Competitive Analysis` page the comparison matrix with each cell keeping its source and date and showing `Not observed` where nothing was seen, one card per source inspected, the patterns, and the interpretations and unknowns as separately labeled groups marked `[inferred]` or unknown. Never draw a competitor capability, logo, screenshot, or claim that is not in the Markdown. The Markdown file stays the source of truth.
 
-`## Next step` names `product-discovery` to fold in the findings, or `design-critique` to apply them to a specific design.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `product-discovery` to fold in the findings, or `design-critique` to apply them to a specific design.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

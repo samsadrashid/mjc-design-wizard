@@ -53,7 +53,7 @@ Entry points, intents, and role differences go under the first section. `## Evid
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `User Flows` page the complete flow as editable shapes with labels and arrow vectors for every inventory transition, edges labeled with their transition IDs, decisions as diamonds, terminal states visibly distinct by shape and text, the legend, each individual flow as a separate group, and the gaps list. Never draw a screen, branch, or error path that is not in the Markdown, and never show an open product decision or an `Unknown` transition as decided. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `design-documentation` once the flow is approved, `usability-test-planner` to test it, or `information-architect` if the problem is navigation.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `design-documentation` once the flow is approved, `usability-test-planner` to test it, or `information-architect` if the problem is navigation.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

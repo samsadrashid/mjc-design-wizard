@@ -47,7 +47,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Personas` page one card per persona and per provisional profile (marked provisional), each with goals, behaviors, pains, and design implications plus their sources and confidence, and the What remains unknown list. Use behavior-based labels and participant codes only; never add names, photos, ages, or quotes that are not in the Markdown. The Markdown file stays the source of truth.
 
-`## Next step` names `journey-map-builder` to place the actor in an experience, or `ux-research-planner` when provisional profiles need more evidence.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `journey-map-builder` to place the actor in an experience, or `ux-research-planner` when provisional profiles need more evidence.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

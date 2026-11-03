@@ -16,7 +16,7 @@ Make a product's structure explicit: what content exists, how it is grouped and 
 ## Inputs
 | Input | If missing | Source |
 |---|---|---|
-| Scope (whole product or one section) | Ask one: scope sets the inventory | user |
+| Scope (whole product or one section) | Ask one: scope sets the inventory. If unanswered, assume the whole product, tag the scope `[assumption]`, and state it in the output | user |
 | Content inventory (routes, pages, data types, navigation config) | Stop: there is nothing to organize. Ask for a sitemap, routes, or a content list | repo, CMS schema, user |
 | Top user tasks or needs | Assume up to 5 from evidence and tag them; recommend `ux-research-planner` | `design/research/`, tickets, search logs |
 | Findability evidence (card sorts, tree tests, search terms, support) | Assume none exists | `design/research/`, user |
@@ -34,7 +34,7 @@ Make a product's structure explicit: what content exists, how it is grouped and 
 4. **Propose a structure.** Choose an organizing scheme per level (task, audience, topic, or type) and say why. Three levels is a default maximum because deeper menus hide content. Justify exceptions. Show the tree as an indented list and mark each node new, moved, renamed, or unchanged.
 5. **Decide labels.** Plain language, one meaning per label, alternatives rejected with a reason. Flag labels that are guesses and should be tested.
 6. **Define the content model** for structured types: fields, relationships, required versus optional, reuse. Note URL and redirect impact when structure changes.
-7. **Plan validation:** a card sort for grouping and labels, a tree test for findability, with the tasks to run. These are planned, not conducted. Hand the study design to `ux-research-planner`.
+7. **List what needs validation:** grouping and labels (card sort) and findability of the top tasks (tree test), with the question each must answer. Do not design the study or write its tasks; `ux-research-planner` does that. State that nothing was conducted.
 8. **Map every inventory item** to the proposed tree or to a removal, inside the proposed-structure section. Write the output per §8.
 
 ## Outputs
@@ -57,7 +57,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Information Architecture` page the current structure and the proposed structure as two separate trees of labeled shapes joined by arrow lines, parent above child, each proposed node carrying its change marker, plus the labeling decisions and the content model as tables. Mark anything not confirmed in the Markdown as proposed or `[assumption]`, and the validation plan as planned. Never draw pages, routes, labels, or links that are not in the Markdown. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `ux-research-planner` to run the validation, `user-flow-designer` to design flows for the top tasks, or `design-documentation` once the structure is approved.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `ux-research-planner` to run the validation, `user-flow-designer` to design flows for the top tasks, or `design-documentation` once the structure is approved.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

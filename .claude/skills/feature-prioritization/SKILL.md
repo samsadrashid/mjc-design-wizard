@@ -53,7 +53,7 @@ Missing cells read `Missing` and are never blank or defaulted.
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Feature Prioritization` page the scoring table as a matrix (one row per candidate; value, basis, and confidence for each factor), the ranked complete candidates with their calculation, a separate provisional tier that shows each `Missing` factor, and any scenario table labeled as scenarios, not estimates. Never fill a missing cell, and never draw a score or input value that is not in the Markdown. The Markdown file stays the source of truth.
 
-`## Next step` names one handoff: `mvp-planner` to scope the top candidates, `product-metrics` when reach or impact need data, or `ux-research-planner` to verify low-confidence inputs.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `mvp-planner` to scope the top candidates, `product-metrics` when reach or impact need data, or `ux-research-planner` to verify low-confidence inputs.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
