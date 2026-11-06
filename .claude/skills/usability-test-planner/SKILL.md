@@ -51,7 +51,7 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 
 Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Usability Testing` page the test goals and artifact, one task card per task (scenario, prompt, success criteria, observation points), the measures with any threshold not yet agreed marked `[assumption]`, and the empty results template. Never draw results, completion rates, or findings; none exist until real sessions run. The Markdown file stays the source of truth.
 
-`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `ux-research-planner` if recruiting or method is unsettled, or `feature-prioritization` to rank fixes after real sessions.
+`## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `ux-research-planner` if recruiting or method is unsettled, or `feature-prioritization` once real sessions have produced issues to rank.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8

@@ -23,13 +23,13 @@ Turn open questions into a feasible plan: the decision the study must inform, th
 | Prior research and personas | Assume none; avoid repeating studies you cannot see | `design/research/` |
 
 ## Workflow
-1. **Inspect the project.** Read `design/discovery/` and `design/research/`. List prior studies with their dates or `date unknown` so the plan does not repeat or contradict them. Copy no participant identifiers. When tickets and interviews both appear, match ticket authors to interviewees by identity, internally and without printing the identifiers; count each person once and list the members beside every count.
+1. **Inspect the project.** Read `design/discovery/` and `design/research/`. List prior studies with their dates or `date unknown` so the plan does not repeat or contradict them. Copy no participant identifiers. When tickets and interviews both appear, count each person once as `../_shared/standard.md` §8 sets out.
 2. **State the decision and uncertainty.** What choice depends on this study, and what is the cost of being wrong. This sets how much rigor is justified.
 3. **Write 3 to 6 research questions.** Answerable, not leading. Map each to the assumption it tests. The range is a default that keeps a study focused.
 4. **Choose a method per question** from the table. Say why cheaper or alternative methods were rejected. Choose quantitative methods only where data access and sample size make them valid.
 5. **Define participants** from evidence, not invented segments. Give the criteria, the exclusions, and a sample size with its rationale. 5 to 8 per segment is a common default for qualitative work because it tends to surface recurring themes within budget. It is not a statistical guarantee.
 6. **Plan recruiting and ethics.** Channels the team really has, screener questions, consent, compensation, recording and data handling (retention, access, anonymization per §8), and care for vulnerable or sensitive topics.
-7. **Plan capture and analysis.** Where notes go, the coding approach, who reviews, and which outputs the data feeds. Say who owns synthesis, since no dedicated synthesis skill exists.
+7. **Plan capture and analysis.** Where notes go, the coding approach, who reviews, and which outputs the data feeds. Say who owns synthesis. `persona-builder` and `journey-map-builder` can synthesize interview and ticket evidence; no skill here builds or synthesizes surveys, card sorts, tree tests, or A/B tests, so name the owner and the tool for those.
 8. **Check feasibility:** timeline, roles, tools. Cut scope before stretching the plan. Write the output per §8.
 
 Method guide (starting points, not rules):

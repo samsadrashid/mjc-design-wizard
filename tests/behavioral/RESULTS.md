@@ -6,43 +6,43 @@ Scenarios planned: 76. Skills covered: 19.
 
 | Status | Count |
 |---|---|
-| PASS | 74 |
-| FAIL | 2 |
+| PASS | 75 |
+| FAIL | 1 |
 | BLOCKED | 0 |
 | NOT EXECUTED | 0 |
 
-Current standard: `f729c98cb1`. Scenarios by the standard version their latest attempt ran against: `49700991f7`: 22, `6426474b14`: 22, `87b1ad1860`: 7, `8f4607ccef`: 19, `f729c98cb1`: 6. Only attempts with the same fingerprint are treated as duplicates, and `collect` refuses to store them.
+Current standard: `d81b559745`. Scenarios by the standard version their latest attempt ran against: `26962d12e9`: 2, `49700991f7`: 14, `4a3f0c153a`: 2, `6426474b14`: 15, `87b1ad1860`: 6, `8f4607ccef`: 14, `b75f1abf18`: 8, `c0756f2606`: 5, `f729c98cb1`: 10. Only attempts with the same fingerprint are treated as duplicates, and `collect` refuses to store them.
 
 ## Per scenario
 
 | ID | Skill | Category | Final | Attempts | Attempt history | Standard (latest attempt) |
 |---|---|---|---|---|---|---|
-| PD-N1 | `product-discovery` | normal | PASS | 3 | FAIL → PASS → PASS | 49700991f7 |
-| PD-M1 | `product-discovery` | missing | PASS | 3 | PASS → PASS → PASS | 49700991f7 |
+| PD-N1 | `product-discovery` | normal | PASS | 4 | FAIL → PASS → PASS → PASS | b75f1abf18 |
+| PD-M1 | `product-discovery` | missing | PASS | 4 | PASS → PASS → PASS → PASS | b75f1abf18 |
 | PD-E1 | `product-discovery` | evidence | PASS | 2 | PASS → PASS | 8f4607ccef |
-| PD-X1 | `product-discovery` | edge | PASS | 3 | PASS → PASS → PASS | 49700991f7 |
+| PD-X1 | `product-discovery` | edge | PASS | 5 | PASS → PASS → PASS → FAIL → PASS | 4a3f0c153a |
 | UA-N1 | `ux-audit` | normal | PASS | 3 | FAIL → PASS → PASS | 6426474b14 |
 | UA-M1 | `ux-audit` | missing | PASS | 3 | PASS → PASS → PASS | 87b1ad1860 |
 | UA-E1 | `ux-audit` | evidence | PASS | 2 | PASS → PASS | 8f4607ccef |
 | UA-X1 | `ux-audit` | edge | PASS | 2 | PASS → PASS | 6426474b14 |
-| DS-N1 | `design-system-audit` | normal | PASS | 2 | FAIL → PASS | 8f4607ccef |
+| DS-N1 | `design-system-audit` | normal | PASS | 3 | FAIL → PASS → PASS | b75f1abf18 |
 | DS-M1 | `design-system-audit` | missing | PASS | 3 | PASS → FAIL → PASS | 87b1ad1860 |
-| DS-E1 | `design-system-audit` | evidence | PASS | 2 | PASS → PASS | 6426474b14 |
-| DS-X1 | `design-system-audit` | edge | PASS | 2 | FAIL → PASS | 8f4607ccef |
-| DQ-N1 | `design-qa` | normal | PASS | 2 | PASS → PASS | 8f4607ccef |
-| DQ-M1 | `design-qa` | missing | PASS | 3 | FAIL → FAIL → PASS | 6426474b14 |
+| DS-E1 | `design-system-audit` | evidence | PASS | 3 | PASS → PASS → PASS | b75f1abf18 |
+| DS-X1 | `design-system-audit` | edge | FAIL | 7 | FAIL → PASS → FAIL → FAIL → PASS → PASS → FAIL | c0756f2606 |
+| DQ-N1 | `design-qa` | normal | PASS | 3 | PASS → PASS → PASS | f729c98cb1 |
+| DQ-M1 | `design-qa` | missing | PASS | 6 | FAIL → FAIL → PASS → PASS → PASS → PASS | 26962d12e9 |
 | DQ-E1 | `design-qa` | evidence | PASS | 3 | PASS → PASS → PASS | 49700991f7 |
 | DQ-X1 | `design-qa` | edge | PASS | 2 | PASS → PASS | 8f4607ccef |
 | PM-N1 | `product-metrics` | normal | PASS | 3 | PASS → FAIL → PASS | 6426474b14 |
 | PM-M1 | `product-metrics` | missing | PASS | 4 | PASS → PASS → FAIL → PASS | 87b1ad1860 |
 | PM-E1 | `product-metrics` | evidence | PASS | 4 | PASS → PASS → PASS → PASS | 49700991f7 |
 | PM-X1 | `product-metrics` | edge | PASS | 3 | PASS → PASS → PASS | 6426474b14 |
-| IA-N1 | `information-architect` | normal | PASS | 4 | FAIL → PASS → FAIL → PASS | 49700991f7 |
-| IA-M1 | `information-architect` | missing | PASS | 3 | PASS → PASS → PASS | 49700991f7 |
+| IA-N1 | `information-architect` | normal | PASS | 6 | FAIL → PASS → FAIL → PASS → PASS → PASS | b75f1abf18 |
+| IA-M1 | `information-architect` | missing | PASS | 5 | PASS → PASS → PASS → PASS → PASS | b75f1abf18 |
 | IA-E1 | `information-architect` | evidence | PASS | 2 | PASS → PASS | 8f4607ccef |
-| IA-X1 | `information-architect` | edge | PASS | 2 | PASS → PASS | 8f4607ccef |
+| IA-X1 | `information-architect` | edge | PASS | 4 | PASS → PASS → FAIL → PASS | 4a3f0c153a |
 | JM-N1 | `journey-map-builder` | normal | PASS | 7 | BLOCKED → PASS → FAIL → FAIL → FAIL → PASS → PASS | 49700991f7 |
-| JM-M1 | `journey-map-builder` | missing | PASS | 4 | PASS → PASS → FAIL → PASS | 49700991f7 |
+| JM-M1 | `journey-map-builder` | missing | PASS | 5 | PASS → PASS → FAIL → PASS → PASS | f729c98cb1 |
 | JM-E1 | `journey-map-builder` | evidence | PASS | 4 | FAIL → PASS → PASS → PASS | 49700991f7 |
 | JM-X1 | `journey-map-builder` | edge | PASS | 4 | FAIL → PASS → FAIL → PASS | 49700991f7 |
 | UT-N1 | `usability-test-planner` | normal | PASS | 2 | PASS → PASS | 6426474b14 |
@@ -61,22 +61,22 @@ Current standard: `f729c98cb1`. Scenarios by the standard version their latest a
 | PB-M1 | `persona-builder` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
 | PB-E1 | `persona-builder` | evidence | PASS | 2 | PASS → PASS | 6426474b14 |
 | PB-X1 | `persona-builder` | edge | PASS | 4 | FAIL → FAIL → FAIL → PASS | 6426474b14 |
-| UF-N1 | `user-flow-designer` | normal | FAIL | 5 | PASS → PASS → PASS → FAIL → FAIL | f729c98cb1 |
+| UF-N1 | `user-flow-designer` | normal | PASS | 8 | PASS → PASS → PASS → FAIL → FAIL → PASS → PASS → PASS | f729c98cb1 |
 | UF-M1 | `user-flow-designer` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
 | UF-E1 | `user-flow-designer` | evidence | PASS | 5 | PASS → PASS → PASS → PASS → PASS | f729c98cb1 |
 | UF-X1 | `user-flow-designer` | edge | PASS | 5 | PASS → PASS → PASS → PASS → PASS | f729c98cb1 |
-| DC-N1 | `design-critique` | normal | PASS | 2 | PASS → PASS | 6426474b14 |
+| DC-N1 | `design-critique` | normal | PASS | 3 | PASS → PASS → PASS | b75f1abf18 |
 | DC-M1 | `design-critique` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
-| DC-E1 | `design-critique` | evidence | PASS | 2 | PASS → PASS | 8f4607ccef |
-| DC-X1 | `design-critique` | edge | PASS | 3 | PASS → FAIL → PASS | 87b1ad1860 |
+| DC-E1 | `design-critique` | evidence | PASS | 7 | PASS → PASS → FAIL → FAIL → PASS → PASS → PASS | c0756f2606 |
+| DC-X1 | `design-critique` | edge | PASS | 4 | PASS → FAIL → PASS → PASS | b75f1abf18 |
 | CA-N1 | `competitive-analysis` | normal | PASS | 2 | FAIL → PASS | 8f4607ccef |
 | CA-M1 | `competitive-analysis` | missing | PASS | 3 | PASS → PASS → PASS | 49700991f7 |
 | CA-E1 | `competitive-analysis` | evidence | PASS | 2 | PASS → PASS | 8f4607ccef |
 | CA-X1 | `competitive-analysis` | edge | PASS | 2 | FAIL → PASS | 8f4607ccef |
-| PF-N1 | `problem-framing` | normal | PASS | 12 | PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS | f729c98cb1 |
-| PF-M1 | `problem-framing` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
-| PF-E1 | `problem-framing` | evidence | PASS | 3 | FAIL → FAIL → PASS | 6426474b14 |
-| PF-X1 | `problem-framing` | edge | PASS | 3 | FAIL → PASS → PASS | 6426474b14 |
+| PF-N1 | `problem-framing` | normal | PASS | 33 | PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS → PASS → FAIL → FAIL → FAIL → FAIL → PASS → PASS → PASS → FAIL → PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS | c0756f2606 |
+| PF-M1 | `problem-framing` | missing | PASS | 3 | PASS → PASS → PASS | f729c98cb1 |
+| PF-E1 | `problem-framing` | evidence | PASS | 6 | FAIL → FAIL → PASS → PASS → PASS → PASS | 26962d12e9 |
+| PF-X1 | `problem-framing` | edge | PASS | 4 | FAIL → PASS → PASS → PASS | f729c98cb1 |
 | MP-N1 | `mvp-planner` | normal | PASS | 2 | FAIL → PASS | 8f4607ccef |
 | MP-M1 | `mvp-planner` | missing | PASS | 3 | PASS → PASS → PASS | 49700991f7 |
 | MP-E1 | `mvp-planner` | evidence | PASS | 2 | FAIL → PASS | 8f4607ccef |
@@ -89,44 +89,43 @@ Current standard: `f729c98cb1`. Scenarios by the standard version their latest a
 | DD-M1 | `design-documentation` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
 | DD-E1 | `design-documentation` | evidence | PASS | 2 | PASS → PASS | 8f4607ccef |
 | DD-X1 | `design-documentation` | edge | PASS | 2 | PASS → PASS | 6426474b14 |
-| CS-N1 | `case-study-writer` | normal | PASS | 4 | FAIL → PASS → FAIL → PASS | 49700991f7 |
-| CS-M1 | `case-study-writer` | missing | PASS | 2 | PASS → PASS | 6426474b14 |
-| CS-E1 | `case-study-writer` | evidence | FAIL | 10 | PASS → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS → PASS → FAIL | f729c98cb1 |
-| CS-X1 | `case-study-writer` | edge | PASS | 4 | PASS → FAIL → PASS → PASS | 49700991f7 |
+| CS-N1 | `case-study-writer` | normal | PASS | 22 | FAIL → PASS → FAIL → PASS → FAIL → FAIL → PASS → PASS → PASS → FAIL → PASS → FAIL → PASS → FAIL → FAIL → FAIL → PASS → FAIL → FAIL → PASS → FAIL → PASS | c0756f2606 |
+| CS-M1 | `case-study-writer` | missing | PASS | 3 | PASS → PASS → PASS | f729c98cb1 |
+| CS-E1 | `case-study-writer` | evidence | PASS | 34 | PASS → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS → PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → PASS → PASS → FAIL → FAIL → FAIL → PASS → PASS → FAIL → PASS → FAIL → FAIL → PASS → FAIL → FAIL → FAIL → FAIL → FAIL → PASS | c0756f2606 |
+| CS-X1 | `case-study-writer` | edge | PASS | 5 | PASS → FAIL → PASS → PASS → PASS | f729c98cb1 |
 
 ## Open failures
 
-- **UF-N1**: - [F] G2 Evidence integrity : transition inventory T2 evidence reads "T-01, T-12 "Cannot find pickup code" suggest it is hard to find". "Cannot find pickup code" is T-12's body only; T-01's body is "Cannot find the code on the parcel page". A quoted phrase is presented as the wording of a source that does not contain it. The gaps section quotes each ticket correctly, which shows the merge in T2. Other checks pass: spec strings, T-05 quote, routes line numbers, counts 15 nodes / 18 edges / 3-10-5 recomputed correctly. Minor: RESPONSE.md says the main path "takes 5 steps" then lists six screens/steps.
-- **CS-E1**: - [F] C5 Counts separate could-not-find from difficulty : strict tier is right ("Could not find the pickup code: 3 people — P3, T-01, T-12"), but the weaker tier "3 people — T-04, P1, P4" includes P1, who is the T-01 author and already in the strict count (GROUND_TRUTH: T-01 is P1). Correct weaker count is 2 (T-04 author, P4). RESPONSE.md repeats "3 more made weaker statements (T-04, P1, P4)". The output even de-duplicates T-09 but not P1. Same defect as attempt 7. - [F] G2 Evidence integrity : the weaker-group label "3 people" does not match its distinct members (P1 counted twice across tickets and interviews), violating the standard's count-once rule. Quotes otherwise verified verbatim (P1
+- **DS-X1**: - [F] G2 Evidence integrity : the reply and file report 7 hex occurrences and 6 distinct values. The fixtures hold 8 occurrences and 7 distinct values; the run's regex matched 6-digit colors only and missed `#fff` in ButtonLegacy.tsx:4 (recounted with `grep -rhoE '#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})\b' src/components`). A wrong derived count is a critical G2 failure under the standard, so the grader's non-critical note is overridden. The original grading is kept as EVAL.grader-original.md.
 
 ## Reruns
 
-- PD-N1: FAIL → PASS → PASS
-- PD-M1: PASS → PASS → PASS
+- PD-N1: FAIL → PASS → PASS → PASS
+- PD-M1: PASS → PASS → PASS → PASS
 - PD-E1: PASS → PASS
-- PD-X1: PASS → PASS → PASS
+- PD-X1: PASS → PASS → PASS → FAIL → PASS
 - UA-N1: FAIL → PASS → PASS
 - UA-M1: PASS → PASS → PASS
 - UA-E1: PASS → PASS
 - UA-X1: PASS → PASS
-- DS-N1: FAIL → PASS
+- DS-N1: FAIL → PASS → PASS
 - DS-M1: PASS → FAIL → PASS
-- DS-E1: PASS → PASS
-- DS-X1: FAIL → PASS
-- DQ-N1: PASS → PASS
-- DQ-M1: FAIL → FAIL → PASS
+- DS-E1: PASS → PASS → PASS
+- DS-X1: FAIL → PASS → FAIL → FAIL → PASS → PASS → FAIL
+- DQ-N1: PASS → PASS → PASS
+- DQ-M1: FAIL → FAIL → PASS → PASS → PASS → PASS
 - DQ-E1: PASS → PASS → PASS
 - DQ-X1: PASS → PASS
 - PM-N1: PASS → FAIL → PASS
 - PM-M1: PASS → PASS → FAIL → PASS
 - PM-E1: PASS → PASS → PASS → PASS
 - PM-X1: PASS → PASS → PASS
-- IA-N1: FAIL → PASS → FAIL → PASS
-- IA-M1: PASS → PASS → PASS
+- IA-N1: FAIL → PASS → FAIL → PASS → PASS → PASS
+- IA-M1: PASS → PASS → PASS → PASS → PASS
 - IA-E1: PASS → PASS
-- IA-X1: PASS → PASS
+- IA-X1: PASS → PASS → FAIL → PASS
 - JM-N1: BLOCKED → PASS → FAIL → FAIL → FAIL → PASS → PASS
-- JM-M1: PASS → PASS → FAIL → PASS
+- JM-M1: PASS → PASS → FAIL → PASS → PASS
 - JM-E1: FAIL → PASS → PASS → PASS
 - JM-X1: FAIL → PASS → FAIL → PASS
 - UT-N1: PASS → PASS
@@ -145,22 +144,22 @@ Current standard: `f729c98cb1`. Scenarios by the standard version their latest a
 - PB-M1: PASS → PASS
 - PB-E1: PASS → PASS
 - PB-X1: FAIL → FAIL → FAIL → PASS
-- UF-N1: PASS → PASS → PASS → FAIL → FAIL
+- UF-N1: PASS → PASS → PASS → FAIL → FAIL → PASS → PASS → PASS
 - UF-M1: PASS → PASS
 - UF-E1: PASS → PASS → PASS → PASS → PASS
 - UF-X1: PASS → PASS → PASS → PASS → PASS
-- DC-N1: PASS → PASS
+- DC-N1: PASS → PASS → PASS
 - DC-M1: PASS → PASS
-- DC-E1: PASS → PASS
-- DC-X1: PASS → FAIL → PASS
+- DC-E1: PASS → PASS → FAIL → FAIL → PASS → PASS → PASS
+- DC-X1: PASS → FAIL → PASS → PASS
 - CA-N1: FAIL → PASS
 - CA-M1: PASS → PASS → PASS
 - CA-E1: PASS → PASS
 - CA-X1: FAIL → PASS
-- PF-N1: PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS
-- PF-M1: PASS → PASS
-- PF-E1: FAIL → FAIL → PASS
-- PF-X1: FAIL → PASS → PASS
+- PF-N1: PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS → PASS → FAIL → FAIL → FAIL → FAIL → PASS → PASS → PASS → FAIL → PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS
+- PF-M1: PASS → PASS → PASS
+- PF-E1: FAIL → FAIL → PASS → PASS → PASS → PASS
+- PF-X1: FAIL → PASS → PASS → PASS
 - MP-N1: FAIL → PASS
 - MP-M1: PASS → PASS → PASS
 - MP-E1: FAIL → PASS
@@ -173,7 +172,7 @@ Current standard: `f729c98cb1`. Scenarios by the standard version their latest a
 - DD-M1: PASS → PASS
 - DD-E1: PASS → PASS
 - DD-X1: PASS → PASS
-- CS-N1: FAIL → PASS → FAIL → PASS
-- CS-M1: PASS → PASS
-- CS-E1: PASS → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS → PASS → FAIL
-- CS-X1: PASS → FAIL → PASS → PASS
+- CS-N1: FAIL → PASS → FAIL → PASS → FAIL → FAIL → PASS → PASS → PASS → FAIL → PASS → FAIL → PASS → FAIL → FAIL → FAIL → PASS → FAIL → FAIL → PASS → FAIL → PASS
+- CS-M1: PASS → PASS → PASS
+- CS-E1: PASS → FAIL → FAIL → PASS → FAIL → PASS → FAIL → PASS → PASS → FAIL → FAIL → FAIL → FAIL → FAIL → FAIL → PASS → PASS → PASS → FAIL → FAIL → FAIL → PASS → PASS → FAIL → PASS → FAIL → FAIL → PASS → FAIL → FAIL → FAIL → FAIL → FAIL → PASS
+- CS-X1: PASS → FAIL → PASS → PASS → PASS

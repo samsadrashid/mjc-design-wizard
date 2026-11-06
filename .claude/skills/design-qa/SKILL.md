@@ -16,7 +16,7 @@ Report where the built product differs from what was designed. A mismatch is log
 ## Inputs
 | Input | If missing | Source |
 |---|---|---|
-| Design reference for the screen: a spec or design file that the user names or that is marked approved. Tokens or Storybook alone do not describe a screen | Stop: QA without a screen-level reference is guesswork. Point to `design-documentation` | user, `design/docs/` |
+| Design reference for the screen: a spec or design file that the user names or that is marked approved. Tokens or Storybook alone do not describe a screen. A phrase that identifies no file, such as "the design spec", is not naming one; use a reference only if the user identifies the file or it is marked approved | Stop: QA without a screen-level reference is guesswork. Point to `design-documentation` | user, `design/docs/` |
 | Build under review: URL, branch, screenshots, or component code | Stop: nothing to compare | user, repo |
 | Scope: screens, breakpoints, states | Assume the reference's screens and the default breakpoints in the code, and state them | user, repo |
 | Approval status of the design decisions | Assume a reference the user names is authorized as this run's input, not that its decisions are approved. Mark an expected value `approved` only when the user or an authoritative project source marks that decision approved, citing the approver or `approver unknown`; otherwise mark it `approval unknown`, and say so in the log | user, reference |

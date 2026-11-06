@@ -49,7 +49,21 @@ Responsibilities do not overlap. Each skill's `Boundaries` section names the sib
 
 Copy the whole `.claude/skills` folder, including `_shared/`. Every skill cites `../_shared/standard.md`, which holds the evidence tags, output rules, and quality standard.
 
-### Option A: copy into a project
+### Option A: install as a Claude Code plugin (recommended)
+
+Inside Claude Code, run:
+
+```text
+/plugin marketplace add https://github.com/samsadrashid/mjc-design-wizard
+```
+
+```text
+/plugin install mjc-design-wizard@mjc-design-wizard
+```
+
+Choose **project** scope to keep the skills inside one project, or **user** for every project. The plugin carries the skills and their `_shared/` folder together, so nothing collides with other skill packs. Plugin skills are namespaced, for example `/mjc-design-wizard:ux-audit`.
+
+### Option B: copy into a project
 
 Run these from the folder that contains `your-project`. The clone lands next to it.
 
@@ -67,7 +81,7 @@ cp -r mjc-design-wizard/.claude/skills/. your-project/.claude/skills/
 
 Open Claude Code in `your-project`. Skills load automatically.
 
-### Option B: install globally for all projects
+### Option C: copy globally for all projects
 
 Run these from the folder that contains the clone.
 
@@ -79,13 +93,20 @@ mkdir -p ~/.claude/skills
 cp -r mjc-design-wizard/.claude/skills/. ~/.claude/skills/
 ```
 
-A global install puts `_shared/` directly in `~/.claude/skills/`. If another skill pack also uses a `_shared/` folder there, one overwrites the other. In that case, use Option A so the skills and their `_shared/` folder stay inside the project.
+A global install puts `_shared/` directly in `~/.claude/skills/`. If another skill pack also uses a `_shared/` folder there, one overwrites the other. In that case, use Option A or B so the skills and their `_shared/` folder stay together.
 
-### Option C: use this repo as the workspace
+### Option D: use this repo as the workspace
 
 Clone it, drop your design files or notes in, and run skills here.
 
 Verify with `/ux-audit` or by asking "which skills are available".
+
+### Update and uninstall
+
+- **Plugin:** `/plugin marketplace update mjc-design-wizard` and then reinstall to update; `/plugin uninstall mjc-design-wizard@mjc-design-wizard` to remove.
+- **Copied skills:** pull the repository again and repeat the copy command; it overwrites the 19 skill folders and `_shared/`. To remove, delete those 19 folders and `_shared/` from the `.claude/skills/` folder you copied into. Your `design/` outputs are never touched.
+
+Changes between versions are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ## Usage
 
@@ -162,6 +183,8 @@ Runs the structural validator and its unit tests. It checks frontmatter, naming,
 
 These are structural checks. They do not measure output quality. Behavioral evaluation is manual and is described in [the shared standard](.claude/skills/_shared/standard.md) §8 and [tests/behavioral](tests/behavioral/README.md).
 
+The behavioral results ([RESULTS.md](tests/behavioral/RESULTS.md), [FINDINGS.md](tests/behavioral/FINDINGS.md), [QUALITY.md](tests/behavioral/QUALITY.md)) summarize graded runs whose raw evidence (`tests/behavioral/runs/`) is kept on the maintainer's machine and is not published, so those summaries cannot be re-checked from this repository alone. Trigger phrases are checked statically by `tests/test_triggers.py`; that test reads the descriptions and does not run a model.
+
 ### Automated validation
 
 GitHub Actions runs the same validator on every push to `main` and every pull request targeting `main` ([workflow](.github/workflows/validate.yml)). It uses Python 3.12, installs no dependencies, and has read-only token permissions. The job runs `bash tests/run.sh`, so a failing check fails the build. Run that command locally for the same result.
@@ -175,7 +198,7 @@ Follow [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (format, section order, boun
 - Skills guide reasoning; they do not fetch analytics, open design tools, or run tests by themselves. They use whatever Claude Code can read in the repo or what you paste in.
 - Browser-based inspection (live audits, competitor pages) requires a Claude Code setup with browser access; otherwise provide screenshots.
 - Quality of output tracks quality of evidence in the project. Each skill's Inputs table sets what happens when something is missing. In general, a skill stops and says what to supply when an essential input or evidence is missing, may ask one focused question when a less important input is missing, and otherwise proceeds with gaps labeled `[assumption]` instead of presenting them as fact. The exact rules differ by skill.
-- Behavioral evaluation is limited. In the current run, 3 of 76 scenarios fail: PF-N1, RP-M1, and CS-E1 (see [tests/behavioral/RESULTS.md](tests/behavioral/RESULTS.md)). A targeted fix stopped the specific defects recorded for them (evidence ages, release-order claims, "could not find" counts, age descriptors) in every rerun, but each rerun failed on a different evidence slip, so all three remain unresolved ([FINDINGS](tests/behavioral/FINDINGS.md)). These are single-sample scenario results on a synthetic project, not a statistical estimate of reliability.
+- Behavioral evaluation is limited. The latest attempts show 75 of 76 scenarios passing, but under a stricter rule (three attempts in a row) PF-N1, CS-E1, CS-N1, DS-X1 and UF-N1 are not yet reliable; see [tests/behavioral/FINDINGS.md](tests/behavioral/FINDINGS.md). Figma output is verified by read-back for only some skills (see [tests/behavioral/QUALITY.md](tests/behavioral/QUALITY.md)); the rest are covered by the validator alone.
 
 ## License
 

@@ -1,0 +1,13 @@
+{
+  "name": "mjc-design-wizard",
+  "version": "1.1.0",
+  "description": "19 evidence-first product design skills for Claude Code: discovery, research, personas, flows, IA, critique, audits, design QA, documentation, metrics, prioritization, MVP, and case studies.",
+  "author": {
+    "name": "samsadrashid",
+    "url": "https://github.com/samsadrashid"
+  },
+  "repository": "https://github.com/samsadrashid/mjc-design-wizard",
+  "license": "MIT",
+  "keywords": ["product-design", "ux", "research", "design-qa", "skills"],
+  "skills": ["./.claude/skills/"]
+}

@@ -26,11 +26,11 @@ Give feedback a designer can act on: tied to the design's goal and users, specif
 2. **Restate the goal and user** the design serves, and where each came from.
 3. **Describe before judging.** Layout, primary action, content, and states shown, plainly. Note what the artifact does not show, such as error and empty states.
 4. **Evaluate across lenses:** goal fit, hierarchy and first read, interaction clarity, content and tone, consistency with the system, accessibility, and missing states.
-5. **Write feedback items,** each naming an element. Classify each:
+5. **Write feedback items,** each as `Issue ID | Screen | Element | Observation | Problem | User impact | Severity | Recommendation | Confidence`. Keep what is visible apart from assumptions about user behavior; a risk is not validated by research unless research is cited, and no usage frequency or metric is invented. Name the screen and the user task, and make each recommendation specific to the named element. Classify each:
    - **Risk:** a likely usability or accessibility problem. Give the severity from `../_shared/standard.md` §8 (Blocker, Major, Minor, Cosmetic), the reason it matters tied to the goal, a principle, or evidence, and the confidence (High, Medium, Low).
    - **Preference:** a matter of taste or direction. Mark it as an opinion with no severity.
 6. **Suggest, do not redesign.** Offer a concrete direction per item and the trade-off. Do not rewrite the design.
-7. **Prioritize** by impact on the goal and relevance to the feedback wanted. Group related items. Recognize what works, briefly.
+7. **Prioritize** by user impact, task criticality, severity, and confidence, then relevance to the feedback wanted, and effort or frequency only where a source gives them. Group related items. Recognize what works, briefly.
 8. **Route systemic findings** onward. Write the output per §8.
 
 ## Outputs
@@ -48,13 +48,14 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Next step
 ```
 
-Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Design Critiques` page the goal and basis, the What works list, one card per usability or accessibility finding ranked by impact (element, evidence, principle or criterion, severity, confidence, recommendation), the preference observations in a separate group marked as opinion, and the missing states. Never draw a screenshot or a finding, defect, or element that is not in the Markdown, and never show a preference as a usability risk. The Markdown file stays the source of truth.
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Design Critiques` page one board with: a reference of the screen as a schematic of the elements the Markdown describes, labeled as drawn from the description and not the original design, with numbered markers keyed to the findings; one card per usability or accessibility finding ranked by impact (number, screen, element, observation, problem, user impact, severity, confidence, recommendation); the prioritized improvements; the positive observations; the preference observations in a separate group marked as opinion; the missing states; and the open questions. Never draw a screenshot or a finding, defect, or element that is not in the Markdown, never modify a source screen, and never show a preference as a usability risk. The Markdown file stays the source of truth.
 
 `## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `ux-audit` for systemic issues across the experience, `design-qa` once it is built, or `usability-test-planner` to test the riskiest assumptions with users.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
 - [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
+- [ ] The reply asks at most one question in total, as `../_shared/standard.md` §8 defines it (two requests joined by "and" are two); counts were computed over the whole source
 - [ ] Every item names a specific element
 - [ ] Risks cite the goal, a named principle, or evidence; preferences are marked as opinions
 - [ ] Severity appears only on risks and uses the shared scale; confidence is separate

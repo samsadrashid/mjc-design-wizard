@@ -24,7 +24,7 @@ Show one actor's experience across stages and touchpoints so the team can see wh
 Do not assume any evidence file exists. Use only what the project or the user supplies.
 
 ## Workflow
-1. **Inspect the project.** Read personas, research notes, support exports, analytics exports, product code or docs, and prior maps. List each source with type, size (for example interviews, tickets, rows), and date or `date unknown`. Replace names and identifiers with codes (P1, T1) per §8 privacy. When tickets and interviews both appear, match ticket authors to interviewees by identity, internally and without printing the identifiers; count each person once and list the members beside every count.
+1. **Inspect the project.** Read personas, research notes, support exports, analytics exports, product code or docs, and prior maps. List each source with type, size (for example interviews, tickets, rows), and date or `date unknown`. Replace names and identifiers with codes (P1, T1) per §8 privacy. When tickets and interviews both appear, count each person once as `../_shared/standard.md` §8 sets out.
 2. **Fix scope.** Name the first and last moment and the actor. Reuse actor definitions from `persona-builder` output.
 3. **Define stages** from the actor's point of view, not the product's funnel names. 4 to 7 is a default because fewer hides the sequence and more stops fitting on one view. Each stage must be visible in some source.
 4. **Fill each lane from evidence only:**

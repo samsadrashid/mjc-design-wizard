@@ -1,6 +1,17 @@
 # Shared standard
 
-Installed with the skills. Every skill cites this file as `../_shared/standard.md`, so it must be copied next to them. Section numbers (2, 3, 4, 7, 8) are stable and are referenced by the skills.
+Installed with the skills. Every skill cites this file as `../_shared/standard.md`, so it must be copied next to them. Section numbers (1, 2, 3, 4, 7, 8) are stable and are referenced by the skills.
+
+## 1. Shared files to load
+
+Read these from this folder before you work, in addition to this file:
+
+- `personality.md`: always. Every skill that writes a chat reply ends it with the closing signature in its §5.
+- `figma.md`: only when `design/figma.json` exists or the user asks for Figma output. It decides whether anything is drawn and sets the `Figma:` reporting line. When neither holds, do not load it.
+
+- `check_evidence.py`: run it before saving any deliverable when the project has support tickets or interview notes, from the project root: `python3 .claude/skills/_shared/check_evidence.py <deliverable> --reply <draft reply>`, with the full text of the draft chat reply (never a placeholder) saved outside the project, for example under `/tmp`. Fix every problem it reports and run it again; mention in the reply only that it passed or what it could not check. It checks quotes credited to a source, `N people — IDs` count lines, and the one-question rule; it does not judge whether a claim is right.
+
+Skills cite these files and do not repeat their rules.
 
 ## 2. Evidence-first rule
 
@@ -14,6 +25,20 @@ No skill invents data. Every claim in an output carries a tag:
 | `[assumption]` | Not yet validated. Must appear in an "Open questions / to validate" list. |
 
 Forbidden: fabricated user quotes, personas, analytics, conversion rates, test results, NPS, revenue, dates, or competitor facts. When data is missing, the output says `No data available` and proposes how to obtain it.
+
+### Claim-level evidence
+
+Applies to every skill that states findings, counts, reasons, or causes.
+
+1. **Split first.** A sentence with several factual or causal clauses is several claims ("they could not find the code, which caused missed pickups" is two). Class and source each clause on its own.
+2. **Ledger row.** Each claim that matters has: the claim, its source reference, the exact words that support it, its class, and a limit where one applies.
+3. **Four classes.** `[observed]` (the cited source states it in so many words), `[reported]` (a named person or stakeholder states it), `[inferred]` (your reading, with the reasoning), unknown (no available source settles it; say so). A claim never becomes observed because it sounds reasonable.
+4. **A source supports only what it states.** A source for a problem is not a source for its consequence. A source for an outcome is not a source for its cause. A shipped change is not a reason for the change. A reason for doing the work is observed only when an artifact records that reason. A source naming the subject, or one part of a claim, supports that part; the rest is `[inferred]` or unknown.
+5. **Four kinds of ID stay apart.** A participant (a person), an interview (P1), a ticket (T-01), and a file path are different things. Name the source that states the claim, with its kind. If the person is the same across sources, say so beside the claim (`T-01, same person as P1`); do not list one source's ID for a statement another source makes.
+6. **No forced content.** A template slot for a consequence, cause, motivation, impact, or number stays empty (write unknown) when no source supports it; drop the clause instead of filling it.
+7. **Counts cover the whole source.** Compute a count over every row or file it ranges over (open the full table, not its first lines). If you read only part, say which part and write the figure as "at least N".
+8. **One account per fact.** The same evidence carries the same class and the same IDs in the narrative, tables, and appendices.
+9. **Use the source's words, one source per line.** Describe a claim with the words the source uses ("hard to see" is not "cannot see"; "found it after scrolling" is not "could not find it"). Give each source ID its own line; never lump several people or sources under one class. Context you supply (who the users are, where they act, what screen) is `[observed]` only if a cited source states it; otherwise `[inferred]` or dropped. A person counted in the strict group appears in no weaker group, list, ledger row, or example, through any of their sources; an exclusion note ("P1, also T-01, is already counted") is fine. A source that supports a finding is never also listed as counter-evidence to it.
 
 ## 3. Project awareness
 
@@ -56,6 +81,7 @@ Every skill's final checklist includes these, plus its own:
 - [ ] Output written to the §4 path, or shown in chat if the user asked for chat only.
 - [ ] Ends with open questions and one next step. Headings match the template exactly, and `## Next step` names one skill.
 - [ ] Every derived count lists what was counted or the command used.
+- [ ] `check_evidence.py` (§1) reported no problems, when the project has tickets or interview notes.
 - [ ] Omission notes name no detail or category of what was withheld.
 - [ ] Missing information handled per §8 (stop, one question, or labeled assumption).
 - [ ] No personal identifiers copied from research inputs (§8 privacy).
@@ -82,6 +108,8 @@ Applies to every skill where relevant. It does not impose one workflow; each ski
 | Anything else | Proceed. Tag the gap `[assumption]` and list it under `## Open questions / to validate`. |
 
 Never fill a gap with invented data. Write `No data available` and how to obtain it.
+
+The chat reply asks the person at most one question in total, and that question is the one "Ask one question" row allows, not a list of the file's open questions. Every other gap is stated in the reply as a sentence (what is unknown and the default used) and kept in `## Open questions / to validate` in the file. A reply that has no question to ask does not invent one. One question is one request for one piece of information in one sentence. Two requests joined by "and", "also", or a list, or a sentence with two question marks, are two questions. Pick the one whose answer changes the output most.
 
 ### Severity scale
 
@@ -119,7 +147,7 @@ Tags from §2 apply everywhere. The form of traceability depends on the delivera
 | Narrative (case study, framing) | Inline tag on each factual claim |
 | Plans and specs | Sources in the metadata block; unvalidated items in open questions |
 
-Derived numbers (counts, sums, ratios, percentages) must be computed with a command or by listing the items counted. Never write a tally from memory, including a summary of earlier research: list each counted member beside the count (for example P1, T-01). Attribute a detail only to the source that contains it. Compute the age of evidence from its dates with a command; for a date range give the age of each end, and copy each age from the command output. Place evidence before or after a release only if a source dates that release; otherwise say the order is unknown. Quotation marks surround only words a source contains verbatim. Before writing, copy each passage you will quote from its source; write a source quote as `"exact words" (ID)`, never join, shorten, or reword quoted words, and never put a label or summary of your own in quotation marks. A count tagged `[observed]` names the sources counted. An item that does not state a cause is not evidence for that cause; at most it supports an `[inferred]` link. Count only items that state the category. Label every count with its exact category and list its members. A count labelled "could not find" holds only statements that themselves say the person cannot or could not find or see it; "looking for", "hard to see", or "where is" are weaker statements, not members of that count. A count labelled "had trouble with the code" may add weaker statements (found it only after scrolling, lost it), each listed as such. Count each person once across interviews and tickets. Write each person count on its own line in the form `<label>: N people — ID, ID` with only source IDs after the dash, so N equals the distinct people listed; a weaker-statements line lists only people not already in the strict count. When items are grouped into themes, put each item's ID and its own words beside the theme, for example `T-05 "Arrived and the point was closed"`, and file an item only under a theme its own words state. Name a channel, tool, or decision status (push, email, rejected, approved, shipped) only as a source names it.
+Derived numbers (counts, sums, ratios, percentages) must be computed with a command or by listing the items counted. Never write a tally from memory, including a summary of earlier research: list each counted member beside the count (for example P1, T-01). Attribute a detail only to the source that contains it. Compute the age of evidence from its dates with a command; for a date range give the age of each end, and copy each age from the command output. Place evidence before or after a release only if a source dates that release; otherwise say the order is unknown. Quotation marks surround only words a source contains verbatim. Before writing, copy each passage you will quote from its source; write a source quote as `"exact words" (ID)`, never join, shorten, or reword quoted words, and never put a label or summary of your own in quotation marks. A count tagged `[observed]` names the sources counted. An item that does not state a cause is not evidence for that cause; at most it supports an `[inferred]` link. Count only items that state the category. Label every count with its exact category and list its members. A count labelled "could not find" holds only statements that themselves say the person cannot or could not find or see it; "looking for", "hard to see", or "where is" are weaker statements, not members of that count. A count labelled "had trouble with the code" may add weaker statements (found it only after scrolling, lost it), each listed as such. Count each person once across interviews and tickets: match ticket authors to interviewees by identity, internally and without printing the identifiers, and list the members beside every count. Write each person count on its own line in the form `<label>: N people — ID, ID` with only source IDs after the dash, so N equals the distinct people listed; a weaker-statements line lists only people not already in the strict count. When items are grouped into themes, put each item's ID and its own words beside the theme, for example `T-05 "Arrived and the point was closed"`, and file an item only under a theme its own words state. Name a channel, tool, or decision status (push, email, rejected, approved, shipped) only as a source names it.
 
 ### Thresholds and defaults
 

@@ -1,0 +1,69 @@
+{
+ "_note": "Hand-recorded after read-back in Figma (file CzIBqJ7D8zakgFsfgfo0yP, a scratch file in the BracIT org plan created for acceptance testing; production configuration untouched). Figma = PASS only when the artifact was read back (node counts, tag, no image fills, fingerprint stable after later runs) and a screenshot was reviewed. Deliverable = a single-reviewer (model) judgement of usefulness, not a human design review. Each of IA, DS, DC, PD was drawn twice; the second run saw an existing owned frame and drew a v2 beside it, leaving v1 unchanged (verified by fingerprint).",
+ "file_url": "https://www.figma.com/design/CzIBqJ7D8zakgFsfgfo0yP",
+ "user-flow-designer": {
+  "status": "PASS",
+  "deliverable": "PASS",
+  "page": "User Flows",
+  "frame": "5:2",
+  "nodes": "136 frames, 159 text, 54 vectors, 5 rectangles, 0 images",
+  "note": "24 transitions, 18 nodes, one-way arrows, errors, loops, two terminal outcomes, dashed unknowns, legend, 8 sub-flows"
+ },
+ "information-architect": {
+  "status": "PASS",
+  "deliverable": "PASS",
+  "page": "Information Architecture",
+  "frame": "7:3",
+  "nodes": "156 frames, 168 text, 6 rectangles, 23 vectors, 0 images",
+  "note": "v2: overview with user groups, sitemap (current and proposed trees with change markers), navigation model, content groupings, assumptions, findings, content model, validation plan",
+  "frames": {
+   "v1": "7:3",
+   "v2": "20:2"
+  },
+  "nodes_v2": "193 frames, 258 text, 20 vectors, 0 images"
+ },
+ "design-system-audit": {
+  "status": "PASS",
+  "deliverable": "PASS",
+  "page": "Design System Audit",
+  "frame": "11:3",
+  "nodes": "102 frames, 154 text, 11 rectangles, 0 images",
+  "note": "v2: overview stats, token findings with real swatches, component findings, visual inconsistencies drawn from the actual values and sizes, severity, corrections, remediation order, untested areas",
+  "frames": {
+   "v1": "11:3",
+   "v2": "23:2"
+  },
+  "nodes_v2": "136 frames, 224 text, 15 rectangles, 0 images"
+ },
+ "design-critique": {
+  "status": "PASS",
+  "deliverable": "PASS",
+  "page": "Design Critiques",
+  "frame": "15:3",
+  "nodes": "37 frames, 68 text, 0 images",
+  "note": "v2: reference schematic drawn from the mockup description (not the original, which is text only) with numbered markers keyed to findings, finding cards with all fields, prioritized improvements, what works, opinion group, missing states, open questions",
+  "frames": {
+   "v1": "15:3",
+   "v2": "26:2"
+  },
+  "nodes_v2": "30 frames, 106 text, 1 line, 0 images"
+ },
+ "product-discovery": {
+  "status": "PASS",
+  "deliverable": "PASS",
+  "page": "Product Discovery",
+  "frame": "17:3",
+  "nodes": "95 frames, 142 text, 0 images",
+  "note": "v2: product context, evidence cards, user needs, opportunity clusters with a stated rule, recommended direction (not a validated decision), gaps, hypotheses with planned methods",
+  "frames": {
+   "v1": "17:3",
+   "v2": "28:2"
+  },
+  "nodes_v2": "82 frames, 164 text, 0 images"
+ },
+ "_known_gaps": [
+  "Each isolated sandbox kept its own design/figma.json, so the Overview page holds 8 index frames; one project would share one manifest",
+  "Deliverable judgement is by a model reviewer only",
+  "The reply's Figma line says 'created 1 frames' where the Overview index is also drawn (figma.md section 8 has no wording for it)"
+ ]
+}

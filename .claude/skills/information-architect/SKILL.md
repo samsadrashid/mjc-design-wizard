@@ -23,7 +23,7 @@ Make a product's structure explicit: what content exists, how it is grouped and 
 | Constraints (CMS limits, URLs and redirects, locales) | Assume none and flag URL impact | repo, user |
 
 ## Workflow
-1. **Inspect the project.** Extract routes, navigation components, CMS or data schema, search configuration, and existing IA documents. Build the inventory table: item, type, location, how it is reached, and source. Note the date of each evidence source or `date unknown`. Copy no personal data from search logs or tickets. When tickets and interviews both appear, match ticket authors to interviewees by identity, internally and without printing the identifiers; count each person once and list the members beside every count.
+1. **Inspect the project.** Extract routes, navigation components, CMS or data schema, search configuration, and existing IA documents. Build the inventory table: item, type, location, how it is reached, and source. Note the date of each evidence source or `date unknown`. Copy no personal data from search logs or tickets. When tickets and interviews both appear, count each person once as `../_shared/standard.md` §8 sets out.
 2. **Audit the current structure** from the inventory only. Record depth, breadth, and organizing scheme per level. Report these only where the inventory or other evidence shows them:
    - orphaned: reachable by URL or code but not from navigation
    - duplicate: the same content in more than one place
@@ -31,8 +31,8 @@ Make a product's structure explicit: what content exists, how it is grouped and 
    - hard to find: deep or hidden, with a path count or supporting tickets
    Each finding cites its source, with confidence per §8. Where evidence is missing, list it as unverified.
 3. **State top tasks and user vocabulary** with sources. Use the users' words from the evidence, not internal names.
-4. **Propose a structure.** Choose an organizing scheme per level (task, audience, topic, or type) and say why. Three levels is a default maximum because deeper menus hide content. Justify exceptions. Show the tree as an indented list and mark each node new, moved, renamed, or unchanged.
-5. **Decide labels.** Plain language, one meaning per label, alternatives rejected with a reason. Flag labels that are guesses and should be tested.
+4. **Propose a structure.** Write a `User groups:` line under `## Scope and evidence base` that names the primary user groups the evidence supports, each marked `[observed]`, `[inferred]`, or unknown (write `User groups: unknown` when no source names any). Choose an organizing scheme per level (task, audience, topic, or type) and say why. Three levels is a default maximum because deeper menus hide content. Justify exceptions. Show the tree as an indented list and mark each node new, moved, renamed, or unchanged. Under the tree, state the navigation model: global, local, contextual, and account navigation, and mobile behavior where the evidence covers them, each as confirmed (`[observed]`), inferred, or unknown. Invent no page, route, or feature to complete the tree; a gap stays a gap.
+5. **Decide labels and content groups.** For each group give its name, the content it holds, its user purpose, its relationship to other groups, and its proposed navigation label. Plain language, one meaning per label, alternatives rejected with a reason. Flag labels that are guesses and should be tested.
 6. **Define the content model** for structured types: fields, relationships, required versus optional, reuse. Note URL and redirect impact when structure changes.
 7. **List what needs validation:** grouping and labels (card sort) and findability of the top tasks (tree test), with the question each must answer. Do not design the study or write its tasks; `ux-research-planner` does that. State that nothing was conducted.
 8. **Map every inventory item** to the proposed tree or to a removal, inside the proposed-structure section. Write the output per §8.
@@ -55,13 +55,14 @@ Metadata block (§4), then path, date, collisions, and reruns (§8), follow `../
 ## Next step
 ```
 
-Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Information Architecture` page the current structure and the proposed structure as two separate trees of labeled shapes joined by arrow lines, parent above child, each proposed node carrying its change marker, plus the labeling decisions and the content model as tables. Mark anything not confirmed in the Markdown as proposed or `[assumption]`, and the validation plan as planned. Never draw pages, routes, labels, or links that are not in the Markdown. The Markdown file stays the source of truth.
+Figma (optional, per `../_shared/figma.md`): when publishing is enabled, draw on the `Information Architecture` page one board with five readable parts: an overview (scope, user groups, navigation model, major content areas), the sitemap as the current and the proposed structure in two separate trees of labeled shapes joined by arrow lines, parent above child, each proposed node carrying its change marker, the navigation model, the content groupings and labeling decisions as a table, and assumptions with open questions; findings, the content model, and the validation plan sit below as tables. Mark anything not confirmed in the Markdown as proposed or `[assumption]`, and the validation plan as planned. Never draw pages, routes, labels, or links that are not in the Markdown. The Markdown file stays the source of truth.
 
 `## Next step` names exactly one handoff, the first condition below that fits, and writes only that skill: `ux-research-planner` to run the validation, `user-flow-designer` to design flows for the top tasks, or `design-documentation` once the structure is approved.
 
 ## Quality checks
 - [ ] Global checks in `../_shared/standard.md` §7 and §8
 - [ ] Chat replies follow `../_shared/personality.md`; no emoticons in written files or structured output
+- [ ] The reply asks at most one question in total, as `../_shared/standard.md` §8 defines it (two requests joined by "and" are two); counts were computed over the whole source
 - [ ] The current structure is derived from the inventory, and the proposal is clearly separate
 - [ ] Every finding cites a source, and unsupported suspicions are listed as unverified
 - [ ] Every inventory item appears in the proposed tree or is marked removed

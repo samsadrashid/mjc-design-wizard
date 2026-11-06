@@ -3,12 +3,19 @@
 Companion to `RESULTS.md` (generated). Everything here comes from graded runs in `runs/`. Runs are single samples made by fresh Claude subagents instructed to use each skill, and graded by separate Claude subagents against explicit criteria. Treat results as evidence of failure modes, not as pass rates. Structural checks (`tests/validate_skills.py`) prove structure only and are kept separate from these results.
 
 ## Current result
-Latest attempt of each of the 76 scenarios (see `RESULTS.md`, generated):
-- 74 PASS
-- 2 FAIL: CS-E1, UF-N1 (details under "Rerun of the structural fix")
-- Latest-attempt scoring flatters PF-N1, whose last three attempts went PASS, FAIL, PASS. Under 3-of-3, PF-N1, CS-E1, and UF-N1 are not fixed; RP-M1, UF-E1, and UF-X1 hold.
-- 0 BLOCKED
-- 0 NOT EXECUTED
+Latest attempt of each of the 76 scenarios (see `RESULTS.md`, generated): 75 PASS, 1 FAIL (DS-X1), 0 BLOCKED, 0 NOT EXECUTED.
+
+Latest-attempt scoring flatters the suite. Under the 3-of-3 rule used since 2026-11-02, these scenarios are not fixed:
+
+| Scenario | Last three attempts | Open failure |
+|---|---|---|
+| PF-N1 | 1 of 3 | a ticket filed under a theme its words do not state; tags in the statement disagree with the ledger |
+| CS-E1 | 1 of 3 | quotes merged across two lines or reworded from the user's request |
+| CS-N1 | 2 of 3 | a strict-count member's interview reused as extra evidence |
+| DS-X1 | 2 of 3 | a hex count from a 6-digit-only pattern (maintainer override, see below) |
+| UF-N1 | 1 of 3 (2026-11-02) | not rerun since its skill fix |
+
+Holding at 3 of 3: DC-E1, RP-M1, UF-E1, UF-X1.
 
 The sections below keep the history in the order it happened; earlier counts in them were true at that point and are superseded by this summary. Run artifacts under `runs/` are kept locally and are not part of the public repository.
 
@@ -55,7 +62,7 @@ Graders sometimes reported a different hash (`d58d8ff18654`, `2e9c1c3ace`): that
 - JM-N1 attempt 1 is BLOCKED (the agent never saved its reply file) and is kept as history.
 
 ## Targeted regression on v5 (after Batch H)
-- Scope: the 19 Tier 1 scenarios from `docs/BATCH-H-REPORT.md` §6, all previously PASS on v2: CA-M1, IA-M1, IG-M1, JM-M1, MP-M1, MP-X1, PD-M1, RP-M1, JM-X1, PD-X1, DQ-E1, PD-N1, JM-E1, IG-N1, CS-N1, CS-X1, IA-N1, RP-E1, PM-E1. Each ran as a new attempt on standard `49700991f7`; `META.json` records that hash and the skill hash.
+- Scope: the 19 Tier 1 scenarios from `tests/behavioral/reports/BATCH-H-REPORT.md` §6, all previously PASS on v2: CA-M1, IA-M1, IG-M1, JM-M1, MP-M1, MP-X1, PD-M1, RP-M1, JM-X1, PD-X1, DQ-E1, PD-N1, JM-E1, IG-N1, CS-N1, CS-X1, IA-N1, RP-E1, PM-E1. Each ran as a new attempt on standard `49700991f7`; `META.json` records that hash and the skill hash.
 - First round: 14 PASS, 5 FAIL (IA-N1, CS-N1, RP-M1, JM-X1, JM-M1).
 - Defect, skill: four failures miscounted people when tickets and interviews were combined (author of a ticket who was also interviewed counted twice, or a weaker statement counted as explicit). `persona-builder` had an explicit dedup step; `information-architect`, `case-study-writer`, `ux-research-planner`, and `journey-map-builder` did not. Fix: one sentence in step 1 of each ("match ticket authors to interviewees by identity ... count each person once and list the members beside every count"). Reruns: IA-N1 a4 PASS, CS-N1 a4 PASS, JM-X1 a4 PASS, RP-M1 a4 FAIL (counts now correct; failed on a new G2 issue: a release-timing claim tagged `[observed]` with no dated source, and an evidence age of 642 days where the dates give 643).
 - JM-M1 a3 FAIL, not fixed: the fixture removes research, tickets, and analytics but leaves product code and design files, and the skill's Inputs table counts "observed product" as evidence, so the run drew a product-only map instead of stopping. Attempt 2 stopped on the same fixture. Cause: scenario/skill inconsistency, not a clear skill defect; recorded as FAIL. Resolution needs a decision: either the fixture also removes product files, or the skill states that product-only evidence still requires a stop (or an all-`[assumption]` hypothesis map).
@@ -112,9 +119,97 @@ Wording alone did not hold across three rounds, so this round changes the output
 - Next fixes, by cause: PF-N1, a fixed form for the stakeholder's words (verbatim line plus `(our reading)` for any rewording); CS-E1, a case-study-writer step that writes the weaker line only after removing everyone in the strict line; UF-N1, an integrity-check rule that a known dead end is a failure to fix, not a note. RP-M1 needs a fixture or prompt that reaches the plan to test the earlier slip.
 - Applied (skills only, not yet rerun): problem-framing step 3 writes the stakeholder's sentence once as `Stakeholder said: "<exact sentence>" (<file>)` and any rewording as `Our reading: <words>` without quotation marks; case-study-writer step 1 builds the weaker line by removing everyone in the strict line before writing its number; user-flow-designer step 9 treats a dead end or a decision or pending state with no failure exit as a defect to fix before saving. The validator checks each rule (`EVIDENCE_FORM_RULES`, `FLOW_SKILL_RULES`) with mutation tests. RP-M1's scenario is unchanged: changing it to reach the plan is a scenario decision left to the maintainer.
 
+## Round after audit fixes #1 to #12 (2026-11-03, 14 new attempts, skills at the working tree after these edits)
+Skills had changed since the last graded runs (one-skill Next step, ask-one fallbacks, design-qa approval wording, information-architect step 7, plus edits to ux-research-planner, usability-test-planner, feature-prioritization, user-flow-designer, problem-framing, case-study-writer). Ran fresh executors and separate graders on the three open scenarios (3 attempts each) and on the scenarios touching the other changes (1 attempt each). Single samples; executor and grader are both Claude.
+
+| Scenario | New attempts | Result | Notes |
+|---|---|---|---|
+| UF-N1 | 6, 7, 8 | PASS, PASS, PASS (3 of 3) | Grader scripts: diagram edges and inventory rows match one to one by ID in all three (22, 26, 24); status counts match; individual flows cover every transition. Noncritical: "Get a new code" marked Verified though its destination is in no source (no skill rule covers a verified trigger with an unverified destination); in attempts 7 and 8 Unknown recovery edges are drawn like decided arrows. |
+| PF-N1 | 13, 14, 15 | PASS, FAIL, FAIL | Counts match GROUND_TRUTH in all three. Failures are quote discipline (G2): stakeholder sentence quoted twice (14, 15), quotation marks inside `Our reading:` (14), coined phrases in quotation marks (15). The old screens showed no flag on attempt 14. |
+| CS-E1 | 11, 12, 13 | FAIL, FAIL, FAIL (0 of 3) | C1 to C4 pass everywhere (30% and halving excluded, not asserted, no causal claim). 11: audience never stated and the body word count claimed in the metadata is wrong; 12: no strict could-not-find line, a statement credited to P3 that is in P4; 13: T-05 filed under a late-alert theme its words do not state, and a reason tagged observed that no artifact records. |
+| IA-N1 | 5 | PASS | Step 7 change complies (lists what needs validation, designs no study). One minor own-wording quote. |
+| IA-M1, JM-M1 | 4, 5 | PASS, PASS | Stop with no skill named; closing order correct. JM-M1 minor: reply asks for several items without defaults. |
+| DQ-N1 | 3 | PASS | All four required mismatches logged; values marked approved with approver unknown. |
+| DQ-M1 | 4 | PASS | Stopped because "the design spec" names no file. The grader found the new approval wording ambiguous here; `design-qa` now says a phrase that identifies no file is not naming one. That clarification has not been rerun. |
+
+Harness changes: A23 (a stakeholder's exact sentence is quoted once) and A24 (no quotation marks in `Our reading:` lines), with a regression test; replayed on PF-N1 attempts 13 to 15 they agree with the graders (13 PASS; 14 FAIL both; 15 FAIL A23). Also regenerated MATRIX.md, which had been stale for RP-M1.
+
+Status after this round: latest-attempt headline is 74 PASS, 2 FAIL (CS-E1, PF-N1). Under 3 of 3: UF-N1 now holds; PF-N1 and CS-E1 do not. Not rerun: the other 62 scenarios, and nothing after the A23/A24 and design-qa edits.
+
+## Repair round for PF-N1, CS-E1, DQ-M1 (2026-11-03, 13 new attempts)
+Edits before this round: `problem-framing` step 3 (quotation marks only on the one `Stakeholder said:` line and around verbatim cited source quotes) and its checklist; `case-study-writer` step 8 (attribution, themes and counts, reasons, `Audience:` line, defined body word count) and its checklist; harness screens A23 and A24 (PF) and A25 and A26 (CS), each with a regression test. Fresh executors, separate graders, single samples.
+
+| Scenario | New attempts | Result | Remaining failures |
+|---|---|---|---|
+| PF-N1 | 16, 17, 18 | FAIL, FAIL, PASS (1 of 3) | No quotation-mark violation in any attempt and A23/A24 pass on all three. 16: "without it they cannot collect" tagged observed with no source. 17: "the roadmap says v1.4 is live" (the fact is in README.md); its reply also lacks the closing emoticon. |
+| CS-E1 | 14, 15, 16 | FAIL, FAIL, PASS (1 of 3) | 14 and 15 file T-05 under late alerts though its words state no alert; 14 also states a body count of 974 where the defined body is 970. Audience, attribution and the unverified 30% and halving held in all three. Attempt 16 passes with non-critical count-line form defects. |
+| DQ-M1 | 5 | PASS | Generic phrase not treated as a file; mockup not used; nothing written. Per-decision approval recording was not reached (untested). |
+| Regression: PF-M1, PF-X1, CS-M1, CS-X1 | 3, 4, 3, 5 | PASS | Minor non-critical notes in the EVAL files. |
+| Regression: PF-E1 | 4 | PASS | Breaks the new quote rule outside the critical criteria: a quoted `"because"` and a quoted stakeholder sentence in the chat reply. A23 and A24 read only the deliverable. |
+| Regression: CS-N1 | 5 | FAIL | Previously PASS. T-05 and T-02 tallied under a missed-pickup cause that their words do not state, tagged observed. Same slip as CS-E1 14 and 15. |
+
+Acceptance (3 of 3 for PF-N1 and CS-E1) was not met. The targeted quote failures are fixed; the dominant remaining failure is a claim tagged observed or verified that the cited source does not state (T-05 filed under late alerts is the recurring case). The "themes and counts" check names the code-count lines only. Not caught by any automated check: T-05 theme filing, unsourced causal clauses, chat-reply quotation marks.
+
+## Provenance and theme-mapping round (2026-11-03, 9 new attempts)
+Edits before this round: `problem-framing` step 4 provenance rule (cite only the file that states the fact; `[observed]` only when that file states it; unstated causes are `[inferred]` or `[assumption]`) and checklist line; `case-study-writer` step 8 (every ID in a theme, cause or count must state the category itself, outcome and cause kept separate, `Unclear:` line for insufficient evidence, word count only via the exact `awk | wc -w` command). Harness: A25 now exact and also reads the chat reply; new A27 (closing signature), A28 (false "shared file absent" claim), A29 (causal wording tagged observed, REVIEW), A30 (version or percentage credited to the wrong file), A31 (IDs listed beside an alert claim must state an alert); each has a regression test. Replayed on the stored runs they agree with the earlier graders (A31 flags CS-E1 13 to 15 and CS-N1 5; A25 flags CS-E1 11 and 14; A30 flags PF-N1 17; A27 and A28 flag PF-N1 17). Single samples; executors and graders are Claude.
+
+| Scenario | New attempts | Result | Remaining failures |
+|---|---|---|---|
+| PF-N1 | 19, 20, 21 | PASS, PASS, FAIL (2 of 3) | 21: a consequence ("which causes contact with support and workarounds") stated without a tag and an `[observed]` tag on "need the pickup code at the point of collection" that none of the cited files states; its reply also has no closing emoticon because the executor did not read personality.md. |
+| CS-E1 | 17, 18, 19 | PASS, PASS, FAIL (2 of 3) | 19: four questions in the reply where the policy is one (G3); no closing emoticon (executor did not read personality.md). T-05 was handled correctly in all three; word counts 946, 1075 and 813 matched an independent recount. |
+| CS-N1 | 6, 7 | FAIL, PASS (1 of 2) | 6: P1 listed as a "could not find" member; P1's interview says the code was found after scrolling and the strict statement is in P1's ticket T-01. |
+| PF-E1 | 5 | PASS | Minor: a `Not done here` line names a second skill; "not gitignored" stated as fact. |
+| DQ-M1 | not rerun | not rerun | No edit to design-qa since attempt 5 (PASS). |
+
+Findings: the T-05 theme-misfiling and wrong-source failures did not recur in any of the nine attempts. Three of the four remaining FAILs are a different slip in each (an untagged consequence, four questions, a person listed under the wrong ID). Two attempts (CS-E1 19, PF-N1 21) ended without the closing emoticon because the executor read only standard.md; the run prompt says to read the installed standard and not other repository files, and the skill only cites personality.md. This is a harness prompt ambiguity, recorded here and not corrected mid-round. The closing signature is checked by A27 and recorded by graders outside the fixed criteria. Acceptance (PF-N1 3 of 3, CS-E1 3 of 3, CS-N1 2 of 2) was not met.
+
+## Round 4: shared-instruction loading and claim-level provenance (2026-11-03, 11 new attempts)
+
+Changes: `standard.md` gains section 1 (read `personality.md` always, `figma.md` only when `design/figma.json` exists or Figma is asked for); the executor prompt now follows that section instead of limiting reads to `standard.md`; `standard.md` section 8 says the reply asks at most one question; `problem-framing` step 4 requires a class tag on the `which causes` clause and a per-clause claim ledger; `case-study-writer` step 8 lists the source ID that states the category (T-01, not P1). Screens A32 to A35 added.
+
+| Scenario | Attempts | Result |
+|---|---|---|
+| PF-N1 | 22 PASS, 23 FAIL, 24 FAIL | 1 of 3 |
+| CS-E1 | 20 FAIL, 21 FAIL, 22 PASS | 1 of 3 |
+| CS-N1 | 8 PASS, 9 PASS, 10 FAIL | 2 of 3 |
+| PF-E1 | 6 PASS | PASS |
+| DQ-M1 | 6 PASS | PASS |
+
+Shared loading: all 11 executors recorded reading `personality.md`; all 11 replies ended with one library emoticon (A27 PASS), and no reply had more than one question (A33 PASS). The missing-emoticon failure did not recur.
+
+Remaining failures (grader findings, not retried):
+- PF-N1 23: a `which causes` consequence tagged `[observed]` where no file states it; the file also names categories of omitted personal data instead of the generic sentence.
+- PF-N1 24: P1 listed in the strict count (the quote that says it is T-01); missed pickup tied to code findability from P1's words, which do not state it.
+- CS-E1 20, 21: a reason for the work ("responded to people having trouble finding the code") tagged observed while the same file says no artifact records the reason.
+- CS-N1 10: P1 (a strict member via T-01) listed as a weaker-trouble example in the body.
+
+Screens: A32 caught PF-N1 24 and replays flag P1 listings in earlier runs. A34 passes when any class tag is present, so it did not catch PF-N1 23's `[observed]` consequence (A29 flagged it for review only). Nothing automated catches a reason tagged observed (CS-E1 20, 21) or the P1 weaker-line placement in CS-N1 10. A20 gave two false positives (PF-N1 22, CS-E1 22). A35 is review-only and noisy.
+
+## Rounds 5 and 6: claim-level evidence, Case Study Writer, four Figma skills (2026-11-03)
+
+Changes. `standard.md`: section 1 (shared files to load), section 2 claim-level evidence (items 1 to 9: split clauses, ledger row, four classes, a source supports only what it states, four kinds of ID kept apart, no forced content, whole-source counts, one account per fact, the source's own words), section 8 (at most one question; two requests joined by "and" are two). `case-study-writer`: evidence table built before drafting, category membership computed from it, narrative only from table rows. `problem-framing`: claim ledger, no forced consequence. `information-architect`, `design-system-audit`, `design-critique`, `product-discovery`: required content and finding fields added under the existing headings, Figma board sections listed, one-question quality line. `figma.md`: verified one-way arrow recipe. Harness: A23 to A39, `quality` subcommand and `QUALITY.md`, `figma.json` update allowed on collect.
+
+Case Study Writer (one targeted repair cycle, then stop): CS-E1 29, 30, 31 all FAIL (G2: Summary cites Evidence IDs that point at weaker-statement rows, or counts with no rows); CS-N1 17 PASS, 18 FAIL (a reason tagged observed), 19 FAIL (P1 and T-09 in the strict list). Earlier in the same effort the pre-table version scored CS-E1 1/3 and 2/3, CS-N1 2/3 and 0/3. The evidence table did not improve reliability. It moved the failures from wrong lists to wrong citations. No further rewriting was done, per the plan.
+
+Problem Framing: with the claim ledger, PF-N1 28, 29, 30 FAIL (0/3), worse than the 1/3 before the ledger. The ledger gives the executor more clauses to tag and the tags are where it errs (strict persons reused in weaker rows, lumped rows, stakeholder sentence repeated, context tagged observed). Not retried; the ledger rule should be simplified before another run.
+
+Other four skills, first pass: IA-M1 PASS, IA-X1 FAIL (no user groups), DS-X1 FAIL (one question with "and"), DS-E1 PASS, DC-E1 FAIL (count of 2 from a partly read tickets file), DC-X1 PASS, PD-M1 PASS, PD-X1 FAIL (P1 listed as the strict source). Complete-input runs (Figma-enabled sandboxes): IA-N1 6, DS-N1 3, DC-N1 3, PD-N1 4 all PASS. After one targeted repair each: IA-X1 4 PASS, PD-X1 5 PASS, DS-X1 4 FAIL (a different defect: 8 occurrences stated, 7 by recount), DC-E1 4 FAIL (a question joined by "and was", which A33 then missed; the pattern is now covered). Not repeated further.
+
+Not tested: a polished-screen Design Critique scenario (no fixture exists, none invented); the ambiguous-opportunity Product Discovery case is covered by PD-X1 only; DS incomplete-documentation is covered by DS-X1 only.
+
+Figma (file CzIBqJ7D8zakgFsfgfo0yP, BracIT scratch file): smoke test passed (page, editable frame, text, rectangles, ellipse, arrow vector, idempotent re-run, a hand-edited frame kept and a v2 drawn beside it, a manual sibling frame untouched, an invalid file key reported as no edit access). Defect found and fixed in the docs: `createLine` with `ARROW_LINES` draws both ends. User Flow Designer, Information Architect, Design System Audit, Design Critique and Product Discovery were each drawn; IA, DS, DC and PD a second time, where the adapter drew v2 beside the existing owned frame and left v1 unchanged. All 12 artifact frames and the manual nodes read back with their drawn fingerprints, no image fills. Limits: one reviewer (a model) judged usefulness; the Overview page holds 8 index frames because each isolated sandbox had its own manifest; the Design Critique board uses a schematic drawn from the mockup description because the source is text and images cannot be added.
+
+## Self-check round (2026-11-06, 15 attempts)
+- Change: `_shared/check_evidence.py`, a script the skills run before saving (standard §1 and §7). It checks quotes credited to a ticket, interview, or file; `N people — IDs` count lines against distinct people and each strict member's own words; and the one-question rule on the draft reply. Unit tests in `tests/test_check_evidence.py` use the stored failing attempts. design-system-audit now pastes the command and output beside every count.
+- Reruns, 3 each, graded by separate agents: DC-E1 3 of 3 (fixed), DS-X1 2 of 3, CS-N1 2 of 3, PF-N1 1 of 3, CS-E1 1 of 3.
+- Every run reported the checker at 0 problems, and the failures that remain are outside what it can see: quotes credited to the user's request or merged from two lines of a file, a theme filing, tags that disagree between sections, and a regex that missed 3-digit colors. Some executors also fed it a placeholder reply; the standard now requires the full draft.
+- Run date: the collection script passed 2026-11-02 for runs executed on 2026-11-06, so A8 and A18 failed falsely. META.json was corrected and the checks re-run for all 15 attempts (noted in each META.json); graders had already marked those A8 failures as false positives.
+- Maintainer override: DS-X1 attempt 7 reported 7 hex occurrences (6 distinct); the fixtures hold 8 (7 distinct) with `#fff`. Its grader called this non-critical; it is a wrong derived count, so G2 fails (original grading kept as EVAL.grader-original.md). The same recount shows DS-X1 attempt 4, graded FAIL for reporting 8 (7), was a grading error; a note is appended there and its status is left as recorded.
+- Checker gap seen once: a quote on a line that names two IDs can be credited to the nearer one. The executor reworded the line; the checker is unchanged.
+
 ## Not done / risks
-- After the targeted regression, 19 scenarios still have their latest attempt on v2 (Tier 2 and Tier 3 in `docs/BATCH-H-REPORT.md` §6). The four skills edited in this pass have other scenarios whose latest attempt predates the edit.
-- 38 scenarios have a passing latest attempt on standard v2 (`8f4607ccef`) and were not rerun on v5. v2 to v5 changes are additions and clarifications, but passing under v2 is not evidence under v5. `docs/BATCH-H-REPORT.md` proposes a targeted regression set for them.
+- After the targeted regression, 19 scenarios still have their latest attempt on v2 (Tier 2 and Tier 3 in `tests/behavioral/reports/BATCH-H-REPORT.md` §6). The four skills edited in this pass have other scenarios whose latest attempt predates the edit.
+- 38 scenarios have a passing latest attempt on standard v2 (`8f4607ccef`) and were not rerun on v5. v2 to v5 changes are additions and clarifications, but passing under v2 is not evidence under v5. `tests/behavioral/reports/BATCH-H-REPORT.md` proposes a targeted regression set for them.
 - Several scenarios pass on one effective sample; the failures above show the same skill can pass and fail on the same scenario (see attempt histories). A pass is not a rate.
 - The `problem-framing` and `product-metrics` stop rows can still be read two ways when another skill could create the missing input (for example `problem-framing` for a missing goal); graders accepted both.
 - Automated screens are heuristics (A9 to A16). Semantic privacy, count correctness, and "single-idea question" were judged by graders. The IG-X1 a6 run read only the first lines of one interview, so source-content privacy was barely exercised there.

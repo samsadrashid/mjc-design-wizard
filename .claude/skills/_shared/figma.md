@@ -123,7 +123,7 @@ Properties outside this list (corner radius, effects, gradients, stroke weight, 
 - Wrap each artifact in one frame named `mjc · <skill> · <topic> · <date>`, tagged with `setSharedPluginData("mjc", "artifact", "<skill>/<topic>")`. Place new frames to the right of existing content, never at (0,0).
 - Draw the representation the skill's Outputs line names, not a copy of the Markdown as one text block. Keep every evidence tag, confidence level, severity, and label such as `[assumption]`, `Not observed`, `Missing`, `Provisional`, or `[TO VERIFY]` visible on the frame. Never drop uncertainty to make a frame look cleaner.
 - Use editable text, frames, and shapes. Never place a screenshot or flattened image of the output. Images cannot be added by this tool; cite evidence by path instead.
-- Flows: nodes are shapes with text labels (named `node:<id>`); connections are vectors with an arrow end cap (named `edge:<from>-><to>`). Connector objects are not available in design files.
+- Flows: nodes are shapes with text labels (named `node:<id>`); connections are `VECTOR` nodes (named `edge:<from>-><to>`) built with `await v.setVectorNetworkAsync({ vertices: [{x:0,y:0,strokeCap:"NONE"},{x:<dx>,y:<dy>,strokeCap:"ARROW_LINES"}], segments: [{start:0,end:1}], regions: [] })`, which draws one arrowhead at the target end (verified in a live file). Do not use `createLine` with `strokeCap = "ARROW_LINES"`: it draws a head on both ends and would show a one-way transition as two-way. Connector objects are not available in design files.
 - Do not create or modify variables, styles, or components in the file.
 - Return every created and changed node ID from each call, then read back counts and IDs to confirm before reporting.
 
